@@ -80,16 +80,17 @@ class samarkasjunk extends rcube_plugin
 			$message = new rcube_message($uids);
 
 			if (sizeof($message->attachments)) {
-				if ($message->attachments[0]->ctype_primary == 'message' && $message->attachments[0]->ctype_parameters['x-spam-type'] == 'original') {
-					$part = $message->mime_parts[$message->attachments[0]->mime_id];
-					$move = FALSE;
+				foreach ($message->attachments as $part) {
+					if ($part->ctype_primary == 'message' && $part->ctype_parameters['x-spam-type'] == 'original') {
+						$move = FALSE;
 
-					$imap = rcmail::get_instance()->imap;
-					$saved = $imap->save_message('INBOX', $imap->get_message_part($message->uid, $part->mime_id, $part));
+						$imap = rcmail::get_instance()->imap;
+						$saved = $imap->save_message('INBOX', $imap->get_message_part($message->uid, $part->mime_id, $part));
 
-					if ($saved) {
-						$imap->delete_message($uids, $mbox);
-						$this->api->output->command('message_list.remove_row', $uids, false);
+						if ($saved) {
+							$imap->delete_message($uids, $mbox);
+							$this->api->output->command('message_list.remove_row', $uids, false);
+						}
 					}
 				}
 			}
@@ -102,3 +103,5 @@ class samarkasjunk extends rcube_plugin
 		$this->api->output->send();
 	}
 }
+
+?>
