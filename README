@@ -1,0 +1,19 @@
+Roundcube Webmail Spamassassin Mark as Junk
+===========================================
+This plugin adds "mark as spam" or "mark as not spam" button to the message menu.
+
+When not in the Junk mailbox:
+  Messages are moved into the Junk mailbox and marked as read
+
+When in the Junk mailbox:
+  The buttons are changed to "mark as not spam" or "this message is not spam"
+  If the message is a Spamassassin spam report with the original email attached then this is detached and saved in the Inbox, the spam report is deleted
+  If it is not a Spamassassin spam report then the message is simply moved to the Inbox
+
+This plugin also integrates with the ContextMenu plugin
+
+Install
+=======
+* Place this plugin folder into plugins directory of RoundCube
+* Add samarkasjunk to $rcmail_config['plugins'] in your RoundCube config
+NB: When downloading the plugin from GitHub you will need to create a directory called samarkasjunk and place the files in there, ignoring the root directory in the downloaded archive
