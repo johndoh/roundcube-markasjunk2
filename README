@@ -17,3 +17,9 @@ Install
 * Place this plugin folder into plugins directory of RoundCube
 * Add samarkasjunk to $rcmail_config['plugins'] in your RoundCube config
 NB: When downloading the plugin from GitHub you will need to create a directory called samarkasjunk and place the files in there, ignoring the root directory in the downloaded archive
+
+Config
+======
+The default config file is plugins/samarkasjunk/config.inc.php.dist
+Rename this to plugins/samarkasjunk/config.inc.php
+All config parameters are optional

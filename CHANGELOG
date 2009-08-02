@@ -1,0 +1,9 @@
+Roundcube Webmail SAMarkASJunk
+==============================
+
+2009 08 02
+==========
+ * Added ability to mark ham as unread
+ * Added ability to flag/unflag spam/ham
+ * Added ability to trigger sa-learn
+ * Added config file to control new options
