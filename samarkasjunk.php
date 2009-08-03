@@ -76,8 +76,6 @@ class samarkasjunk extends rcube_plugin
 	function mark_junk()
 	{
 		$this->add_texts('localization');
-		$rcmail = rcmail::get_instance();
-		$imap = $rcmail->imap;
 
 		$uids = get_input_value('_uid', RCUBE_INPUT_POST);
 		$mbox = get_input_value('_mbox', RCUBE_INPUT_POST);
@@ -142,6 +140,7 @@ class samarkasjunk extends rcube_plugin
 
 	private function _spam($uids, $mbox_name=NULL) {
 		$rcmail = rcmail::get_instance();
+		$imap = $rcmail->imap;
 
 		if ($rcmail->config->get('samarkasjunk_read_spam', false))
 			$imap->set_flag($uids, 'SEEN', $mbox_name);
@@ -158,6 +157,7 @@ class samarkasjunk extends rcube_plugin
 
 	private function _ham($uids, $mbox_name=NULL) {
 		$rcmail = rcmail::get_instance();
+		$imap = $rcmail->imap;
 
 		if ($rcmail->config->get('samarkasjunk_unread_ham', false))
 			$imap->unset_flag($uids, 'SEEN', $mbox_nam);
