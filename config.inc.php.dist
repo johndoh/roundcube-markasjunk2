@@ -22,11 +22,11 @@ $rcmail_config['samarkasjunk_unread_ham'] = false;
 // detach the orginial message and move that to the INBOX, deleteing the Spamassassin report
 $rcmail_config['samarkasjunk_detach_ham'] = true;
 
-// Add flag to mssages marked as spam (flag will be removed when marking as ham)
+// Add flag to messages marked as spam (flag will be removed when marking as ham)
 // If you do not want to use message flags set this to null
 $rcmail_config['samarkasjunk_spam_flag'] = 'Junk';
 
-// Add flag to mssages marked as ham (flag will be removed when marking as spam)
+// Add flag to messages marked as ham (flag will be removed when marking as spam)
 // If you do not want to use message flags set this to null
 $rcmail_config['samarkasjunk_ham_flag'] = null;
 
