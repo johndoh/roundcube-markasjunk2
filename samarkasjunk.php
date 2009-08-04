@@ -176,36 +176,32 @@ class samarkasjunk extends rcube_plugin
         $rcmail = rcmail::get_instance();
         $temp_dir = realpath($rcmail->config->get('temp_dir'));
 
-        $config_spam = str_replace('%u', $_SESSION['username'], $rcmail->config->get('samarkasjunk_spam_cmd'));
-        $config_ham = str_replace('%u', $_SESSION['username'], $rcmail->config->get('samarkasjunk_ham_cmd'));
+        if ($spam)
+        	$command = $rcmail->config->get('samarkasjunk_spam_cmd');
+        else
+        	$command = $rcmail->config->get('samarkasjunk_ham_cmd');
+
+        $command = str_replace('%u', $_SESSION['username'], $command);
 
         if (strpos($_SESSION['username'], '@') !== false) {
 	        $parts = split("@", $_SESSION['username'], 2);
 
-	        $config_spam = str_replace(array('%l', '%d'),
+	        $command = str_replace(array('%l', '%d'),
 							array($parts[0], $parts[1]),
-							$config_spam);
-
-	        $config_ham = str_replace(array('%l', '%d'),
-							array($parts[0], $parts[1]),
-							$config_ham);
-
+							$command);
         }
 
 		foreach (split(",", $uids) as $uid) {
 			$tmpfname = tempnam($temp_dir, 'rcmSALearn');
 			file_put_contents($tmpfname, $rcmail->imap->get_raw_body($uid));
 
-			$spam_command = str_replace('%f', $tmpfname, $config_spam);
-			$ham_command = str_replace('%f', $tmpfname, $config_ham);
+			$tmp_command = str_replace('%f', $tmpfname, $command);
+			exec($tmp_command, $output);
 
-  			if ($spam)
-  				exec($spam_command, $output);
-  			else
-				exec($ham_command, $output);
-
-			if ($rcmail->config->get('samarkasjunk_debug'))
+			if ($rcmail->config->get('samarkasjunk_debug')) {
+				write_log('samarkasjunk', $tmp_command);
 				write_log('samarkasjunk', $output);
+			}
 
 			unlink($tmpfname);
 		}
