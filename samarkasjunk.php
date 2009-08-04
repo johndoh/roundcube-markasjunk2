@@ -128,7 +128,8 @@ class samarkasjunk extends rcube_plugin
 				// if not SA report with attachment then move the whole message
 				if (!$saved) {
 					$this->_ham($uid);
-					$this->api->output->command('rcmail_samarkasjunk_move', $dest_mbox, $uid);
+					$imap->move_message($uid, $dest_mbox);
+					$this->api->output->command('message_list.remove_row', $uid, false);
 				}
 			}
 
