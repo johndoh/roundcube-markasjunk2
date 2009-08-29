@@ -205,6 +205,7 @@ class samarkasjunk extends rcube_plugin
 			}
 
 			unlink($tmpfname);
+			$output = '';
 		}
 	}
 }
