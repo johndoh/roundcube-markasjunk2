@@ -75,14 +75,14 @@ function rcmail_samarkasjunk_update()
 	if (rcmail.env.junk_mailbox && rcmail.env.mailbox != rcmail.env.junk_mailbox) {
 		$('#rcmContextMenu li.samarkasjunk').show();
 		$('#rcmContextMenu li.samarkasnotjunk').hide();
-		$('ul.toolbarmenu li a.samarkasjunk').show();
-		$('ul.toolbarmenu li a.samarkasnotjunk').hide();
+		$('#samarkasjunk').show();
+		$('#samarkasnotjunk').hide();
 	}
 	else {
 		$('#rcmContextMenu li.samarkasjunk').hide();
 		$('#rcmContextMenu li.samarkasnotjunk').show();
-		$('ul.toolbarmenu li a.samarkasjunk').hide();
-		$('ul.toolbarmenu li a.samarkasnotjunk').show();
+		$('#samarkasjunk').hide();
+		$('#samarkasnotjunk').show();
 	}
 }
 

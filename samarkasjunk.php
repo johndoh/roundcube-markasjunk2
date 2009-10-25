@@ -19,6 +19,7 @@ class samarkasjunk extends rcube_plugin
 	private $ham_mbox = 'INBOX';
 	private $spam_flag = 'SAJUNK';
 	private $ham_flag = 'SANOTJUNK';
+	private $toolbar = false;
 
 	function init()
 	{
@@ -53,18 +54,28 @@ class samarkasjunk extends rcube_plugin
 			elseif ($rcmail->action == 'show' && ($this->spam_mbox && $_SESSION['mbox'] == $this->spam_mbox)) {
 				$this->add_button(array('command' => 'plugin.samarkasnotjunk', 'imagepas' => 'skins/'. $this->api->output->config['skin'] .'/notjunk_pas.png', 'imageact' => 'skins/'. $this->api->output->config['skin'] .'/notjunk_act.png', 'alt' => 'samarkasjunk.buttonnotjunk', 'title' => 'samarkasjunk.buttonnotjunk'), 'toolbar');
 			}
+			elseif ($this->spam_mbox && $this->toolbar) {
+				if ($_SESSION['mbox'] == $this->spam_mbox) {
+					$this->add_button(array('command' => 'plugin.samarkasjunk', 'id' => 'samarkasjunk', 'imagepas' => 'skins/'. $this->api->output->config['skin'] .'/junk_pas.png', 'imageact' => 'skins/'. $this->api->output->config['skin'] .'/junk_act.png', 'alt' => 'samarkasjunk.buttonjunk', 'title' => 'samarkasjunk.buttonjunk', 'style' => 'display: none;'), 'toolbar');
+					$this->add_button(array('command' => 'plugin.samarkasnotjunk', 'id' => 'samarkasnotjunk', 'imagepas' => 'skins/'. $this->api->output->config['skin'] .'/notjunk_pas.png', 'imageact' => 'skins/'. $this->api->output->config['skin'] .'/notjunk_act.png', 'alt' => 'samarkasjunk.buttonnotjunk', 'title' => 'samarkasjunk.buttonnotjunk'), 'toolbar');
+				}
+				else {
+					$this->add_button(array('command' => 'plugin.samarkasjunk', 'id' => 'samarkasjunk', 'imagepas' => 'skins/'. $this->api->output->config['skin'] .'/junk_pas.png', 'imageact' => 'skins/'. $this->api->output->config['skin'] .'/junk_act.png', 'alt' => 'samarkasjunk.buttonjunk', 'title' => 'samarkasjunk.buttonjunk'), 'toolbar');
+					$this->add_button(array('command' => 'plugin.samarkasnotjunk', 'id' => 'samarkasnotjunk', 'imagepas' => 'skins/'. $this->api->output->config['skin'] .'/notjunk_pas.png', 'imageact' => 'skins/'. $this->api->output->config['skin'] .'/notjunk_act.png', 'alt' => 'samarkasjunk.buttonnotjunk', 'title' => 'samarkasjunk.buttonnotjunk', 'style' => 'display: none;'), 'toolbar');
+				}
+			}
 			elseif ($this->spam_mbox) {
 				$skin_path = 'skins/'. $this->api->output->config['skin'] .'/samarkasjunk.css';
 				$skin_path = is_file($this->home .'/'. $skin_path) ? $skin_path : 'skins/default/samarkasjunk.css';
 				$this->include_stylesheet($skin_path);
 
 				if ($_SESSION['mbox'] == $this->spam_mbox) {
-					$markjunk = $this->api->output->button(array('command' => 'plugin.samarkasjunk', 'label' => 'samarkasjunk.markasjunk', 'class' => 'samarkasjunk', 'classact' => 'samarkasjunk active', 'style' => 'display: none;'));
-					$marknotjunk = $this->api->output->button(array('command' => 'plugin.samarkasnotjunk', 'label' => 'samarkasjunk.markasnotjunk', 'class' => 'samarkasnotjunk', 'classact' => 'samarkasnotjunk active'));
+					$markjunk = $this->api->output->button(array('command' => 'plugin.samarkasjunk', 'label' => 'samarkasjunk.markasjunk', 'id' => 'samarkasjunk', 'class' => 'samarkasjunk', 'classact' => 'samarkasjunk active', 'style' => 'display: none;'));
+					$marknotjunk = $this->api->output->button(array('command' => 'plugin.samarkasnotjunk', 'label' => 'samarkasjunk.markasnotjunk', 'id' => 'samarkasnotjunk', 'class' => 'samarkasnotjunk', 'classact' => 'samarkasnotjunk active'));
 				}
 				else {
-					$markjunk = $this->api->output->button(array('command' => 'plugin.samarkasjunk', 'label' => 'samarkasjunk.markasjunk', 'class' => 'samarkasjunk', 'classact' => 'samarkasjunk active'));
-					$marknotjunk = $this->api->output->button(array('command' => 'plugin.samarkasnotjunk', 'label' => 'samarkasjunk.markasnotjunk', 'class' => 'samarkasnotjunk', 'classact' => 'samarkasnotjunk active', 'style' => 'display: none;'));
+					$markjunk = $this->api->output->button(array('command' => 'plugin.samarkasjunk', 'label' => 'samarkasjunk.markasjunk', 'id' => 'samarkasjunk', 'class' => 'samarkasjunk', 'classact' => 'samarkasjunk active'));
+					$marknotjunk = $this->api->output->button(array('command' => 'plugin.samarkasnotjunk', 'label' => 'samarkasjunk.markasnotjunk', 'id' => 'samarkasnotjunk', 'class' => 'samarkasnotjunk', 'classact' => 'samarkasnotjunk active', 'style' => 'display: none;'));
 				}
 
 				$this->api->add_content(html::tag('li', null, $markjunk), 'markmenu');
