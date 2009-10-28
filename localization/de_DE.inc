@@ -2,13 +2,13 @@
 /* Author: Rrainer Rhalbmann */
 
 $labels = array();
-$labels['buttonjunk'] = 'Als SPAM markieren';
-$labels['markasjunk'] = 'Als SPAM';
-$labels['buttonnotjunk'] = 'Diese Nachricht ist kein SPAM';
-$labels['markasnotjunk'] = 'Kein SPAM';
+$labels['buttonjunk'] = 'als Spam markieren';
+$labels['markasjunk'] = 'als Spam';
+$labels['buttonnotjunk'] = 'Diese Nachricht ist kein Spam';
+$labels['markasnotjunk'] = 'kein Spam';
 
 $messages = array();
-$messages['reportedasjunk'] = 'Erfolgreich als SPAM gemeldet';
-$messages['reportedasnotjunk'] = 'Nachricht in den Posteingang verschoben';
+$messages['reportedasjunk'] = 'Erfolgreich als Spam gekennzeichnet';
+$messages['reportedasnotjunk'] = 'Nachricht in Posteingang verschoben';
 
 ?>

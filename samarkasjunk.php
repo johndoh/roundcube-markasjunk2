@@ -30,6 +30,9 @@ class samarkasjunk extends rcube_plugin
 		$this->load_config();
 		$this->spam_mbox = $rcmail->config->get('junk_mbox', null);
 
+		if ($rcmail->config->get('samarkasjunk_mb_toolbar', false))
+			$this->toolbar = true;
+
 		if ($rcmail->config->get('samarkasjunk_spam_flag', false)) {
 			if ($flag = array_search($rcmail->config->get('samarkasjunk_spam_flag'), $GLOBALS['IMAP_FLAGS']))
 				$this->spam_flag = $flag;
