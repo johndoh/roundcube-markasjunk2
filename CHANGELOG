@@ -1,6 +1,10 @@
 Roundcube Webmail SAMarkASJunk
 ==============================
 
+2009 10 29
+==========
+ * Use local_skin_path() (rev 3076)
+
 2009 08 02
 ==========
  * Added ability to mark ham as unread

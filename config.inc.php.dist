@@ -37,13 +37,6 @@ $rcmail_config['samarkasjunk_ham_flag'] = null;
 //      %d is replaced with the domain part (after the @) of the username (from the session info)
 //      %f is replaced with the path to the message file (THIS SHOULD ALWAYS BE PRESENT)
 // If you do not want run any commands set this to null
-
-/*
- * example commands for learning message is spam
- *
-'/usr/bin/sa-learn --spam --username=%u %f' or
-'/usr/bin/sa-learn --spam --prefs-file=/var/mail/%d/%l/.spamassassin/user_prefs %f'
-*/
 $rcmail_config['samarkasjunk_spam_cmd'] = null;
 
 // The command used to learn that a message is ham
@@ -53,13 +46,6 @@ $rcmail_config['samarkasjunk_spam_cmd'] = null;
 //      %d is replaced with the domain part (after the @) of the username (from the session info)
 //      %f is replaced with the path to the message file (THIS SHOULD ALWAYS BE PRESENT)
 // If you do not want run any commands set this to null
-
-/*
- * example commands for learning message is spam
- *
-'/usr/bin/sa-learn --ham --username=%u %f' or
-'/usr/bin/sa-learn --ham --prefs-file=/var/mail/%d/%l/.spamassassin/user_prefs %f'
-*/
 $rcmail_config['samarkasjunk_ham_cmd'] = null;
 
 // Write output from spam/ham commands to the log for debug

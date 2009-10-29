@@ -24,6 +24,21 @@ The default config file is plugins/samarkasjunk/config.inc.php.dist
 Rename this to plugins/samarkasjunk/config.inc.php
 All config parameters are optional
 
+Spam learning commands
+======================
+
+Spamassassin:
+  '/usr/bin/sa-learn --spam --username=%u %f' or
+  '/usr/bin/sa-learn --spam --prefs-file=/var/mail/%d/%l/.spamassassin/user_prefs %f'
+
+
+Ham learning commands
+=====================
+
+Spamassassin:
+  '/usr/bin/sa-learn --ham --username=%u %f' or
+  '/usr/bin/sa-learn --ham --prefs-file=/var/mail/%d/%l/.spamassassin/user_prefs %f'
+
 Location of the button
 ======================
 The spam/ham button is added to the "mark message" menu on the toolbar when viewing a mail box and to the toolbar itself when viewing a message. If you would prefer that the button be always visible on the main toolbar in both the mailbox and mail view screens then add $rcmail_config['samarkasjunk_mb_toolbar'] = true; to your config

@@ -10,7 +10,7 @@
  *
  * @version 1.0
  * @author Philip Weir
- * Base on the Markasjunk plugin by Thomas Bruederli
+ * Based on the Markasjunk plugin by Thomas Bruederli
  */
 class samarkasjunk extends rcube_plugin
 {
@@ -52,25 +52,23 @@ class samarkasjunk extends rcube_plugin
 			$this->add_texts('localization', true);
 
 			if ($rcmail->action == 'show' && ($this->spam_mbox && $_SESSION['mbox'] != $this->spam_mbox)) {
-				$this->add_button(array('command' => 'plugin.samarkasjunk', 'imagepas' => 'skins/'. $this->api->output->config['skin'] .'/junk_pas.png', 'imageact' => 'skins/'. $this->api->output->config['skin'] .'/junk_act.png', 'alt' => 'samarkasjunk.buttonjunk', 'title' => 'samarkasjunk.buttonjunk'), 'toolbar');
+				$this->add_button(array('command' => 'plugin.samarkasjunk', 'imagepas' => $this->local_skin_path() .'/junk_pas.png', 'imageact' => $this->local_skin_path() .'/junk_act.png', 'alt' => 'samarkasjunk.buttonjunk', 'title' => 'samarkasjunk.buttonjunk'), 'toolbar');
 			}
 			elseif ($rcmail->action == 'show' && ($this->spam_mbox && $_SESSION['mbox'] == $this->spam_mbox)) {
-				$this->add_button(array('command' => 'plugin.samarkasnotjunk', 'imagepas' => 'skins/'. $this->api->output->config['skin'] .'/notjunk_pas.png', 'imageact' => 'skins/'. $this->api->output->config['skin'] .'/notjunk_act.png', 'alt' => 'samarkasjunk.buttonnotjunk', 'title' => 'samarkasjunk.buttonnotjunk'), 'toolbar');
+				$this->add_button(array('command' => 'plugin.samarkasnotjunk', 'imagepas' => $this->local_skin_path() .'/notjunk_pas.png', 'imageact' => $this->local_skin_path() .'/notjunk_act.png', 'alt' => 'samarkasjunk.buttonnotjunk', 'title' => 'samarkasjunk.buttonnotjunk'), 'toolbar');
 			}
 			elseif ($this->spam_mbox && $this->toolbar) {
 				if ($_SESSION['mbox'] == $this->spam_mbox) {
-					$this->add_button(array('command' => 'plugin.samarkasjunk', 'id' => 'samarkasjunk', 'imagepas' => 'skins/'. $this->api->output->config['skin'] .'/junk_pas.png', 'imageact' => 'skins/'. $this->api->output->config['skin'] .'/junk_act.png', 'alt' => 'samarkasjunk.buttonjunk', 'title' => 'samarkasjunk.buttonjunk', 'style' => 'display: none;'), 'toolbar');
-					$this->add_button(array('command' => 'plugin.samarkasnotjunk', 'id' => 'samarkasnotjunk', 'imagepas' => 'skins/'. $this->api->output->config['skin'] .'/notjunk_pas.png', 'imageact' => 'skins/'. $this->api->output->config['skin'] .'/notjunk_act.png', 'alt' => 'samarkasjunk.buttonnotjunk', 'title' => 'samarkasjunk.buttonnotjunk'), 'toolbar');
+					$this->add_button(array('command' => 'plugin.samarkasjunk', 'id' => 'samarkasjunk', 'imagepas' => $this->local_skin_path() .'/junk_pas.png', 'imageact' => $this->local_skin_path() .'/junk_act.png', 'alt' => 'samarkasjunk.buttonjunk', 'title' => 'samarkasjunk.buttonjunk', 'style' => 'display: none;'), 'toolbar');
+					$this->add_button(array('command' => 'plugin.samarkasnotjunk', 'id' => 'samarkasnotjunk', 'imagepas' => $this->local_skin_path() .'/notjunk_pas.png', 'imageact' => $this->local_skin_path() .'/notjunk_act.png', 'alt' => 'samarkasjunk.buttonnotjunk', 'title' => 'samarkasjunk.buttonnotjunk'), 'toolbar');
 				}
 				else {
-					$this->add_button(array('command' => 'plugin.samarkasjunk', 'id' => 'samarkasjunk', 'imagepas' => 'skins/'. $this->api->output->config['skin'] .'/junk_pas.png', 'imageact' => 'skins/'. $this->api->output->config['skin'] .'/junk_act.png', 'alt' => 'samarkasjunk.buttonjunk', 'title' => 'samarkasjunk.buttonjunk'), 'toolbar');
-					$this->add_button(array('command' => 'plugin.samarkasnotjunk', 'id' => 'samarkasnotjunk', 'imagepas' => 'skins/'. $this->api->output->config['skin'] .'/notjunk_pas.png', 'imageact' => 'skins/'. $this->api->output->config['skin'] .'/notjunk_act.png', 'alt' => 'samarkasjunk.buttonnotjunk', 'title' => 'samarkasjunk.buttonnotjunk', 'style' => 'display: none;'), 'toolbar');
+					$this->add_button(array('command' => 'plugin.samarkasjunk', 'id' => 'samarkasjunk', 'imagepas' => $this->local_skin_path() .'/junk_pas.png', 'imageact' => $this->local_skin_path() .'/junk_act.png', 'alt' => 'samarkasjunk.buttonjunk', 'title' => 'samarkasjunk.buttonjunk'), 'toolbar');
+					$this->add_button(array('command' => 'plugin.samarkasnotjunk', 'id' => 'samarkasnotjunk', 'imagepas' => $this->local_skin_path() .'/notjunk_pas.png', 'imageact' => $this->local_skin_path() .'/notjunk_act.png', 'alt' => 'samarkasjunk.buttonnotjunk', 'title' => 'samarkasjunk.buttonnotjunk', 'style' => 'display: none;'), 'toolbar');
 				}
 			}
 			elseif ($this->spam_mbox) {
-				$skin_path = 'skins/'. $this->api->output->config['skin'] .'/samarkasjunk.css';
-				$skin_path = is_file($this->home .'/'. $skin_path) ? $skin_path : 'skins/default/samarkasjunk.css';
-				$this->include_stylesheet($skin_path);
+				$this->include_stylesheet($this->local_skin_path() .'/samarkasjunk.css');
 
 				if ($_SESSION['mbox'] == $this->spam_mbox) {
 					$markjunk = $this->api->output->button(array('command' => 'plugin.samarkasjunk', 'label' => 'samarkasjunk.markasjunk', 'id' => 'samarkasjunk', 'class' => 'samarkasjunk', 'classact' => 'samarkasjunk active', 'style' => 'display: none;'));
