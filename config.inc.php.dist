@@ -64,7 +64,7 @@ $rcmail_config['markasjunk2_ham_cmd'] = null;
 $rcmail_config['markasjunk2_spam_dir'] = null;
 
 // The full path of the directory used to store ham (must be writable by webserver)
-$rcmail_config['markasjunk2_ham_dir'] = null';
+$rcmail_config['markasjunk2_ham_dir'] = null;
 
 // The filename prefix
 // The filename can contain the following macros that will be expanded as follows:
