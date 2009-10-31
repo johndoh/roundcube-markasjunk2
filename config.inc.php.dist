@@ -72,7 +72,6 @@ $rcmail_config['markasjunk2_ham_dir'] = null;
 //      %l is replaced with the local part (before the @) of the username (from the session info)
 //      %d is replaced with the domain part (after the @) of the username (from the session info)
 //      %t is replaced with the type of message (spam/ham)
-// If you do not want run the command set this to null
 $rcmail_config['markasjunk2_filename'] = null;
 
 ?>
