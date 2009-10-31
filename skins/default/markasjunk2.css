@@ -1,9 +1,9 @@
-#rcmContextMenu .samarkasjunk a, #markmessagemenu a.samarkasjunk
+#rcmContextMenu .markasjunk2 a, #markmessagemenu a.markasjunk2
 {
   background: url('../../../../skins/default/images/icons/folders.png') no-repeat 2px -78px;
 }
 
-#rcmContextMenu .samarkasnotjunk a, #markmessagemenu a.samarkasnotjunk
+#rcmContextMenu .markasnotjunk2 a, #markmessagemenu a.markasnotjunk2
 {
   background: url('notjunk.png') no-repeat 2px;
 }

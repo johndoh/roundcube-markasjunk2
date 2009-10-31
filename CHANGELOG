@@ -1,5 +1,13 @@
-Roundcube Webmail SAMarkASJunk
-==============================
+Roundcube Webmail MarkASJunk2
+=============================
+
+2009 10 29
+==========
+ * Rename plugin to markasjunk2
+
+2009 10 29
+==========
+ * Use local_skin_path() (rev 3076)
 
 2009 08 02
 ==========
