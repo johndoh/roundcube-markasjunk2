@@ -30,13 +30,23 @@ $rcmail_config['markasjunk2_spam_flag'] = 'Junk';
 // If you do not want to use message flags set this to null
 $rcmail_config['markasjunk2_ham_flag'] = null;
 
+// Learning driver
+// Use an external process auch as salearn to learn from spam/ham messages. Default: null.
+// Current possibilities: 'cmd_learn', 'dir_learn'
+$rcmail_config['markasjunk2_learning_driver'] = null;
+
+// Write output from spam/ham commands to the log for debug
+$rcmail_config['markasjunk2_debug'] = false;
+
+// cmd_learn Driver options
+// ------------------------
 // The command used to learn that a message is spam
 // The command can contain the following macros that will be expanded as follows:
 //      %u is replaced with the username (from the session info)
 //      %l is replaced with the local part (before the @) of the username (from the session info)
 //      %d is replaced with the domain part (after the @) of the username (from the session info)
 //      %f is replaced with the path to the message file (THIS SHOULD ALWAYS BE PRESENT)
-// If you do not want run any commands set this to null
+// If you do not want run the command set this to null
 $rcmail_config['markasjunk2_spam_cmd'] = null;
 
 // The command used to learn that a message is ham
@@ -45,10 +55,24 @@ $rcmail_config['markasjunk2_spam_cmd'] = null;
 //      %l is replaced with the local part (before the @) of the username (from the session info)
 //      %d is replaced with the domain part (after the @) of the username (from the session info)
 //      %f is replaced with the path to the message file (THIS SHOULD ALWAYS BE PRESENT)
-// If you do not want run any commands set this to null
+// If you do not want run the command set this to null
 $rcmail_config['markasjunk2_ham_cmd'] = null;
 
-// Write output from spam/ham commands to the log for debug
-$rcmail_config['markasjunk2_debug'] = false;
+// dir_learn Driver options
+// ------------------------
+// The full path of the directory used to store spam (must be writable by webserver)
+$rcmail_config['markasjunk2_spam_dir'] = null;
+
+// The full path of the directory used to store ham (must be writable by webserver)
+$rcmail_config['markasjunk2_ham_dir'] = null';
+
+// The filename prefix
+// The filename can contain the following macros that will be expanded as follows:
+//      %u is replaced with the username (from the session info)
+//      %l is replaced with the local part (before the @) of the username (from the session info)
+//      %d is replaced with the domain part (after the @) of the username (from the session info)
+//      %t is replaced with the type of message (spam/ham)
+// If you do not want run the command set this to null
+$rcmail_config['markasjunk2_filename'] = null;
 
 ?>

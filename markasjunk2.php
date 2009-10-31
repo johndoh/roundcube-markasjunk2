@@ -8,7 +8,7 @@
  * or to move messages in the Junk folder to the inbox - moving only the
  * attachment if it is a Spamassassin spam report email
  *
- * @version 1.0
+ * @version 1.1
  * @author Philip Weir
  * Based on the Markasjunk plugin by Thomas Bruederli
  */
@@ -162,8 +162,8 @@ class markasjunk2 extends rcube_plugin
 		if ($rcmail->config->get('markasjunk2_ham_flag', false))
 			$imap->unset_flag($uids, $this->ham_flag, $mbox_name);
 
-		if ($rcmail->config->get('markasjunk2_spam_cmd', false))
-			$this->_salearn($uids, true);
+		if ($rcmail->config->get('markasjunk2_learning_driver', false))
+			$this->_call_driver($uids, true);
 	}
 
 	private function _ham($uids, $mbox_name=NULL) {
@@ -179,44 +179,40 @@ class markasjunk2 extends rcube_plugin
 		if ($rcmail->config->get('markasjunk2_ham_flag', false))
 			$imap->set_flag($uids, $this->ham_flag, $mbox_nam);
 
-		if ($rcmail->config->get('markasjunk2_ham_cmd', false))
-			$this->_salearn($uids, false);
+		if ($rcmail->config->get('markasjunk2_learning_driver', false))
+			$this->_call_driver($uids, false);
 	}
 
-	private function _salearn($uids, $spam) {
-        $rcmail = rcmail::get_instance();
-        $temp_dir = realpath($rcmail->config->get('temp_dir'));
+	private function _call_driver($uids, $spam) {
+	    $driver = $this->home.'/drivers/'.rcmail::get_instance()->config->get('markasjunk2_learning_driver', 'cmd_learn').'.php';
 
-        if ($spam)
-        	$command = $rcmail->config->get('markasjunk2_spam_cmd');
-        else
-        	$command = $rcmail->config->get('markasjunk2_ham_cmd');
+	    if (!is_readable($driver)) {
+	      raise_error(array(
+	        'code' => 600,
+	        'type' => 'php',
+	        'file' => __FILE__,
+	        'message' => "MarkasJunk2 plugin: Unable to open driver file $driver"
+	        ), true, false);
+	      return $this->gettext('internalerror');
+	    }
 
-        $command = str_replace('%u', $_SESSION['username'], $command);
+	    include_once($driver);
 
-        if (strpos($_SESSION['username'], '@') !== false) {
-	        $parts = split("@", $_SESSION['username'], 2);
+	    if (!function_exists('learn_spam') || !function_exists('learn_ham')) {
+	      raise_error(array(
+	        'code' => 600,
+	        'type' => 'php',
+	        'file' => __FILE__,
+	        'message' => "MarkasJunk2 plugin: Broken driver: $driver"
+	        ), true, false);
+	      return $this->gettext('internalerror');
+	    }
 
-	        $command = str_replace(array('%l', '%d'),
-							array($parts[0], $parts[1]),
-							$command);
-        }
+	    if ($spam)
+	    	learn_spam($uids);
+	    else
+	    	learn_ham($uids);
 
-		foreach (split(",", $uids) as $uid) {
-			$tmpfname = tempnam($temp_dir, 'rcmSALearn');
-			file_put_contents($tmpfname, $rcmail->imap->get_raw_body($uid));
-
-			$tmp_command = str_replace('%f', $tmpfname, $command);
-			exec($tmp_command, $output);
-
-			if ($rcmail->config->get('markasjunk2_debug')) {
-				write_log('markasjunk2', $tmp_command);
-				write_log('markasjunk2', $output);
-			}
-
-			unlink($tmpfname);
-			$output = '';
-		}
 	}
 }
 
