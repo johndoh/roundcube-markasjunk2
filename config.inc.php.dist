@@ -32,7 +32,7 @@ $rcmail_config['markasjunk2_ham_flag'] = null;
 
 // Learning driver
 // Use an external process auch as salearn to learn from spam/ham messages. Default: null.
-// Current possibilities: 'cmd_learn', 'dir_learn'
+// Current possibilities: 'cmd_learn', 'dir_learn', 'email_learn'
 $rcmail_config['markasjunk2_learning_driver'] = null;
 
 // Write output from spam/ham commands to the log for debug
@@ -73,5 +73,26 @@ $rcmail_config['markasjunk2_ham_dir'] = null;
 //      %d is replaced with the domain part (after the @) of the username (from the session info)
 //      %t is replaced with the type of message (spam/ham)
 $rcmail_config['markasjunk2_filename'] = null;
+
+// email_learn Driver options
+// --------------------------
+// The email address that spam messages will be sent to
+// If you do not want run the command set this to null
+$rcmail_config['markasjunk2_email_spam'] = null;
+
+// The email address that ham messages will be sent to
+// If you do not want run the command set this to null
+$rcmail_config['markasjunk2_email_ham'] = null;
+
+// Should the spam/ham message be sent as an attachment
+$rcmail_config['markasjunk2_email_attach'] = true;
+
+// The email subject
+// The subject can contain the following macros that will be expanded as follows:
+//      %u is replaced with the username (from the session info)
+//      %l is replaced with the local part (before the @) of the username (from the session info)
+//      %d is replaced with the domain part (after the @) of the username (from the session info)
+//      %t is replaced with the type of message (spam/ham)
+$rcmail_config['markasjunk2_email_subject'] = 'learn this message as %t';
 
 ?>

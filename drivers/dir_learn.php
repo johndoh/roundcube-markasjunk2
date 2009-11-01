@@ -40,6 +40,10 @@ function do_messagemove($uids, $spam) {
 	foreach (split(",", $uids) as $uid) {
 		$tmpfname = tempnam($dest_dir, $filename);
 		file_put_contents($tmpfname, $rcmail->imap->get_raw_body($uid));
+
+		if ($rcmail->config->get('markasjunk2_debug')) {
+			write_log('markasjunk2', $tmpfname);
+		}
 	}
 }
 
