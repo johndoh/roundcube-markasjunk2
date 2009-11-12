@@ -33,7 +33,7 @@ function do_emaillearn($uids, $spam) {
 	$temp_dir = realpath($rcmail->config->get('temp_dir'));
 
     $identity_arr = $rcmail->user->get_identity();
-	$from = $identity_arr['mailto'];
+	$from = $identity_arr['email'];
 
     $subject = $rcmail->config->get('markasjunk2_email_subject');
     $subject = str_replace('%u', $_SESSION['username'], $subject);
