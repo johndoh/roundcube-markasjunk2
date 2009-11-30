@@ -40,14 +40,14 @@ function do_emaillearn($uids, $spam) {
     $subject = str_replace('%t', ($spam) ? 'spam' : 'ham', $subject);
 
     if (strpos($_SESSION['username'], '@') !== false) {
-        $parts = split("@", $_SESSION['username'], 2);
+        $parts = explode("@", $_SESSION['username'], 2);
 
         $subject = str_replace(array('%l', '%d'),
 						array($parts[0], $parts[1]),
 						$subject);
     }
 
-    foreach (split(",", $uids) as $uid) {
+    foreach (explode(",", $uids) as $uid) {
 	    $MESSAGE = new rcube_message($uid);
 		$tmpPath = tempnam($temp_dir, 'rcmMarkASJunk2');
 

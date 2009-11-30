@@ -29,14 +29,14 @@ function do_salearn($uids, $spam) {
     $command = str_replace('%u', $_SESSION['username'], $command);
 
     if (strpos($_SESSION['username'], '@') !== false) {
-        $parts = split("@", $_SESSION['username'], 2);
+        $parts = explode("@", $_SESSION['username'], 2);
 
         $command = str_replace(array('%l', '%d'),
 						array($parts[0], $parts[1]),
 						$command);
     }
 
-	foreach (split(",", $uids) as $uid) {
+	foreach (explode(",", $uids) as $uid) {
 		$tmpfname = tempnam($temp_dir, 'rcmSALearn');
 		file_put_contents($tmpfname, $rcmail->imap->get_raw_body($uid));
 

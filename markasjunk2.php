@@ -110,7 +110,7 @@ class markasjunk2 extends rcube_plugin
 		$mbox = get_input_value('_mbox', RCUBE_INPUT_POST);
 
 		if (($dest_mbox = $this->ham_mbox) && $mbox != $dest_mbox) {
-			foreach (split(",", $uids) as $uid) {
+			foreach (explode(",", $uids) as $uid) {
 				$saved = FALSE;
 				$message = new rcube_message($uid);
 

@@ -30,14 +30,14 @@ function do_messagemove($uids, $spam) {
     $filename = str_replace('%t', ($spam) ? 'spam' : 'ham', $filename);
 
     if (strpos($_SESSION['username'], '@') !== false) {
-        $parts = split("@", $_SESSION['username'], 2);
+        $parts = explode("@", $_SESSION['username'], 2);
 
         $filename = str_replace(array('%l', '%d'),
 						array($parts[0], $parts[1]),
 						$filename);
     }
 
-	foreach (split(",", $uids) as $uid) {
+	foreach (explode(",", $uids) as $uid) {
 		$tmpfname = tempnam($dest_dir, $filename);
 		file_put_contents($tmpfname, $rcmail->imap->get_raw_body($uid));
 
