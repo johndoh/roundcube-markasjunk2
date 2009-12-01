@@ -1,6 +1,10 @@
 Roundcube Webmail MarkASJunk2
 =============================
 
+2009 12 01
+==========
+ * CSS update after r3141
+
 2009 11 30
 ==========
  * Use explode() rather than split()
