@@ -191,6 +191,7 @@ class markasjunk2 extends rcube_plugin
 	        'code' => 600,
 	        'type' => 'php',
 	        'file' => __FILE__,
+	        'line' => __LINE__,
 	        'message' => "MarkasJunk2 plugin: Unable to open driver file $driver"
 	        ), true, false);
 	      return $this->gettext('internalerror');
@@ -203,6 +204,7 @@ class markasjunk2 extends rcube_plugin
 	        'code' => 600,
 	        'type' => 'php',
 	        'file' => __FILE__,
+	        'line' => __LINE__,
 	        'message' => "MarkasJunk2 plugin: Broken driver: $driver"
 	        ), true, false);
 	      return $this->gettext('internalerror');
