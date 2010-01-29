@@ -38,7 +38,3 @@ Ham learning commands
 Spamassassin:
   '/usr/bin/sa-learn --ham --username=%u %f' or
   '/usr/bin/sa-learn --ham --prefs-file=/var/mail/%d/%l/.spamassassin/user_prefs %f'
-
-Location of the button
-======================
-The spam/ham button is added to the toolbar when viewing a mailbox or message. If you would prefer that the button is added to the "mark message" menu on the toolbar when viewing a mail box then add $rcmail_config['markasjunk2_mb_toolbar'] = false; to your config
