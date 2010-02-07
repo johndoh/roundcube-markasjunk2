@@ -8,7 +8,7 @@
  * or to move messages in the Junk folder to the inbox - moving only the
  * attachment if it is a Spamassassin spam report email
  *
- * @version 1.1
+ * @version 1.2
  * @author Philip Weir
  * Based on the Markasjunk plugin by Thomas Bruederli
  */
@@ -45,7 +45,7 @@ class markasjunk2 extends rcube_plugin
 				$GLOBALS['IMAP_FLAGS'][$this->ham_flag] = $rcmail->config->get('markasjunk2_ham_flag');
 		}
 
-		if (($rcmail->action == '' || $rcmail->action == 'show') && !empty($rcmail->user->ID)) {
+		if ($rcmail->action == '' || $rcmail->action == 'show') {
 			$this->include_script('markasjunk2.js');
 			$this->add_texts('localization', true);
 
