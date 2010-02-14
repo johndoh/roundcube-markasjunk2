@@ -31,20 +31,6 @@ class markasjunk2 extends rcube_plugin
 		$this->spam_mbox = $rcmail->config->get('junk_mbox', null);
 		$this->toolbar = $rcmail->config->get('markasjunk2_mb_toolbar', true);
 
-		if ($rcmail->config->get('markasjunk2_spam_flag', false)) {
-			if ($flag = array_search($rcmail->config->get('markasjunk2_spam_flag'), $GLOBALS['IMAP_FLAGS']))
-				$this->spam_flag = $flag;
-			else
-				$GLOBALS['IMAP_FLAGS'][$this->spam_flag] = $rcmail->config->get('markasjunk2_spam_flag');
-		}
-
-		if ($rcmail->config->get('markasjunk2_ham_flag', false)) {
-			if ($flag = array_search($rcmail->config->get('markasjunk2_ham_flag'), $GLOBALS['IMAP_FLAGS']))
-				$this->ham_flag = $flag;
-			else
-				$GLOBALS['IMAP_FLAGS'][$this->ham_flag] = $rcmail->config->get('markasjunk2_ham_flag');
-		}
-
 		if ($rcmail->action == '' || $rcmail->action == 'show') {
 			$this->include_script('markasjunk2.js');
 			$this->add_texts('localization', true);
@@ -86,6 +72,7 @@ class markasjunk2 extends rcube_plugin
 	function mark_junk()
 	{
 		$this->add_texts('localization');
+		$this->_set_flags();
 
 		$uids = get_input_value('_uid', RCUBE_INPUT_POST);
 		$mbox = get_input_value('_mbox', RCUBE_INPUT_POST);
@@ -103,6 +90,7 @@ class markasjunk2 extends rcube_plugin
 	function mark_notjunk()
 	{
 		$this->add_texts('localization');
+		$this->_set_flags();
 		$rcmail = rcmail::get_instance();
 		$imap = $rcmail->imap;
 
@@ -215,6 +203,24 @@ class markasjunk2 extends rcube_plugin
 	    else
 	    	learn_ham($uids);
 
+	}
+
+	private function _set_flags() {
+		$rcmail = rcmail::get_instance();
+
+		if ($rcmail->config->get('markasjunk2_spam_flag', false)) {
+			if ($flag = array_search($rcmail->config->get('markasjunk2_spam_flag'), $GLOBALS['IMAP_FLAGS']))
+				$this->spam_flag = $flag;
+			else
+				$GLOBALS['IMAP_FLAGS'][$this->spam_flag] = $rcmail->config->get('markasjunk2_spam_flag');
+		}
+
+		if ($rcmail->config->get('markasjunk2_ham_flag', false)) {
+			if ($flag = array_search($rcmail->config->get('markasjunk2_ham_flag'), $GLOBALS['IMAP_FLAGS']))
+				$this->ham_flag = $flag;
+			else
+				$GLOBALS['IMAP_FLAGS'][$this->ham_flag] = $rcmail->config->get('markasjunk2_ham_flag');
+		}
 	}
 }
 
