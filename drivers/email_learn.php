@@ -110,9 +110,9 @@ function do_emaillearn($uids, $spam) {
 
 		if ($rcmail->config->get('markasjunk2_debug')) {
 			if ($spam)
-				write_log('markasjunk2', $uid . ' SPAM ' . $email_to . ' (' . $subject . ')');
+				write_log('markasjunk2', $uid . ' SPAM ' . $mailto . ' (' . $subject . ')');
 			else
-				write_log('markasjunk2', $uid . ' HAM ' . $email_to . ' (' . $subject . ')');
+				write_log('markasjunk2', $uid . ' HAM ' . $mailto . ' (' . $subject . ')');
 
 			if ($smtp_error['vars'])
 				write_log('markasjunk2', $smtp_error['vars']);
