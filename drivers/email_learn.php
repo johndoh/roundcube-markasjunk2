@@ -58,7 +58,7 @@ function do_emaillearn($uids, $spam) {
 		$headers['To'] = $mailto;
 		$headers['Subject'] = $subject;
 
-		$MAIL_MIME = new rcube_mail_mime($rcmail->config->header_delimiter());
+		$MAIL_MIME = new Mail_mime($rcmail->config->header_delimiter());
 		if ($rcmail->config->get('markasjunk2_email_attach', false)) {
 			// send mail as attachment
 			$MAIL_MIME->setTXTBody(($spam ? 'Spam' : 'Ham'). ' report from RoundCube Webmail', false, true);
@@ -96,19 +96,17 @@ function do_emaillearn($uids, $spam) {
 		}
 
 		// encoding settings for mail composing
-		$MAIL_MIME->setParam(array(
-			'text_encoding' => $transfer_encoding,
-			'html_encoding' => 'quoted-printable',
-			'head_encoding' => 'quoted-printable',
-			'head_charset'  => $message_charset,
-			'html_charset'  => $message_charset,
-			'text_charset'  => $message_charset,
-		));
+		$MAIL_MIME->setParam('text_encoding', $transfer_encoding);
+		$MAIL_MIME->setParam('html_encoding', 'quoted-printable');
+		$MAIL_MIME->setParam('head_encoding', 'quoted-printable');
+		$MAIL_MIME->setParam('head_charset', $message_charset);
+		$MAIL_MIME->setParam('html_charset', $message_charset);
+		$MAIL_MIME->setParam('text_charset', $message_charset);
 
 		// pass headers to message object
 		$MAIL_MIME->headers($headers);
 
-		rcmail_deliver_message($MAIL_MIME, $from, $mailto, $smtp_error);
+		rcmail_deliver_message($MAIL_MIME, $from, $mailto, $smtp_error, $body_file);
 
 		if ($rcmail->config->get('markasjunk2_debug')) {
 			if ($spam)

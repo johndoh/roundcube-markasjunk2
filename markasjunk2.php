@@ -105,16 +105,13 @@ class markasjunk2 extends rcube_plugin
 				if ($rcmail->config->get('markasjunk2_detach_ham', false) && sizeof($message->attachments)) {
 					foreach ($message->attachments as $part) {
 						if ($part->ctype_primary == 'message' && $part->ctype_parameters['x-spam-type'] == 'original') {
-							$orig_message_raw = $imap->get_message_part($message->uid, $part->mime_id, $part);
 							$saved = $imap->save_message($dest_mbox, $orig_message_raw);
 
 							if ($saved) {
 								$imap->delete_message($uid, $mbox);
 								$this->api->output->command('message_list.remove_row', $uid, false);
 
-								$orig_message = new Mail_mimeDecode($orig_message_raw);
-								$orig_headers = $orig_message->decode(array('decode_headers' => true));
-								$a_messageid = $imap->search($dest_mbox, 'HEADER Message-ID ' . $orig_headers->headers['message-id']);
+								$a_messageid = $message->headers['messageID'];
 								$orig_uid = $imap->get_uid($a_messageid[0], $dest_mbox);
 
 								$this->_ham($orig_uid, $dest_mbox);
