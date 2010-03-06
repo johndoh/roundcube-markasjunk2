@@ -4,7 +4,7 @@
 $labels = array();
 $labels['buttonjunk'] = 'Mark as spam';
 $labels['markasjunk'] = 'As spam';
-$labels['buttonnotjunk'] = 'This message is not Spam';
+$labels['buttonnotjunk'] = 'This message is not spam';
 $labels['markasnotjunk'] = 'Not spam';
 
 $messages = array();
