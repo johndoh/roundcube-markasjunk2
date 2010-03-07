@@ -108,6 +108,10 @@ function do_emaillearn($uids, $spam) {
 
 		rcmail_deliver_message($MAIL_MIME, $from, $mailto, $smtp_error, $body_file);
 
+		// clean up
+		if (file_exists($tmpPath))
+			unlink($tmpPath);
+
 		if ($rcmail->config->get('markasjunk2_debug')) {
 			if ($spam)
 				write_log('markasjunk2', $uid . ' SPAM ' . $mailto . ' (' . $subject . ')');
