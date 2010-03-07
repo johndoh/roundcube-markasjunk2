@@ -1,3 +1,19 @@
+#messagetoolbar a.markasjunk2 {
+  background: url('junk_act.png') 0 0 no-repeat transparent;
+}
+
+#messagetoolbar a.markasjunk2Sel {
+  background: url('junk_sel.png') 0 0 no-repeat transparent;
+}
+
+#messagetoolbar a.markasnotjunk2 {
+  background: url('notjunk_act.png') 0 0 no-repeat transparent;
+}
+
+#messagetoolbar a.markasnotjunk2Sel {
+  background: url('notjunk_sel.png') 0 0 no-repeat transparent;
+}
+
 #rcmContextMenu .markasjunk2 a, #markmessagemenu a.markasjunk2
 {
   background: url('../../../../skins/default/images/icons/folders.png') no-repeat 2px -73px;

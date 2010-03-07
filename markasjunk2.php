@@ -34,26 +34,25 @@ class markasjunk2 extends rcube_plugin
 		if ($rcmail->action == '' || $rcmail->action == 'show') {
 			$this->include_script('markasjunk2.js');
 			$this->add_texts('localization', true);
+			$this->include_stylesheet($this->local_skin_path() .'/markasjunk2.css');
 
 			if ($rcmail->action == 'show' && ($this->spam_mbox && $_SESSION['mbox'] != $this->spam_mbox)) {
-				$this->add_button(array('command' => 'plugin.markasjunk2', 'imagepas' => $this->local_skin_path() .'/junk_pas.png', 'imageact' => $this->local_skin_path() .'/junk_act.png', 'alt' => 'markasjunk2.buttonjunk', 'title' => 'markasjunk2.buttonjunk'), 'toolbar');
+				$this->add_button(array('command' => 'plugin.markasjunk2', 'type' => 'link', 'class' => 'buttonPas markasjunk2', 'classact' => 'button markasjunk2', 'classsel' => 'button markasjunk2Sel', 'title' => 'markasjunk2.buttonjunk', 'content' => ' '), 'toolbar');
 			}
 			elseif ($rcmail->action == 'show' && ($this->spam_mbox && $_SESSION['mbox'] == $this->spam_mbox)) {
-				$this->add_button(array('command' => 'plugin.markasnotjunk2', 'imagepas' => $this->local_skin_path() .'/notjunk_pas.png', 'imageact' => $this->local_skin_path() .'/notjunk_act.png', 'alt' => 'markasjunk2.buttonnotjunk', 'title' => 'markasjunk2.buttonnotjunk'), 'toolbar');
+				$this->add_button(array('command' => 'plugin.markasnotjunk2', 'type' => 'link', 'class' => 'buttonPas markasnotjunk2', 'classact' => 'button markasnotjunk2', 'classsel' => 'button markasnotjunk2Sel', 'title' => 'markasjunk2.buttonnotjunk', 'content' => ' '), 'toolbar');
 			}
 			elseif ($this->spam_mbox && $this->toolbar) {
 				if ($_SESSION['mbox'] == $this->spam_mbox) {
-					$this->add_button(array('command' => 'plugin.markasjunk2', 'id' => 'markasjunk2', 'imagepas' => $this->local_skin_path() .'/junk_pas.png', 'imageact' => $this->local_skin_path() .'/junk_act.png', 'alt' => 'markasjunk2.buttonjunk', 'title' => 'markasjunk2.buttonjunk', 'style' => 'display: none;'), 'toolbar');
-					$this->add_button(array('command' => 'plugin.markasnotjunk2', 'id' => 'markasnotjunk2', 'imagepas' => $this->local_skin_path() .'/notjunk_pas.png', 'imageact' => $this->local_skin_path() .'/notjunk_act.png', 'alt' => 'markasjunk2.buttonnotjunk', 'title' => 'markasjunk2.buttonnotjunk'), 'toolbar');
+					$this->add_button(array('command' => 'plugin.markasjunk2', 'type' => 'link', 'class' => 'buttonPas markasjunk2', 'classact' => 'button markasjunk2', 'classsel' => 'button markasjunk2Sel', 'title' => 'markasjunk2.buttonjunk', 'content' => ' ', 'style' => 'display: none;'), 'toolbar');
+					$this->add_button(array('command' => 'plugin.markasnotjunk2', 'type' => 'link', 'class' => 'buttonPas markasnotjunk2', 'classact' => 'button markasnotjunk2', 'classsel' => 'button markasnotjunk2Sel', 'title' => 'markasjunk2.buttonnotjunk', 'content' => ' '), 'toolbar');
 				}
 				else {
-					$this->add_button(array('command' => 'plugin.markasjunk2', 'id' => 'markasjunk2', 'imagepas' => $this->local_skin_path() .'/junk_pas.png', 'imageact' => $this->local_skin_path() .'/junk_act.png', 'alt' => 'markasjunk2.buttonjunk', 'title' => 'markasjunk2.buttonjunk'), 'toolbar');
-					$this->add_button(array('command' => 'plugin.markasnotjunk2', 'id' => 'markasnotjunk2', 'imagepas' => $this->local_skin_path() .'/notjunk_pas.png', 'imageact' => $this->local_skin_path() .'/notjunk_act.png', 'alt' => 'markasjunk2.buttonnotjunk', 'title' => 'markasjunk2.buttonnotjunk', 'style' => 'display: none;'), 'toolbar');
+					$this->add_button(array('command' => 'plugin.markasjunk2', 'type' => 'link', 'class' => 'buttonPas markasjunk2', 'classact' => 'button markasjunk2', 'classsel' => 'button markasjunk2Sel', 'title' => 'markasjunk2.buttonjunk', 'content' => ' '), 'toolbar');
+					$this->add_button(array('command' => 'plugin.markasnotjunk2', 'type' => 'link', 'class' => 'buttonPas markasnotjunk2', 'classact' => 'button markasnotjunk2', 'classsel' => 'button markasnotjunk2Sel', 'title' => 'markasjunk2.buttonnotjunk', 'content' => ' ', 'style' => 'display: none;'), 'toolbar');
 				}
 			}
 			elseif ($this->spam_mbox) {
-				$this->include_stylesheet($this->local_skin_path() .'/markasjunk2.css');
-
 				if ($_SESSION['mbox'] == $this->spam_mbox) {
 					$markjunk = $this->api->output->button(array('command' => 'plugin.markasjunk2', 'label' => 'markasjunk2.markasjunk', 'id' => 'markasjunk2', 'class' => 'markasjunk2', 'classact' => 'markasjunk2 active', 'style' => 'display: none;'));
 					$marknotjunk = $this->api->output->button(array('command' => 'plugin.markasnotjunk2', 'label' => 'markasjunk2.markasnotjunk', 'id' => 'markasnotjunk2', 'class' => 'markasnotjunk2', 'classact' => 'markasnotjunk2 active'));
