@@ -2,12 +2,20 @@
   background: url('junk_act.png') 0 0 no-repeat transparent;
 }
 
+#messagetoolbar a.markasjunk2Pas {
+  background: url('junk_pas.png') 0 0 no-repeat transparent;
+}
+
 #messagetoolbar a.markasjunk2Sel {
   background: url('junk_sel.png') 0 0 no-repeat transparent;
 }
 
 #messagetoolbar a.markasnotjunk2 {
   background: url('notjunk_act.png') 0 0 no-repeat transparent;
+}
+
+#messagetoolbar a.markasnotjunk2Pas {
+  background: url('notjunk_pas.png') 0 0 no-repeat transparent;
 }
 
 #messagetoolbar a.markasnotjunk2Sel {

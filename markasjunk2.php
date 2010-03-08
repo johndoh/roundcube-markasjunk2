@@ -37,19 +37,19 @@ class markasjunk2 extends rcube_plugin
 			$this->include_stylesheet($this->local_skin_path() .'/markasjunk2.css');
 
 			if ($rcmail->action == 'show' && ($this->spam_mbox && $_SESSION['mbox'] != $this->spam_mbox)) {
-				$this->add_button(array('command' => 'plugin.markasjunk2', 'type' => 'link', 'class' => 'buttonPas markasjunk2', 'classact' => 'button markasjunk2', 'classsel' => 'button markasjunk2Sel', 'title' => 'markasjunk2.buttonjunk', 'content' => ' '), 'toolbar');
+				$this->add_button(array('command' => 'plugin.markasjunk2', 'type' => 'link', 'class' => 'button markasjunk2Pas', 'classact' => 'button markasjunk2', 'classsel' => 'button markasjunk2Sel', 'title' => 'markasjunk2.buttonjunk', 'content' => ' '), 'toolbar');
 			}
 			elseif ($rcmail->action == 'show' && ($this->spam_mbox && $_SESSION['mbox'] == $this->spam_mbox)) {
-				$this->add_button(array('command' => 'plugin.markasnotjunk2', 'type' => 'link', 'class' => 'buttonPas markasnotjunk2', 'classact' => 'button markasnotjunk2', 'classsel' => 'button markasnotjunk2Sel', 'title' => 'markasjunk2.buttonnotjunk', 'content' => ' '), 'toolbar');
+				$this->add_button(array('command' => 'plugin.markasnotjunk2', 'type' => 'link', 'class' => 'button markasnotjunk2Pas', 'classact' => 'button markasnotjunk2', 'classsel' => 'button markasnotjunk2Sel', 'title' => 'markasjunk2.buttonnotjunk', 'content' => ' '), 'toolbar');
 			}
 			elseif ($this->spam_mbox && $this->toolbar) {
 				if ($_SESSION['mbox'] == $this->spam_mbox) {
-					$this->add_button(array('command' => 'plugin.markasjunk2', 'type' => 'link', 'class' => 'buttonPas markasjunk2', 'classact' => 'button markasjunk2', 'classsel' => 'button markasjunk2Sel', 'title' => 'markasjunk2.buttonjunk', 'content' => ' ', 'style' => 'display: none;'), 'toolbar');
-					$this->add_button(array('command' => 'plugin.markasnotjunk2', 'type' => 'link', 'class' => 'buttonPas markasnotjunk2', 'classact' => 'button markasnotjunk2', 'classsel' => 'button markasnotjunk2Sel', 'title' => 'markasjunk2.buttonnotjunk', 'content' => ' '), 'toolbar');
+					$this->add_button(array('command' => 'plugin.markasjunk2', 'type' => 'link', 'class' => 'button markasjunk2Pas', 'classact' => 'button markasjunk2', 'classsel' => 'button markasjunk2Sel', 'title' => 'markasjunk2.buttonjunk', 'content' => ' ', 'style' => 'display: none;'), 'toolbar');
+					$this->add_button(array('command' => 'plugin.markasnotjunk2', 'type' => 'link', 'class' => 'button markasnotjunk2Pas', 'classact' => 'button markasnotjunk2', 'classsel' => 'button markasnotjunk2Sel', 'title' => 'markasjunk2.buttonnotjunk', 'content' => ' '), 'toolbar');
 				}
 				else {
-					$this->add_button(array('command' => 'plugin.markasjunk2', 'type' => 'link', 'class' => 'buttonPas markasjunk2', 'classact' => 'button markasjunk2', 'classsel' => 'button markasjunk2Sel', 'title' => 'markasjunk2.buttonjunk', 'content' => ' '), 'toolbar');
-					$this->add_button(array('command' => 'plugin.markasnotjunk2', 'type' => 'link', 'class' => 'buttonPas markasnotjunk2', 'classact' => 'button markasnotjunk2', 'classsel' => 'button markasnotjunk2Sel', 'title' => 'markasjunk2.buttonnotjunk', 'content' => ' ', 'style' => 'display: none;'), 'toolbar');
+					$this->add_button(array('command' => 'plugin.markasjunk2', 'type' => 'link', 'class' => 'button markasjunk2Pas', 'classact' => 'button markasjunk2', 'classsel' => 'button markasjunk2Sel', 'title' => 'markasjunk2.buttonjunk', 'content' => ' '), 'toolbar');
+					$this->add_button(array('command' => 'plugin.markasnotjunk2', 'type' => 'link', 'class' => 'button markasnotjunk2Pas', 'classact' => 'button markasnotjunk2', 'classsel' => 'button markasnotjunk2Sel', 'title' => 'markasjunk2.buttonnotjunk', 'content' => ' ', 'style' => 'display: none;'), 'toolbar');
 				}
 			}
 			elseif ($this->spam_mbox) {
