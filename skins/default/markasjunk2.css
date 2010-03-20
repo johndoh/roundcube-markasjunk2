@@ -19,10 +19,10 @@
 
 #rcmContextMenu .markasjunk2 a, #markmessagemenu a.markasjunk2
 {
-  background: url('../../../../skins/default/images/icons/folders.png') no-repeat 2px -73px;
+  background: url('../../../../skins/default/images/icons/folders.png') no-repeat 7px -73px;
 }
 
 #rcmContextMenu .markasnotjunk2 a, #markmessagemenu a.markasnotjunk2
 {
-  background: url('notjunk.png') no-repeat 2px;
+  background: url('notjunk.png') no-repeat 7px;
 }
