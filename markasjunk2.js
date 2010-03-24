@@ -21,7 +21,7 @@ function rcmail_markasjunk2(prop)
 		return;
 
 	// also select childs of (collapsed) threads for dragging
-	if (rcmail.message_list.rows[rcmail.env.uid].has_children) {
+	if (rcmail.message_list && rcmail.message_list.rows[rcmail.env.uid].has_children) {
 		rcmail.message_list.select_row(rcmail.env.uid, CONTROL_KEY);
 		rcmail.env.uid = null;
 
@@ -62,7 +62,7 @@ function rcmail_markasnotjunk2(prop)
 		return;
 
 	// also select childs of (collapsed) threads for dragging
-	if (rcmail.message_list.rows[rcmail.env.uid].has_children) {
+	if (rcmail.message_list && rcmail.message_list.rows[rcmail.env.uid].has_children) {
 		rcmail.message_list.select_row(rcmail.env.uid, CONTROL_KEY);
 		rcmail.env.uid = null;
 
