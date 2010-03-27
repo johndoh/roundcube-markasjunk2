@@ -21,10 +21,21 @@ function rcmail_markasjunk2(prop)
 		return;
 
 	// also select childs of (collapsed) threads
-	if (rcmail.message_list && rcmail.message_list.rows[rcmail.env.uid].has_children && !rcmail.message_list.rows[rcmail.env.uid].expanded) {
-		rcmail.message_list.select_row(rcmail.env.uid, CONTROL_KEY);
-		rcmail.message_list.select_childs(rcmail.env.uid);
-		rcmail.env.uid = null;
+	if (rcmail.message_list) {
+		if (rcmail.env.uid && rcmail.message_list.rows[rcmail.env.uid].has_children && !rcmail.message_list.rows[rcmail.env.uid].expanded) {
+			rcmail.message_list.select_row(rcmail.env.uid, CONTROL_KEY);
+			rcmail.message_list.select_childs(rcmail.env.uid);
+			rcmail.env.uid = null;
+		}
+		else if (rcmail.message_list.get_selection().length) {
+			var selection = $.merge([], rcmail.message_list.selection);
+			var depth, row, uid, r;
+			for (var n = 0; n < selection.length; n++) {
+				uid = selection[n];
+				if (rcmail.message_list.rows[uid].has_children && !rcmail.message_list.rows[uid].expanded)
+					rcmail.message_list.select_childs(uid);
+			}
+		}
 	}
 
 	var uids = rcmail.env.uid ? rcmail.env.uid : rcmail.message_list.get_selection().join(',');
@@ -39,10 +50,21 @@ function rcmail_markasnotjunk2(prop)
 		return;
 
 	// also select childs of (collapsed) threads
-	if (rcmail.message_list && rcmail.message_list.rows[rcmail.env.uid].has_children && !rcmail.message_list.rows[rcmail.env.uid].expanded) {
-		rcmail.message_list.select_row(rcmail.env.uid, CONTROL_KEY);
-		rcmail.message_list.select_childs(rcmail.env.uid);
-		rcmail.env.uid = null;
+	if (rcmail.message_list) {
+		if (rcmail.env.uid && rcmail.message_list.rows[rcmail.env.uid].has_children && !rcmail.message_list.rows[rcmail.env.uid].expanded) {
+			rcmail.message_list.select_row(rcmail.env.uid, CONTROL_KEY);
+			rcmail.message_list.select_childs(rcmail.env.uid);
+			rcmail.env.uid = null;
+		}
+		else if (rcmail.message_list.get_selection().length) {
+			var selection = $.merge([], rcmail.message_list.selection);
+			var depth, row, uid, r;
+			for (var n = 0; n < selection.length; n++) {
+				uid = selection[n];
+				if (rcmail.message_list.rows[uid].has_children && !rcmail.message_list.rows[uid].expanded)
+					rcmail.message_list.select_childs(uid);
+			}
+		}
 	}
 
 	var uids = rcmail.env.uid ? rcmail.env.uid : rcmail.message_list.get_selection().join(',');
