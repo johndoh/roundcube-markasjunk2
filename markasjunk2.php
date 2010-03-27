@@ -107,8 +107,7 @@ class markasjunk2 extends rcube_plugin
 							$saved = $imap->save_message($dest_mbox, $orig_message_raw);
 
 							if ($saved) {
-								$imap->delete_message($uid, $mbox);
-								$this->api->output->command('message_list.remove_row', $uid, false);
+								$this->api->output->command('rcmail_markasjunk2_delete', $uid);
 
 								$a_messageid = $message->headers['messageID'];
 								$orig_uid = $imap->get_uid($a_messageid[0], $dest_mbox);
@@ -122,12 +121,10 @@ class markasjunk2 extends rcube_plugin
 				// if not SA report with attachment then move the whole message
 				if (!$saved) {
 					$this->_ham($uid);
-					$imap->move_message($uid, $dest_mbox);
-					$this->api->output->command('message_list.remove_row', $uid, false);
+					$this->api->output->command('rcmail_markasjunk2_move', $dest_mbox, $uid);
 				}
 			}
 
-			$this->api->output->command('set_unread_count', $dest_mbox, $imap->messagecount($dest_mbox, 'UNSEEN'), TRUE);
 			$this->api->output->command('display_message', $this->gettext('reportedasnotjunk'), 'confirmation');
 			$this->api->output->send();
 		}

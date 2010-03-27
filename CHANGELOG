@@ -1,6 +1,11 @@
 Roundcube Webmail MarkASJunk2
 =============================
 
+2010 03 27
+==========
+ * Respect display_next setting
+ * Fix mark as ham in message view
+
 2010 03 20
 ==========
  * Update to r3393

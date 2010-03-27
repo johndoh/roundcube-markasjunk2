@@ -75,14 +75,38 @@ function rcmail_markasnotjunk2(prop)
 
 rcmail.rcmail_markasjunk2_move = function(mbox, uid) {
 	var prev_uid = rcmail.env.uid;
-	if (rcmail.message_list && rcmail.message_list.selection.length <= 1) {
+	var prev_sel = null;
+
+	if (rcmail.message_list && !rcmail.message_list.in_selection(uid)) {
 		rcmail.env.uid = uid;
+		prev_sel = rcmail.message_list.get_single_selection();
         this.message_list.remove_row(uid, false);
 	}
 
 	rcmail.move_messages(mbox);
 
 	rcmail.env.uid = prev_uid;
+
+	if (prev_sel)
+		rcmail.message_list.select(prev_sel);
+}
+
+rcmail.rcmail_markasjunk2_delete = function(uid) {
+	var prev_uid = rcmail.env.uid;
+	var prev_sel = null;
+
+	if (rcmail.message_list && !rcmail.message_list.in_selection(uid)) {
+		rcmail.env.uid = uid;
+		prev_sel = rcmail.message_list.get_single_selection();
+        this.message_list.remove_row(uid, false);
+	}
+
+	rcmail.delete_messages();
+
+	rcmail.env.uid = prev_uid;
+
+	if (prev_sel)
+		rcmail.message_list.select(prev_sel);
 }
 
 
