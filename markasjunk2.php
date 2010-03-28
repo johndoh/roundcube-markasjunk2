@@ -53,14 +53,8 @@ class markasjunk2 extends rcube_plugin
 				}
 			}
 			elseif ($this->spam_mbox) {
-				if ($_SESSION['mbox'] == $this->spam_mbox) {
-					$markjunk = $this->api->output->button(array('command' => 'plugin.markasjunk2', 'label' => 'markasjunk2.markasjunk', 'id' => 'markasjunk2', 'class' => 'markasjunk2', 'classact' => 'markasjunk2 active', 'style' => 'display: none;'));
-					$marknotjunk = $this->api->output->button(array('command' => 'plugin.markasnotjunk2', 'label' => 'markasjunk2.markasnotjunk', 'id' => 'markasnotjunk2', 'class' => 'markasnotjunk2', 'classact' => 'markasnotjunk2 active'));
-				}
-				else {
-					$markjunk = $this->api->output->button(array('command' => 'plugin.markasjunk2', 'label' => 'markasjunk2.markasjunk', 'id' => 'markasjunk2', 'class' => 'markasjunk2', 'classact' => 'markasjunk2 active'));
-					$marknotjunk = $this->api->output->button(array('command' => 'plugin.markasnotjunk2', 'label' => 'markasjunk2.markasnotjunk', 'id' => 'markasnotjunk2', 'class' => 'markasnotjunk2', 'classact' => 'markasnotjunk2 active', 'style' => 'display: none;'));
-				}
+				$markjunk = $this->api->output->button(array('command' => 'plugin.markasjunk2', 'label' => 'markasjunk2.markasjunk', 'id' => 'markasjunk2', 'class' => 'markasjunk2', 'classact' => 'markasjunk2 active'));
+				$marknotjunk = $this->api->output->button(array('command' => 'plugin.markasnotjunk2', 'label' => 'markasjunk2.markasnotjunk', 'id' => 'markasnotjunk2', 'class' => 'markasnotjunk2', 'classact' => 'markasnotjunk2 active'));
 
 				$this->api->add_content(html::tag('li', null, $markjunk), 'markmenu');
 				$this->api->add_content(html::tag('li', null, $marknotjunk), 'markmenu');
