@@ -5,6 +5,7 @@ Roundcube Webmail MarkASJunk2
 ==========
  * Respect display_next setting
  * Fix mark as ham in message view
+ * Fix ham detachment, broken after c585116e7759c94d19fe6713af72cb5b45f7fde2, also see RC ticket #1486584
 
 2010 03 20
 ==========
