@@ -80,7 +80,7 @@ rcmail.rcmail_markasjunk2_move = function(mbox, uid) {
 
 	if (rcmail.message_list && a_uids.length == 1) {
 		if (!rcmail.message_list.in_selection(a_uids[0]))
-			prev_sel = (prev_sel == null) ? rcmail.message_list.get_single_selection() : prev_sel;
+			prev_sel = rcmail.message_list.get_single_selection();
 
 		rcmail.env.uid = a_uids[0];
 		rcmail.message_list.remove_row(a_uids[0], false);
@@ -103,7 +103,7 @@ rcmail.rcmail_markasjunk2_delete = function(uid) {
 
 	if (rcmail.message_list && a_uids.length == 1) {
 		if (!rcmail.message_list.in_selection(a_uids[0]))
-			prev_sel = (prev_sel == null) ? rcmail.message_list.get_single_selection() : prev_sel;
+			prev_sel = rcmail.message_list.get_single_selection();
 
 		rcmail.env.uid = a_uids[0];
 		rcmail.message_list.remove_row(a_uids[0], false);
@@ -118,7 +118,6 @@ rcmail.rcmail_markasjunk2_delete = function(uid) {
 		rcmail.message_list.select(prev_sel);
 	}
 }
-
 
 function rcmail_markasjunk2_init()
 {
