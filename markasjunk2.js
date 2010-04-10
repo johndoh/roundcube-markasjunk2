@@ -134,5 +134,42 @@ function rcmail_markasjunk2_update()
 	}
 }
 
+function rcmail_markasjunk2_status(command){
+	switch (command) {
+		case 'beforedelete':
+			if (!rcmail.env.flag_for_deletion && rcmail.env.trash_mailbox &&
+				rcmail.env.mailbox != rcmail.env.trash_mailbox &&
+				(rcmail.message_list && !rcmail.message_list.shiftkey))
+				rcmail.enable_command('plugin.markasjunk2', 'plugin.markasnotjunk2', false);
+
+			break;
+		case 'beforemove':
+		case 'beforemoveto':
+			rcmail.enable_command('plugin.markasjunk2', 'plugin.markasnotjunk2', false);
+			break;
+		case 'aftermove':
+		case 'aftermoveto':
+			if (rcmail.env.action == 'show')
+				rcmail.enable_command('plugin.markasjunk2', 'plugin.markasnotjunk2', true);
+
+			break;
+		case 'afterpurge':
+		case 'afterexpunge':
+			 if (!rcmail.env.messagecount && rcmail.task == 'mail')
+			 	rcmail.enable_command('plugin.markasjunk2', 'plugin.markasnotjunk2', false);
+
+			 break;
+	}
+}
+
 rcmail.add_onload('rcmail_markasjunk2_init()');
 rcmail.addEventListener('listupdate', function(props) { rcmail_markasjunk2_update(); } );
+
+// update button activation after external events
+rcmail.addEventListener('beforedelete', function(props) { rcmail_markasjunk2_status('beforedelete'); } );
+rcmail.addEventListener('beforemove', function(props) { rcmail_markasjunk2_status('beforemove'); } );
+rcmail.addEventListener('beforemoveto', function(props) { rcmail_markasjunk2_status('beforemoveto'); } );
+rcmail.addEventListener('aftermove', function(props) { rcmail_markasjunk2_status('aftermove'); } );
+rcmail.addEventListener('aftermoveto', function(props) { rcmail_markasjunk2_status('aftermoveto'); } );
+rcmail.addEventListener('afterpurge', function(props) { rcmail_markasjunk2_status('afterpurge'); } );
+rcmail.addEventListener('afterexpunge', function(props) { rcmail_markasjunk2_status('afterexpunge'); } );
