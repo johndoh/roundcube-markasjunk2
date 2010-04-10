@@ -102,7 +102,7 @@ class markasjunk2 extends rcube_plugin
 							$saved = $imap->save_message($dest_mbox, $orig_message_raw);
 
 							if ($saved) {
-								$this->api->output->command('rcmail_markasjunk2', null, $uid);
+								$this->api->output->command('rcmail_markasjunk2_move', null, $uid);
 
 								$a_messageid = $message->headers->messageID;
 								$orig_uid = $imap->get_uid($a_messageid[0], $dest_mbox);
