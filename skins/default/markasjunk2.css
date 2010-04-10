@@ -1,28 +1,28 @@
 #messagetoolbar a.markasjunk2 {
-  background-image: url('mail_toolbar.gif');
+  background-image: url(mail_toolbar.gif);
   background-position: -32px 0;
 }
 
 #messagetoolbar a.markasjunk2Sel {
-  background-image: url('mail_toolbar.gif');
+  background-image: url(mail_toolbar.gif);
   background-position: -32px -32px;
 }
 
 #messagetoolbar a.markasnotjunk2 {
-  background-image: url('mail_toolbar.gif');
+  background-image: url(mail_toolbar.gif);
 }
 
 #messagetoolbar a.markasnotjunk2Sel {
-  background-image: url('mail_toolbar.gif');
+  background-image: url(mail_toolbar.gif);
   background-position: 0 -32px;
 }
 
 #rcmContextMenu .markasjunk2 a, #markmessagemenu a.markasjunk2
 {
-  background: url('../../../../skins/default/images/icons/folders.png') no-repeat 7px -73px;
+  background: url(junk.png) no-repeat 7px;
 }
 
 #rcmContextMenu .markasnotjunk2 a, #markmessagemenu a.markasnotjunk2
 {
-  background: url('notjunk.png') no-repeat 7px;
+  background: url(notjunk.png) no-repeat 7px;
 }
