@@ -17,12 +17,22 @@
   background-position: 0 -32px;
 }
 
-#rcmContextMenu .markasjunk2 a, #markmessagemenu a.markasjunk2
+#rcmContextMenu .markasjunk2 a
+{
+  background: url(junk.png) no-repeat 6px;
+}
+
+#rcmContextMenu .markasnotjunk2 a
+{
+  background: url(notjunk.png) no-repeat 6px;
+}
+
+#markmessagemenu a.markasjunk2
 {
   background: url(junk.png) no-repeat 7px;
 }
 
-#rcmContextMenu .markasnotjunk2 a, #markmessagemenu a.markasnotjunk2
+#markmessagemenu a.markasnotjunk2
 {
   background: url(notjunk.png) no-repeat 7px;
 }
