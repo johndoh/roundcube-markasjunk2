@@ -2,7 +2,7 @@
 
 /**
  * Email learn driver
- * @version 0.1
+ * @version 1.0
  * @author Philip Weir
  */
 
@@ -54,14 +54,14 @@ function do_emaillearn($uids, $spam) {
 		// compose headers array
 		$headers = array();
 		$headers['Date'] = date('r');
-		$headers['From'] = rcube_charset_convert($identity_arr['string'], RCMAIL_CHARSET, $message_charset);
+		$headers['From'] = format_email_recipient($identity_arr['email'], $identity_arr['name']);
 		$headers['To'] = $mailto;
 		$headers['Subject'] = $subject;
 
 		$MAIL_MIME = new Mail_mime($rcmail->config->header_delimiter());
 		if ($rcmail->config->get('markasjunk2_email_attach', false)) {
 			// send mail as attachment
-			$MAIL_MIME->setTXTBody(($spam ? 'Spam' : 'Ham'). ' report from RoundCube Webmail', false, true);
+			$MAIL_MIME->setTXTBody(($spam ? 'Spam' : 'Ham'). ' report from ' . $rcmail->config->get('product_name'), false, true);
 
  			$message = $rcmail->imap->get_raw_body($uid);
 			$subject = $MESSAGE->get_header('subject');
