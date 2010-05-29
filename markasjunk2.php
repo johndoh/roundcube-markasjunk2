@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Mark as Junk 2
+ * MarkAsJunk2
  *
  * Sample plugin that adds a new button to the mailbox toolbar
  * to mark the selected messages as Junk and move them to the Junk folder

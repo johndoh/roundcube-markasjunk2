@@ -1,4 +1,6 @@
-/* Mark as Junk 2 plugin script */
+/**
+ * MarkAsJunk2 plugin script
+ */
 
 if (window.rcmail) {
 	rcmail.addEventListener('init', function(evt) {

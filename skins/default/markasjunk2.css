@@ -1,18 +1,26 @@
-#messagetoolbar a.markasjunk2 {
+/**
+ * MarkAsJunk2 plugin styles
+ */
+
+#messagetoolbar a.markasjunk2
+{
   background-image: url(mail_toolbar.gif);
   background-position: -32px 0;
 }
 
-#messagetoolbar a.markasjunk2Sel {
+#messagetoolbar a.markasjunk2Sel
+{
   background-image: url(mail_toolbar.gif);
   background-position: -32px -32px;
 }
 
-#messagetoolbar a.markasnotjunk2 {
+#messagetoolbar a.markasnotjunk2
+{
   background-image: url(mail_toolbar.gif);
 }
 
-#messagetoolbar a.markasnotjunk2Sel {
+#messagetoolbar a.markasnotjunk2Sel
+{
   background-image: url(mail_toolbar.gif);
   background-position: 0 -32px;
 }
