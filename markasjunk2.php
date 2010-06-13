@@ -125,7 +125,8 @@ class markasjunk2 extends rcube_plugin
 		}
 	}
 
-	private function _spam($uids, $mbox_name=NULL) {
+	private function _spam($uids, $mbox_name = NULL)
+	{
 		$rcmail = rcmail::get_instance();
 		$imap = $rcmail->imap;
 
@@ -142,7 +143,8 @@ class markasjunk2 extends rcube_plugin
 			$this->_call_driver($uids, true);
 	}
 
-	private function _ham($uids, $mbox_name=NULL) {
+	private function _ham($uids, $mbox_name = NULL)
+	{
 		$rcmail = rcmail::get_instance();
 		$imap = $rcmail->imap;
 
@@ -159,7 +161,8 @@ class markasjunk2 extends rcube_plugin
 			$this->_call_driver($uids, false);
 	}
 
-	private function _call_driver($uids, $spam) {
+	private function _call_driver($uids, $spam)
+	{
 	    $driver = $this->home.'/drivers/'.rcmail::get_instance()->config->get('markasjunk2_learning_driver', 'cmd_learn').'.php';
 
 	    if (!is_readable($driver)) {
@@ -193,7 +196,8 @@ class markasjunk2 extends rcube_plugin
 
 	}
 
-	private function _set_flags() {
+	private function _set_flags()
+	{
 		$rcmail = rcmail::get_instance();
 
 		if ($rcmail->config->get('markasjunk2_spam_flag', false)) {
@@ -209,6 +213,38 @@ class markasjunk2 extends rcube_plugin
 			else
 				$rcmail->imap->conn->flags[$this->ham_flag] = $rcmail->config->get('markasjunk2_ham_flag');
 		}
+	}
+
+	static function username_local()
+	{
+		return markasjunk2::user_login('local');
+	}
+
+	static function username_domain()
+	{
+		return markasjunk2::user_login('domain');
+	}
+
+	static function user_login($part = null)
+	{
+		$user_info = explode('@', $_SESSION['username']);
+
+		// at least we should always have the local part
+		if ($part == 'local') {
+			return $user_info[0];
+		}
+		else if ($part == 'domain') {
+			if (!empty($user_info[1]))
+				return $user_info[1];
+
+			// if no domain was provided use the default if available
+			if ($domain = rcmail::get_instance()->config->get('mail_domain'))
+				return $domain;
+
+			return '';
+		}
+
+		return $_SESSION['username'];
 	}
 }
 

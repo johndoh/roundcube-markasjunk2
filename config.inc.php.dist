@@ -39,8 +39,8 @@ $rcmail_config['markasjunk2_mb_toolbar'] = true;
 // The command used to learn that a message is spam
 // The command can contain the following macros that will be expanded as follows:
 //      %u is replaced with the username (from the session info)
-//      %l is replaced with the local part (before the @) of the username (from the session info)
-//      %d is replaced with the domain part (after the @) of the username (from the session info)
+//      %l is replaced with the local part of the username (if the username is an email address)
+//      %d is replaced with the domain part of the username (if the username is an email address or default mail domain if not)
 //      %f is replaced with the path to the message file (THIS SHOULD ALWAYS BE PRESENT)
 // If you do not want run the command set this to null
 $rcmail_config['markasjunk2_spam_cmd'] = null;
@@ -48,8 +48,8 @@ $rcmail_config['markasjunk2_spam_cmd'] = null;
 // The command used to learn that a message is ham
 // The command can contain the following macros that will be expanded as follows:
 //      %u is replaced with the username (from the session info)
-//      %l is replaced with the local part (before the @) of the username (from the session info)
-//      %d is replaced with the domain part (after the @) of the username (from the session info)
+//      %l is replaced with the local part of the username (if the username is an email address)
+//      %d is replaced with the domain part of the username (if the username is an email address or default mail domain if not)
 //      %f is replaced with the path to the message file (THIS SHOULD ALWAYS BE PRESENT)
 // If you do not want run the command set this to null
 $rcmail_config['markasjunk2_ham_cmd'] = null;
@@ -65,8 +65,8 @@ $rcmail_config['markasjunk2_ham_dir'] = null;
 // The filename prefix
 // The filename can contain the following macros that will be expanded as follows:
 //      %u is replaced with the username (from the session info)
-//      %l is replaced with the local part (before the @) of the username (from the session info)
-//      %d is replaced with the domain part (after the @) of the username (from the session info)
+//      %l is replaced with the local part of the username (if the username is an email address)
+//      %d is replaced with the domain part of the username (if the username is an email address or default mail domain if not)
 //      %t is replaced with the type of message (spam/ham)
 $rcmail_config['markasjunk2_filename'] = null;
 
@@ -86,8 +86,8 @@ $rcmail_config['markasjunk2_email_attach'] = true;
 // The email subject
 // The subject can contain the following macros that will be expanded as follows:
 //      %u is replaced with the username (from the session info)
-//      %l is replaced with the local part (before the @) of the username (from the session info)
-//      %d is replaced with the domain part (after the @) of the username (from the session info)
+//      %l is replaced with the local part of the username (if the username is an email address)
+//      %d is replaced with the domain part of the username (if the username is an email address or default mail domain if not)
 //      %t is replaced with the type of message (spam/ham)
 $rcmail_config['markasjunk2_email_subject'] = 'learn this message as %t';
 

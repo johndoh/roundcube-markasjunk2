@@ -2,19 +2,21 @@
 
 /**
  * Copy spam/ham messages to a direcotry for learning later
- * @version 0.1
+ * @version 1.0
  * @author Philip Weir
  */
-
-function learn_spam($uids) {
+function learn_spam($uids)
+{
 	do_messagemove($uids, true);
 }
 
-function learn_ham($uids) {
+function learn_ham($uids)
+{
 	do_messagemove($uids, false);
 }
 
-function do_messagemove($uids, $spam) {
+function do_messagemove($uids, $spam)
+{
     $rcmail = rcmail::get_instance();
 
     if ($spam)
@@ -28,22 +30,15 @@ function do_messagemove($uids, $spam) {
     $filename = $rcmail->config->get('markasjunk2_filename');
     $filename = str_replace('%u', $_SESSION['username'], $filename);
     $filename = str_replace('%t', ($spam) ? 'spam' : 'ham', $filename);
-
-    if (strpos($_SESSION['username'], '@') !== false) {
-        $parts = explode("@", $_SESSION['username'], 2);
-
-        $filename = str_replace(array('%l', '%d'),
-						array($parts[0], $parts[1]),
-						$filename);
-    }
+    $filename = str_replace('%l', markasjunk2::username_local(), $filename);
+    $filename = str_replace('%d', markasjunk2::username_domain(), $filename);
 
 	foreach (explode(",", $uids) as $uid) {
 		$tmpfname = tempnam($dest_dir, $filename);
 		file_put_contents($tmpfname, $rcmail->imap->get_raw_body($uid));
 
-		if ($rcmail->config->get('markasjunk2_debug')) {
+		if ($rcmail->config->get('markasjunk2_debug'))
 			write_log('markasjunk2', $tmpfname);
-		}
 	}
 }
 

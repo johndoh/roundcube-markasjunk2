@@ -5,16 +5,18 @@
  * @version 1.0
  * @author Philip Weir
  */
-
-function learn_spam($uids) {
+function learn_spam($uids)
+{
 	do_emaillearn($uids, true);
 }
 
-function learn_ham($uids) {
+function learn_ham($uids)
+{
 	do_emaillearn($uids, false);
 }
 
-function do_emaillearn($uids, $spam) {
+function do_emaillearn($uids, $spam)
+{
 	$rcmail = rcmail::get_instance();
 
     if ($spam)
@@ -38,14 +40,8 @@ function do_emaillearn($uids, $spam) {
     $subject = $rcmail->config->get('markasjunk2_email_subject');
     $subject = str_replace('%u', $_SESSION['username'], $subject);
     $subject = str_replace('%t', ($spam) ? 'spam' : 'ham', $subject);
-
-    if (strpos($_SESSION['username'], '@') !== false) {
-        $parts = explode("@", $_SESSION['username'], 2);
-
-        $subject = str_replace(array('%l', '%d'),
-						array($parts[0], $parts[1]),
-						$subject);
-    }
+    $subject = str_replace('%l', markasjunk2::username_local(), $subject);
+    $subject = str_replace('%d', markasjunk2::username_domain(), $subject);
 
     foreach (explode(",", $uids) as $uid) {
 	    $MESSAGE = new rcube_message($uid);

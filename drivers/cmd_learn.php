@@ -5,16 +5,18 @@
  * @version 1.0
  * @author Philip Weir
  */
-
-function learn_spam($uids) {
+function learn_spam($uids)
+{
 	do_salearn($uids, true);
 }
 
-function learn_ham($uids) {
+function learn_ham($uids)
+{
 	do_salearn($uids, false);
 }
 
-function do_salearn($uids, $spam) {
+function do_salearn($uids, $spam)
+{
     $rcmail = rcmail::get_instance();
     $temp_dir = realpath($rcmail->config->get('temp_dir'));
 
@@ -27,14 +29,8 @@ function do_salearn($uids, $spam) {
     	return;
 
     $command = str_replace('%u', $_SESSION['username'], $command);
-
-    if (strpos($_SESSION['username'], '@') !== false) {
-        $parts = explode("@", $_SESSION['username'], 2);
-
-        $command = str_replace(array('%l', '%d'),
-						array($parts[0], $parts[1]),
-						$command);
-    }
+    $command = str_replace('%l', markasjunk2::username_local(), $command);
+    $command = str_replace('%d', markasjunk2::username_domain(), $command);
 
 	foreach (explode(",", $uids) as $uid) {
 		$tmpfname = tempnam($temp_dir, 'rcmSALearn');
