@@ -118,17 +118,25 @@ function rcmail_markasjunk2_init() {
 }
 
 function rcmail_markasjunk2_update() {
+	var spamobj = $('#' + rcmail.buttons['plugin.markasjunk2'][0].id);
+	var hamobj = $('#' + rcmail.buttons['plugin.markasnotjunk2'][0].id);
+
+	if (spamobj.parent('li').length > 0) {
+		spamobj = spamobj.parent();
+		hamobj = hamobj.parent();
+	}
+
 	if (rcmail.env.junk_mailbox && rcmail.env.mailbox != rcmail.env.junk_mailbox) {
 		$('#rcmContextMenu li.markasjunk2').show();
 		$('#rcmContextMenu li.markasnotjunk2').hide();
-		$('#' + rcmail.buttons['plugin.markasjunk2'][0].id).parent().show();
-		$('#' + rcmail.buttons['plugin.markasnotjunk2'][0].id).parent().hide();
+		spamobj.show();
+		hamobj.hide();
 	}
 	else {
 		$('#rcmContextMenu li.markasjunk2').hide();
 		$('#rcmContextMenu li.markasnotjunk2').show();
-		$('#' + rcmail.buttons['plugin.markasjunk2'][0].id).parent().hide();
-		$('#' + rcmail.buttons['plugin.markasnotjunk2'][0].id).parent().show();
+		spamobj.hide();
+		hamobj.show();
 	}
 }
 
