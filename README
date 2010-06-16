@@ -1,6 +1,8 @@
 Roundcube Webmail MarkAsJunk2
 =============================
 This plugin adds "mark as spam" or "mark as not spam" button to the message menu.
+Inspiration for this plugin was taken from:
+Thomas Bruederli <roundcube@gmail.com> - original RoundCube Mark As Junk plugin
 
 When not in the Junk mailbox:
   Messages are moved into the Junk mailbox and marked as read
