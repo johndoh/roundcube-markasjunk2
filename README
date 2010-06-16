@@ -28,14 +28,12 @@ All config parameters are optional
 
 Spam learning commands
 ======================
-
 Spamassassin:
   '/usr/bin/sa-learn --spam --username=%u %f' or
   '/usr/bin/sa-learn --spam --prefs-file=/var/mail/%d/%l/.spamassassin/user_prefs %f'
 
 Ham learning commands
 =====================
-
 Spamassassin:
   '/usr/bin/sa-learn --ham --username=%u %f' or
   '/usr/bin/sa-learn --ham --prefs-file=/var/mail/%d/%l/.spamassassin/user_prefs %f'
