@@ -29,8 +29,8 @@ function do_salearn($uids, $spam)
     	return;
 
     $command = str_replace('%u', $_SESSION['username'], $command);
-    $command = str_replace('%l', markasjunk2::username_local(), $command);
-    $command = str_replace('%d', markasjunk2::username_domain(), $command);
+    $command = str_replace('%l', $rcmail->user->get_username('local'), $command);
+    $command = str_replace('%d', $rcmail->user->get_username('domain'), $command);
 
 	foreach (explode(",", $uids) as $uid) {
 		$tmpfname = tempnam($temp_dir, 'rcmSALearn');

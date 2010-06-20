@@ -40,8 +40,8 @@ function do_emaillearn($uids, $spam)
     $subject = $rcmail->config->get('markasjunk2_email_subject');
     $subject = str_replace('%u', $_SESSION['username'], $subject);
     $subject = str_replace('%t', ($spam) ? 'spam' : 'ham', $subject);
-    $subject = str_replace('%l', markasjunk2::username_local(), $subject);
-    $subject = str_replace('%d', markasjunk2::username_domain(), $subject);
+    $subject = str_replace('%l', $rcmail->user->get_username('local'), $subject);
+    $subject = str_replace('%d', $rcmail->user->get_username('domain'), $subject);
 
     foreach (explode(",", $uids) as $uid) {
 	    $MESSAGE = new rcube_message($uid);

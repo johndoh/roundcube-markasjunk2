@@ -1,6 +1,10 @@
 Roundcube Webmail MarkAsJunk2
 =============================
 
+2010 05 20
+==========
+ * Username parsing now in core (r3774)
+
 2010 03 27
 ==========
  * Respect display_next setting

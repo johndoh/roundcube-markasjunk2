@@ -214,38 +214,6 @@ class markasjunk2 extends rcube_plugin
 				$rcmail->imap->conn->flags[$this->ham_flag] = $rcmail->config->get('markasjunk2_ham_flag');
 		}
 	}
-
-	static function username_local()
-	{
-		return markasjunk2::user_login('local');
-	}
-
-	static function username_domain()
-	{
-		return markasjunk2::user_login('domain');
-	}
-
-	static function user_login($part = null)
-	{
-		$user_info = explode('@', $_SESSION['username']);
-
-		// at least we should always have the local part
-		if ($part == 'local') {
-			return $user_info[0];
-		}
-		else if ($part == 'domain') {
-			if (!empty($user_info[1]))
-				return $user_info[1];
-
-			// if no domain was provided use the default if available
-			if ($domain = rcmail::get_instance()->config->get('mail_domain'))
-				return $domain;
-
-			return '';
-		}
-
-		return $_SESSION['username'];
-	}
 }
 
 ?>

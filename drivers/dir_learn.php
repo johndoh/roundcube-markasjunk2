@@ -30,8 +30,8 @@ function do_messagemove($uids, $spam)
     $filename = $rcmail->config->get('markasjunk2_filename');
     $filename = str_replace('%u', $_SESSION['username'], $filename);
     $filename = str_replace('%t', ($spam) ? 'spam' : 'ham', $filename);
-    $filename = str_replace('%l', markasjunk2::username_local(), $filename);
-    $filename = str_replace('%d', markasjunk2::username_domain(), $filename);
+    $filename = str_replace('%l', $rcmail->user->get_username('local'), $filename);
+    $filename = str_replace('%d', $rcmail->user->get_username('domain'), $filename);
 
 	foreach (explode(",", $uids) as $uid) {
 		$tmpfname = tempnam($dest_dir, $filename);
