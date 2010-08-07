@@ -17,20 +17,20 @@ function learn_ham($uids)
 
 function do_salearn($uids, $spam)
 {
-    $rcmail = rcmail::get_instance();
-    $temp_dir = realpath($rcmail->config->get('temp_dir'));
+	$rcmail = rcmail::get_instance();
+	$temp_dir = realpath($rcmail->config->get('temp_dir'));
 
-    if ($spam)
-    	$command = $rcmail->config->get('markasjunk2_spam_cmd');
-    else
-    	$command = $rcmail->config->get('markasjunk2_ham_cmd');
+	if ($spam)
+		$command = $rcmail->config->get('markasjunk2_spam_cmd');
+	else
+		$command = $rcmail->config->get('markasjunk2_ham_cmd');
 
-    if (!$command)
-    	return;
+	if (!$command)
+		return;
 
-    $command = str_replace('%u', $_SESSION['username'], $command);
-    $command = str_replace('%l', $rcmail->user->get_username('local'), $command);
-    $command = str_replace('%d', $rcmail->user->get_username('domain'), $command);
+	$command = str_replace('%u', $_SESSION['username'], $command);
+	$command = str_replace('%l', $rcmail->user->get_username('local'), $command);
+	$command = str_replace('%d', $rcmail->user->get_username('domain'), $command);
 
 	foreach (explode(",", $uids) as $uid) {
 		$tmpfname = tempnam($temp_dir, 'rcmSALearn');

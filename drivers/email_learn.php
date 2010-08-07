@@ -19,15 +19,15 @@ function do_emaillearn($uids, $spam)
 {
 	$rcmail = rcmail::get_instance();
 
-    if ($spam)
-   		$mailto = $rcmail->config->get('markasjunk2_email_spam');
-    else
-    	$mailto = $rcmail->config->get('markasjunk2_email_ham');
+	if ($spam)
+		$mailto = $rcmail->config->get('markasjunk2_email_spam');
+	else
+		$mailto = $rcmail->config->get('markasjunk2_email_ham');
 
-    if (!$mailto)
-    	return;
+	if (!$mailto)
+		return;
 
-    $message_charset = $rcmail->output->get_charset();
+	$message_charset = $rcmail->output->get_charset();
 	// chose transfer encoding
 	$charset_7bit = array('ASCII', 'ISO-2022-JP', 'ISO-8859-1', 'ISO-8859-2', 'ISO-8859-15');
 	$transfer_encoding = in_array(strtoupper($message_charset), $charset_7bit) ? '7bit' : '8bit';
@@ -37,14 +37,14 @@ function do_emaillearn($uids, $spam)
     $identity_arr = $rcmail->user->get_identity();
 	$from = $identity_arr['email'];
 
-    $subject = $rcmail->config->get('markasjunk2_email_subject');
-    $subject = str_replace('%u', $_SESSION['username'], $subject);
-    $subject = str_replace('%t', ($spam) ? 'spam' : 'ham', $subject);
-    $subject = str_replace('%l', $rcmail->user->get_username('local'), $subject);
-    $subject = str_replace('%d', $rcmail->user->get_username('domain'), $subject);
+	$subject = $rcmail->config->get('markasjunk2_email_subject');
+	$subject = str_replace('%u', $_SESSION['username'], $subject);
+	$subject = str_replace('%t', ($spam) ? 'spam' : 'ham', $subject);
+	$subject = str_replace('%l', $rcmail->user->get_username('local'), $subject);
+	$subject = str_replace('%d', $rcmail->user->get_username('domain'), $subject);
 
-    foreach (explode(",", $uids) as $uid) {
-	    $MESSAGE = new rcube_message($uid);
+	foreach (explode(",", $uids) as $uid) {
+		$MESSAGE = new rcube_message($uid);
 		$tmpPath = tempnam($temp_dir, 'rcmMarkASJunk2');
 
 		// compose headers array
@@ -59,7 +59,7 @@ function do_emaillearn($uids, $spam)
 			// send mail as attachment
 			$MAIL_MIME->setTXTBody(($spam ? 'Spam' : 'Ham'). ' report from ' . $rcmail->config->get('product_name'), false, true);
 
- 			$message = $rcmail->imap->get_raw_body($uid);
+			$message = $rcmail->imap->get_raw_body($uid);
 			$subject = $MESSAGE->get_header('subject');
 
 			if(isset($subject) && $subject !="")
