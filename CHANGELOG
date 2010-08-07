@@ -1,6 +1,10 @@
 Roundcube Webmail MarkAsJunk2
 =============================
 
+2010 08 07
+==========
+ * Use better command names
+
 2010 05 20
 ==========
  * Username parsing now in core (r3774)

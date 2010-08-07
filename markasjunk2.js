@@ -5,13 +5,13 @@
 if (window.rcmail) {
 	rcmail.addEventListener('init', function(evt) {
 		// register command (directly enable in message view mode)
-		rcmail.register_command('plugin.markasjunk2', rcmail_markasjunk2, rcmail.env.uid);
-		rcmail.register_command('plugin.markasnotjunk2', rcmail_markasnotjunk2, rcmail.env.uid);
+		rcmail.register_command('plugin.markasjunk2.junk', rcmail_markasjunk2, rcmail.env.uid);
+		rcmail.register_command('plugin.markasjunk2.not_junk', rcmail_markasjunk2_notjunk, rcmail.env.uid);
 
 		if (rcmail.message_list && rcmail.env.junk_mailbox) {
 			rcmail.message_list.addEventListener('select', function(list) {
-				rcmail.enable_command('plugin.markasjunk2', list.get_selection().length > 0);
-				rcmail.enable_command('plugin.markasnotjunk2', list.get_selection().length > 0);
+				rcmail.enable_command('plugin.markasjunk2.junk', list.get_selection().length > 0);
+				rcmail.enable_command('plugin.markasjunk2.not_junk', list.get_selection().length > 0);
 			});
 		}
 	})
@@ -21,8 +21,8 @@ function rcmail_markasjunk2(prop) {
 	if (!rcmail.env.uid && (!rcmail.message_list || !rcmail.message_list.get_selection().length))
 		return;
 
-	if (!prop)
-		prop = 'markasjunk2';
+	if (!prop || prop == 'markasjunk2')
+		prop = 'junk';
 
 	var prev_sel = null;
 
@@ -52,7 +52,7 @@ function rcmail_markasjunk2(prop) {
 	var uids = rcmail.env.uid ? rcmail.env.uid : rcmail.message_list.get_selection().join(',');
 
 	rcmail.set_busy(true, 'loading');
-	rcmail.http_post('plugin.' + prop, '_uid='+uids+'&_mbox='+urlencode(rcmail.env.mailbox), true);
+	rcmail.http_post('plugin.markasjunk2.' + prop, '_uid='+uids+'&_mbox='+urlencode(rcmail.env.mailbox), true);
 
 	if (prev_sel) {
 		rcmail.message_list.clear_selection();
@@ -62,8 +62,8 @@ function rcmail_markasjunk2(prop) {
 	}
 }
 
-function rcmail_markasnotjunk2(prop) {
-	rcmail_markasjunk2('markasnotjunk2');
+function rcmail_markasjunk2_notjunk(prop) {
+	rcmail_markasjunk2('not_junk');
 }
 
 rcmail.rcmail_markasjunk2_move = function(mbox, uid) {
@@ -101,7 +101,7 @@ rcmail.rcmail_markasjunk2_move = function(mbox, uid) {
 function rcmail_markasjunk2_init() {
 	if (window.rcm_contextmenu_register_command) {
 		rcm_contextmenu_register_command('markasjunk2', 'rcmail_markasjunk2', '&nbsp;&nbsp;' + rcmail.gettext('markasjunk2.markasjunk'), 'reply', null, true);
-		rcm_contextmenu_register_command('markasnotjunk2', 'rcmail_markasnotjunk2', '&nbsp;&nbsp;' + rcmail.gettext('markasjunk2.markasnotjunk'), 'reply', null, true);
+		rcm_contextmenu_register_command('markasnotjunk2', 'rcmail_markasjunk2_notjunk', '&nbsp;&nbsp;' + rcmail.gettext('markasjunk2.markasnotjunk'), 'reply', null, true);
 
 		if (rcmail.env.junk_mailbox && rcmail.env.mailbox == rcmail.env.junk_mailbox) {
 			$('#rcmContextMenu li.markasjunk2').hide();
@@ -118,8 +118,8 @@ function rcmail_markasjunk2_init() {
 }
 
 function rcmail_markasjunk2_update() {
-	var spamobj = $('#' + rcmail.buttons['plugin.markasjunk2'][0].id);
-	var hamobj = $('#' + rcmail.buttons['plugin.markasnotjunk2'][0].id);
+	var spamobj = $('#' + rcmail.buttons['plugin.markasjunk2.junk'][0].id);
+	var hamobj = $('#' + rcmail.buttons['plugin.markasjunk2.not_junk'][0].id);
 
 	if (spamobj.parent('li').length > 0) {
 		spamobj = spamobj.parent();
@@ -146,25 +146,25 @@ function rcmail_markasjunk2_status(command) {
 			if (!rcmail.env.flag_for_deletion && rcmail.env.trash_mailbox &&
 				rcmail.env.mailbox != rcmail.env.trash_mailbox &&
 				(rcmail.message_list && !rcmail.message_list.shiftkey))
-				rcmail.enable_command('plugin.markasjunk2', 'plugin.markasnotjunk2', false);
+				rcmail.enable_command('plugin.markasjunk2.junk', 'plugin.markasjunk2.not_junk', false);
 
 			break;
 		case 'beforemove':
 		case 'beforemoveto':
-			rcmail.enable_command('plugin.markasjunk2', 'plugin.markasnotjunk2', false);
+			rcmail.enable_command('plugin.markasjunk2.junk', 'plugin.markasjunk2.not_junk', false);
 			break;
 		case 'aftermove':
 		case 'aftermoveto':
 			if (rcmail.env.action == 'show')
-				rcmail.enable_command('plugin.markasjunk2', 'plugin.markasnotjunk2', true);
+				rcmail.enable_command('plugin.markasjunk2.junk', 'plugin.markasjunk2.not_junk', true);
 
 			break;
 		case 'afterpurge':
 		case 'afterexpunge':
-			 if (!rcmail.env.messagecount && rcmail.task == 'mail')
-			 	rcmail.enable_command('plugin.markasjunk2', 'plugin.markasnotjunk2', false);
+			if (!rcmail.env.messagecount && rcmail.task == 'mail')
+				rcmail.enable_command('plugin.markasjunk2.junk', 'plugin.markasjunk2.not_junk', false);
 
-			 break;
+			break;
 	}
 }
 
