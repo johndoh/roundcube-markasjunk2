@@ -1,6 +1,7 @@
 Roundcube Webmail MarkAsJunk2
 =============================
-This plugin adds "mark as spam" or "mark as not spam" button to the message menu.
+This plugin adds "mark as spam" or "mark as not spam" button to the message
+menu.
 Inspiration for this plugin was taken from:
 Thomas Bruederli <roundcube@gmail.com> - original RoundCube Mark As Junk plugin
 
@@ -9,16 +10,29 @@ When not in the Junk mailbox:
 
 When in the Junk mailbox:
   The buttons are changed to "mark as not spam" or "this message is not spam"
-  If the message is a spam report with the original email attached then this is detached and saved in the Inbox, the spam report is deleted
+  If the message is a spam report with the original email attached then this is
+  detached and saved in the Inbox, the spam report is deleted
   If it is not a spam report then the message is simply moved to the Inbox
 
 This plugin also integrates with the ContextMenu plugin
+
+License
+=======
+This plugin is released under the GNU General Public License Version 2
+(http://www.gnu.org/licenses/gpl-2.0.html).
+
+Even if skins might contain some programming work, they are not considered
+as a linked part of the application and therefore skins DO NOT fall under
+the provisions of the GPL license. See the README file located in the core
+skins folder for details on the skin license.
 
 Install
 =======
 * Place this plugin folder into plugins directory of RoundCube
 * Add markasjunk2 to $rcmail_config['plugins'] in your RoundCube config
-NB: When downloading the plugin from GitHub you will need to create a directory called markasjunk2 and place the files in there, ignoring the root directory in the downloaded archive
+NB: When downloading the plugin from GitHub you will need to create a directory
+called markasjunk2 and place the files in there, ignoring the root directory in
+the downloaded archive.
 
 Config
 ======
@@ -29,11 +43,11 @@ All config parameters are optional
 Spam learning commands
 ======================
 Spamassassin:
-  '/usr/bin/sa-learn --spam --username=%u %f' or
-  '/usr/bin/sa-learn --spam --prefs-file=/var/mail/%d/%l/.spamassassin/user_prefs %f'
+  'sa-learn --spam --username=%u %f' or
+  'sa-learn --spam --prefs-file=/var/mail/%d/%l/.spamassassin/user_prefs %f'
 
 Ham learning commands
 =====================
 Spamassassin:
-  '/usr/bin/sa-learn --ham --username=%u %f' or
-  '/usr/bin/sa-learn --ham --prefs-file=/var/mail/%d/%l/.spamassassin/user_prefs %f'
+  'sa-learn --ham --username=%u %f' or
+  'sa-learn --ham --prefs-file=/var/mail/%d/%l/.spamassassin/user_prefs %f'
