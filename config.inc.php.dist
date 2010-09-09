@@ -6,7 +6,7 @@
 
 // Learning driver
 // Use an external process such as sa-learn to learn from spam/ham messages. Default: null.
-// Current possibilities: 'cmd_learn', 'dir_learn', 'email_learn'
+// Please see the README for more information
 $rcmail_config['markasjunk2_learning_driver'] = null;
 
 // Mark messages as read when reporting them as spam

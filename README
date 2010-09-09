@@ -40,6 +40,28 @@ The default config file is plugins/markasjunk2/config.inc.php.dist
 Rename this to plugins/markasjunk2/config.inc.php
 All config parameters are optional
 
+The Learning Driver
+===================
+The learning driver allows you to perform additional processing on each message
+marked as spam/hem. A driver must contain 2 functions:
+
+learn_spam: This function should take 1 argument, the UID of message being
+            marked as spam
+
+learn_ham: This function should take 1 argument, the UID of message being
+           marked as ham
+
+Three drivers are provided by default they are:
+
+cmd_learn: This driver calls an external command (for example salearn) to
+           process the message
+
+dir_learn: This driver places a copy of the message in a predefined folder, for
+           example to allow for processing later
+
+email_learn: This driver emails the message either as an attachment or directly
+             to a set address
+
 Spam learning commands
 ======================
 Spamassassin:
