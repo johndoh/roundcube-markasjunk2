@@ -62,6 +62,10 @@ dir_learn: This driver places a copy of the message in a predefined folder, for
 email_learn: This driver emails the message either as an attachment or directly
              to a set address
 
+sa_blacklist: This driver adds the sender address of a spam message to the
+              users blacklist (or whitelist of ham messages)
+              Requires SAUserPrefs plugin
+
 Spam learning commands
 ======================
 Spamassassin:

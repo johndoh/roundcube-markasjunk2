@@ -91,4 +91,9 @@ $rcmail_config['markasjunk2_email_attach'] = true;
 //      %t is replaced with the type of message (spam/ham)
 $rcmail_config['markasjunk2_email_subject'] = 'learn this message as %t';
 
+// sa_blacklist Driver options
+// ---------------------------
+// Path to SAUserPrefs config file
+$rcmail_config['markasjunk2_sauserprefs_config'] = '../sauserprefs/config.inc.php';
+
 ?>
