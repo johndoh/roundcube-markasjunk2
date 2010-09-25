@@ -43,6 +43,9 @@ function do_list($uids, $spam)
 		$email = $message->sender['mailto'];
 
 		if ($spam) {
+			// delete any whitelisting for this address
+			$db->query("DELETE FROM ". $rcmail->config->get('sauserprefs_sql_table_name') ." WHERE ". $rcmail->config->get('sauserprefs_sql_username_field') ." = '". $_SESSION['username'] ."' AND ". $rcmail->config->get('sauserprefs_sql_preference_field') ." = 'whitelist_from' AND ". $rcmail->config->get('sauserprefs_sql_value_field') ." = '". $email ."';");
+
 			// check address is not already blacklisted
 			$sql_result = $db->query("SELECT value FROM ". $rcmail->config->get('sauserprefs_sql_table_name') ." WHERE ". $rcmail->config->get('sauserprefs_sql_username_field') ." = '". $_SESSION['username'] ."' AND ". $rcmail->config->get('sauserprefs_sql_preference_field') ." = 'blacklist_from' AND ". $rcmail->config->get('sauserprefs_sql_value_field') ." = '". $email ."';");
 			if ($db->num_rows($sql_result) == 0) {
@@ -53,6 +56,9 @@ function do_list($uids, $spam)
 			}
 		}
 		else {
+			// delete any blacklisting for this address
+			$db->query("DELETE FROM ". $rcmail->config->get('sauserprefs_sql_table_name') ." WHERE ". $rcmail->config->get('sauserprefs_sql_username_field') ." = '". $_SESSION['username'] ."' AND ". $rcmail->config->get('sauserprefs_sql_preference_field') ." = 'blacklist_from' AND ". $rcmail->config->get('sauserprefs_sql_value_field') ." = '". $email ."';");
+
 			// check address is not already whitelisted
 			$sql_result = $db->query("SELECT value FROM ". $rcmail->config->get('sauserprefs_sql_table_name') ." WHERE ". $rcmail->config->get('sauserprefs_sql_username_field') ." = '". $_SESSION['username'] ."' AND ". $rcmail->config->get('sauserprefs_sql_preference_field') ." = 'whitelist_from' AND ". $rcmail->config->get('sauserprefs_sql_value_field') ." = '". $email ."';");
 			if ($db->num_rows($sql_result) == 0) {
