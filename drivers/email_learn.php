@@ -18,11 +18,18 @@ function learn_ham($uids)
 function do_emaillearn($uids, $spam)
 {
 	$rcmail = rcmail::get_instance();
+	$identity_arr = $rcmail->user->get_identity();
+	$from = $identity_arr['email'];
 
 	if ($spam)
 		$mailto = $rcmail->config->get('markasjunk2_email_spam');
 	else
 		$mailto = $rcmail->config->get('markasjunk2_email_ham');
+
+	$mailto = str_replace('%u', $_SESSION['username'], $mailto);
+	$mailto = str_replace('%l', $rcmail->user->get_username('local'), $mailto);
+	$mailto = str_replace('%d', $rcmail->user->get_username('domain'), $mailto);
+	$mailto = str_replace('%i', $from, $mailto);
 
 	if (!$mailto)
 		return;
@@ -33,9 +40,6 @@ function do_emaillearn($uids, $spam)
 	$transfer_encoding = in_array(strtoupper($message_charset), $charset_7bit) ? '7bit' : '8bit';
 
 	$temp_dir = realpath($rcmail->config->get('temp_dir'));
-
-    $identity_arr = $rcmail->user->get_identity();
-	$from = $identity_arr['email'];
 
 	$subject = $rcmail->config->get('markasjunk2_email_subject');
 	$subject = str_replace('%u', $_SESSION['username'], $subject);
