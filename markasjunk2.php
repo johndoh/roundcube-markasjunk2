@@ -35,6 +35,8 @@ class markasjunk2 extends rcube_plugin
 			$this->include_script('markasjunk2.js');
 			$this->add_texts('localization', true);
 			$this->include_stylesheet($this->local_skin_path() .'/markasjunk2.css');
+			if ($rcmail->output->browser->ie && $rcmail->output->browser->ver == 6)
+				$this->include_stylesheet($this->local_skin_path() . '/ie6hacks.css');
 
 			if ($rcmail->action == 'show' && ($this->spam_mbox && $_SESSION['mbox'] != $this->spam_mbox)) {
 				$this->add_button(array('command' => 'plugin.markasjunk2.junk', 'type' => 'link', 'class' => 'buttonPas markasjunk2', 'classact' => 'button markasjunk2', 'classsel' => 'button markasjunk2Sel', 'title' => 'markasjunk2.buttonjunk', 'content' => ' '), 'toolbar');

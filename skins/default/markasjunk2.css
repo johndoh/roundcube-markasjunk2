@@ -2,45 +2,50 @@
  * MarkAsJunk2 plugin styles
  */
 
+#messagetoolbar a.markasjunk2,
+#messagetoolbar a.markasjunk2Sel,
+#messagetoolbar a.markasnotjunk2,
+#messagetoolbar a.markasnotjunk2Sel
+{
+  background-image: url(mail_toolbar.png);
+}
+
 #messagetoolbar a.markasjunk2
 {
-  background-image: url(mail_toolbar.gif);
   background-position: -32px 0;
 }
 
 #messagetoolbar a.markasjunk2Sel
 {
-  background-image: url(mail_toolbar.gif);
   background-position: -32px -32px;
 }
 
 #messagetoolbar a.markasnotjunk2
 {
-  background-image: url(mail_toolbar.gif);
+  background-position: 0 0;
 }
 
 #messagetoolbar a.markasnotjunk2Sel
 {
-  background-image: url(mail_toolbar.gif);
   background-position: 0 -32px;
 }
 
-#rcmContextMenu .markasjunk2 a
-{
-  background: url(junk.png) no-repeat 6px;
-}
-
-#rcmContextMenu .markasnotjunk2 a
-{
-  background: url(notjunk.png) no-repeat 6px;
-}
-
-#markmessagemenu a.markasjunk2
-{
-  background: url(junk.png) no-repeat 7px;
-}
-
+#rcmContextMenu .markasjunk2 a,
+#rcmContextMenu .markasnotjunk2 a,
+#markmessagemenu a.markasjunk2,
 #markmessagemenu a.markasnotjunk2
 {
-  background: url(notjunk.png) no-repeat 7px;
+  background-image: url(messageactions.png);
+}
+
+#rcmContextMenu .markasjunk2 a,
+#markmessagemenu a.markasjunk2
+{
+  background-position: 7px -17px;
+}
+
+#rcmContextMenu .markasnotjunk2 a,
+#markmessagemenu a.markasnotjunk2
+{
+  background-position: 7px 0;
 }
