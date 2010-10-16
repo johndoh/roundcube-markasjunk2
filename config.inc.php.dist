@@ -93,7 +93,7 @@ $rcmail_config['markasjunk2_email_ham'] = null;
 // Should the spam/ham message be sent as an attachment
 $rcmail_config['markasjunk2_email_attach'] = true;
 
-// The email subject
+// The email subject (when sending as attachment)
 // The subject can contain the following macros that will be expanded as follows:
 //      %u is replaced with the username (from the session info)
 //      %l is replaced with the local part of the username (if the username is an email address)

@@ -47,23 +47,24 @@ function do_emaillearn($uids, $spam)
 	$subject = str_replace('%l', $rcmail->user->get_username('local'), $subject);
 	$subject = str_replace('%d', $rcmail->user->get_username('domain'), $subject);
 
+	// compose headers array
+	$headers = array();
+	$headers['Date'] = date('r');
+	$headers['From'] = format_email_recipient($identity_arr['email'], $identity_arr['name']);
+	$headers['To'] = $mailto;
+	$headers['Subject'] = $subject;
+
 	foreach (explode(",", $uids) as $uid) {
 		$MESSAGE = new rcube_message($uid);
-		$tmpPath = tempnam($temp_dir, 'rcmMarkASJunk2');
-
-		// compose headers array
-		$headers = array();
-		$headers['Date'] = date('r');
-		$headers['From'] = format_email_recipient($identity_arr['email'], $identity_arr['name']);
-		$headers['To'] = $mailto;
-		$headers['Subject'] = $subject;
-
 		$MAIL_MIME = new Mail_mime($rcmail->config->header_delimiter());
+
 		if ($rcmail->config->get('markasjunk2_email_attach', false)) {
+			$tmpPath = tempnam($temp_dir, 'rcmMarkASJunk2');
+
 			// send mail as attachment
 			$MAIL_MIME->setTXTBody(($spam ? 'Spam' : 'Ham'). ' report from ' . $rcmail->config->get('product_name'), false, true);
 
-			$message = $rcmail->imap->get_raw_body($uid);
+			$raw_message = $rcmail->imap->get_raw_body($uid);
 			$subject = $MESSAGE->get_header('subject');
 
 			if(isset($subject) && $subject !="")
@@ -71,40 +72,43 @@ function do_emaillearn($uids, $spam)
 			else
 				$disp_name = "message_rfc822.eml";
 
-			if(file_put_contents($tmpPath, $message)){
+			if(file_put_contents($tmpPath, $raw_message)){
 				$MAIL_MIME->addAttachment($tmpPath, "message/rfc822", $disp_name, true,
-					$ctype == 'message/rfc822' ? $transfer_encoding : 'base64',
-					'attachment', $message_charset, '', '',
+					$transfer_encoding, 'attachment', $message_charset, '', '',
 					$rcmail->config->get('mime_param_folding') ? 'quoted-printable' : NULL,
 					$rcmail->config->get('mime_param_folding') == 2 ? 'quoted-printable' : NULL
 				);
 			}
+
+			// encoding settings for mail composing
+			$MAIL_MIME->setParam('text_encoding', $transfer_encoding);
+			$MAIL_MIME->setParam('html_encoding', 'quoted-printable');
+			$MAIL_MIME->setParam('head_encoding', 'quoted-printable');
+			$MAIL_MIME->setParam('head_charset', $message_charset);
+			$MAIL_MIME->setParam('html_charset', $message_charset);
+			$MAIL_MIME->setParam('text_charset', $message_charset);
+
+			// pass headers to message object
+			$MAIL_MIME->headers($headers);
 		}
 		else {
-			if ($MESSAGE->has_html_part()) {
-				$body = $MESSAGE->first_html_part();
-				$MAIL_MIME->setHTMLBody($body);
+			$params['include_bodies'] = true;
+			$params['decode_bodies'] = true;
+			$params['decode_headers'] = true;
+			$params['input'] = $rcmail->imap->get_raw_body($uid);
 
-				// add a plain text version of the e-mail as an alternative part.
-				$h2t = new html2text($body, false, true, 0);
-				$MAIL_MIME->setTXTBody($h2t->get_text());
-			}
-			else {
-				$body = $MESSAGE->first_text_part();
-				$MAIL_MIME->setTXTBody($body, false, true);
-			}
+			$MIME_DECODE = Mail_mimeDecode::decode($params);
+
+			$headers['Resent-From'] = $headers['From'];
+			$headers['Resent-Date'] = $headers['Date'];
+			$headers['Date'] = $MESSAGE->headers->date;
+			$headers['From'] = $MESSAGE->headers->from;
+			$headers['Subject'] = $MESSAGE->headers->subject;
+
+			$MAIL_MIME->headers($headers);
+
+			markasjunk2_email_learn_build_parts($MAIL_MIME, $MIME_DECODE);
 		}
-
-		// encoding settings for mail composing
-		$MAIL_MIME->setParam('text_encoding', $transfer_encoding);
-		$MAIL_MIME->setParam('html_encoding', 'quoted-printable');
-		$MAIL_MIME->setParam('head_encoding', 'quoted-printable');
-		$MAIL_MIME->setParam('head_charset', $message_charset);
-		$MAIL_MIME->setParam('html_charset', $message_charset);
-		$MAIL_MIME->setParam('text_charset', $message_charset);
-
-		// pass headers to message object
-		$MAIL_MIME->headers($headers);
 
 		rcmail_deliver_message($MAIL_MIME, $from, $mailto, $smtp_error, $body_file);
 
@@ -121,7 +125,51 @@ function do_emaillearn($uids, $spam)
 			if ($smtp_error['vars'])
 				write_log('markasjunk2', $smtp_error['vars']);
 		}
-    }
+	}
+}
+
+function markasjunk2_email_learn_build_parts(&$MAIL_MIME, $MIME_DECODE)
+{
+	foreach ($MIME_DECODE->parts as $part) {
+		if ($part->ctype_primary == 'multipart') {
+			markasjunk2_email_learn_build_parts($MAIL_MIME, $part);
+		}
+		elseif ($part->ctype_primary == 'text' && $part->ctype_secondary == 'html') {
+			$MAIL_MIME->setHTMLBody($part->body);
+		}
+		elseif ($part->ctype_primary == 'text' && $part->ctype_secondary == 'plain') {
+			$MAIL_MIME->setTXTBody($part->body);
+		}
+		elseif (!empty($part->headers['content-id'])) {
+			// covert CID to Mail_MIME format
+			$part->headers['content-id'] = str_replace('<', '', $part->headers['content-id']);
+			$part->headers['content-id'] = str_replace('>', '', $part->headers['content-id']);
+
+			if (empty($part->ctype_parameters['name']))
+				$part->ctype_parameters['name'] = $part->headers['content-id'];
+
+			$message_body = $MAIL_MIME->getHTMLBody();
+			$dispurl = 'cid:' . $part->headers['content-id'];
+			$message_body = str_replace($dispurl, $part->ctype_parameters['name'], $message_body);
+			$MAIL_MIME->setHTMLBody($message_body);
+
+			$MAIL_MIME->addHTMLImage($part->body,
+				$part->ctype_primary .'/'. $part->ctype_secondary,
+				$part->ctype_parameters['name'],
+				false,
+				$part->headers['content-id']
+			);
+		}
+		else {
+			$MAIL_MIME->addAttachment($part->body,
+				$part->ctype_primary .'/'. $part->ctype_secondary,
+				$part->ctype_parameters['name'],
+				false,
+				$part->headers['content-transfer-encoding'],
+				$part->disposition
+			);
+		}
+	}
 }
 
 ?>

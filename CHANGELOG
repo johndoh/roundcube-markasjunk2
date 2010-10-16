@@ -1,6 +1,10 @@
 Roundcube Webmail MarkAsJunk2
 =============================
 
+2010 10 16
+==========
+ * Imporve email_learn driver when not sending as attachemnt
+
 2010 08 07
 ==========
  * Use better command names
