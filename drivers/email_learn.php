@@ -5,6 +5,8 @@
  * @version 1.0
  * @author Philip Weir
  */
+include('mimeDecode.php');
+
 function learn_spam($uids)
 {
 	do_emaillearn($uids, true);
