@@ -5,8 +5,6 @@
  * @version 1.0
  * @author Philip Weir
  */
-include('mimeDecode.php');
-
 function learn_spam($uids)
 {
 	do_emaillearn($uids, true);
@@ -94,22 +92,71 @@ function do_emaillearn($uids, $spam)
 			$MAIL_MIME->headers($headers);
 		}
 		else {
-			$params['include_bodies'] = true;
-			$params['decode_bodies'] = true;
-			$params['decode_headers'] = true;
-			$params['input'] = $rcmail->imap->get_raw_body($uid);
-
-			$MIME_DECODE = Mail_mimeDecode::decode($params);
-
 			$headers['Resent-From'] = $headers['From'];
 			$headers['Resent-Date'] = $headers['Date'];
 			$headers['Date'] = $MESSAGE->headers->date;
 			$headers['From'] = $MESSAGE->headers->from;
 			$headers['Subject'] = $MESSAGE->headers->subject;
-
 			$MAIL_MIME->headers($headers);
 
-			markasjunk2_email_learn_build_parts($MAIL_MIME, $MIME_DECODE);
+			if ($MESSAGE->has_html_part()) {
+				$body = $MESSAGE->first_html_part();
+				$MAIL_MIME->setHTMLBody($body);
+			}
+
+			$body = $MESSAGE->first_text_part();
+			$MAIL_MIME->setTXTBody($body, false, true);
+
+			foreach ($MESSAGE->attachments as $attachment) {
+				$MAIL_MIME->addAttachment(
+					$MESSAGE->get_part_content($attachment->mime_id),
+					$attachment->mimetype,
+					$attachment->filename,
+					false,
+					$attachment-encoding,
+					$attachment->disposition
+				);
+			}
+
+			foreach ($MESSAGE->mime_parts as $attachment) {
+				if (!empty($attachment->content_id)) {
+					// covert CID to Mail_MIME format
+					$attachment->content_id = str_replace('<', '', $attachment->content_id);
+					$attachment->content_id = str_replace('>', '', $attachment->content_id);
+
+					if (empty($attachment->filename))
+						$attachment->filename = $attachment->content_id;
+
+					$message_body = $MAIL_MIME->getHTMLBody();
+					$dispurl = 'cid:' . $attachment->content_id;
+					$message_body = str_replace($dispurl, $attachment->filename, $message_body);
+					$MAIL_MIME->setHTMLBody($message_body);
+
+					$MAIL_MIME->addHTMLImage(
+						$MESSAGE->get_part_content($attachment->mime_id),
+						$attachment->mimetype,
+						$attachment->filename,
+						false
+					);
+				}
+			}
+
+			// encoding settings for mail composing
+			$MAIL_MIME->setParam('head_encoding', $MESSAGE->headers->encoding);
+			$MAIL_MIME->setParam('head_charset', $MESSAGE->headers->charset);
+
+			foreach ($MESSAGE->mime_parts as $mime_id => $part) {
+				$mimetype = strtolower($part->ctype_primary . '/' . $part->ctype_secondary);
+
+				if ($mimetype == 'text/html') {
+					$MAIL_MIME->setParam('text_encoding', $part->encoding);
+					$MAIL_MIME->setParam('html_charset', $part->charset);
+				}
+				else if ($mimetype == 'text/plain') {
+					$MAIL_MIME->setParam('html_encoding', $part->encoding);
+					$MAIL_MIME->setParam('text_charset', $part->charset);
+				}
+			}
 		}
 
 		rcmail_deliver_message($MAIL_MIME, $from, $mailto, $smtp_error, $body_file);
@@ -126,50 +173,6 @@ function do_emaillearn($uids, $spam)
 
 			if ($smtp_error['vars'])
 				write_log('markasjunk2', $smtp_error['vars']);
-		}
-	}
-}
-
-function markasjunk2_email_learn_build_parts(&$MAIL_MIME, $MIME_DECODE)
-{
-	foreach ($MIME_DECODE->parts as $part) {
-		if ($part->ctype_primary == 'multipart') {
-			markasjunk2_email_learn_build_parts($MAIL_MIME, $part);
-		}
-		elseif ($part->ctype_primary == 'text' && $part->ctype_secondary == 'html') {
-			$MAIL_MIME->setHTMLBody($part->body);
-		}
-		elseif ($part->ctype_primary == 'text' && $part->ctype_secondary == 'plain') {
-			$MAIL_MIME->setTXTBody($part->body);
-		}
-		elseif (!empty($part->headers['content-id'])) {
-			// covert CID to Mail_MIME format
-			$part->headers['content-id'] = str_replace('<', '', $part->headers['content-id']);
-			$part->headers['content-id'] = str_replace('>', '', $part->headers['content-id']);
-
-			if (empty($part->ctype_parameters['name']))
-				$part->ctype_parameters['name'] = $part->headers['content-id'];
-
-			$message_body = $MAIL_MIME->getHTMLBody();
-			$dispurl = 'cid:' . $part->headers['content-id'];
-			$message_body = str_replace($dispurl, $part->ctype_parameters['name'], $message_body);
-			$MAIL_MIME->setHTMLBody($message_body);
-
-			$MAIL_MIME->addHTMLImage($part->body,
-				$part->ctype_primary .'/'. $part->ctype_secondary,
-				$part->ctype_parameters['name'],
-				false,
-				$part->headers['content-id']
-			);
-		}
-		else {
-			$MAIL_MIME->addAttachment($part->body,
-				$part->ctype_primary .'/'. $part->ctype_secondary,
-				$part->ctype_parameters['name'],
-				false,
-				$part->headers['content-transfer-encoding'],
-				$part->disposition
-			);
 		}
 	}
 }
