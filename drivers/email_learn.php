@@ -76,7 +76,8 @@ function do_emaillearn($uids, $spam)
 				$MAIL_MIME->addAttachment($tmpPath, "message/rfc822", $disp_name, true,
 					$transfer_encoding, 'attachment', '', '', '',
 					$rcmail->config->get('mime_param_folding') ? 'quoted-printable' : NULL,
-					$rcmail->config->get('mime_param_folding') == 2 ? 'quoted-printable' : NULL
+					$rcmail->config->get('mime_param_folding') == 2 ? 'quoted-printable' : NULL,
+					'', RCMAIL_CHARSET
 				);
 			}
 
@@ -113,8 +114,9 @@ function do_emaillearn($uids, $spam)
 					$attachment->mimetype,
 					$attachment->filename,
 					false,
-					$attachment-encoding,
-					$attachment->disposition
+					$attachment->encoding,
+					$attachment->disposition,
+					'', $attachment->charset
 				);
 			}
 
