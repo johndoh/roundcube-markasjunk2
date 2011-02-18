@@ -2,8 +2,10 @@
 
 /**
  * Command line learn driver
- * @version 1.0
+ * @version 1.1
  * @author Philip Weir
+ * Patched by Julien Vehent to support DSPAM
+ * Enhanced support for DSPAM by Stevan Bajic <stevan@bajic.ch>
  */
 function learn_spam($uids)
 {
@@ -31,12 +33,26 @@ function do_salearn($uids, $spam)
 	$command = str_replace('%u', $_SESSION['username'], $command);
 	$command = str_replace('%l', $rcmail->user->get_username('local'), $command);
 	$command = str_replace('%d', $rcmail->user->get_username('domain'), $command);
+	if (preg_match('/%i/', $command)) {
+		$identity_arr = $rcmail->user->get_identity();
+		$command = str_replace('%i', $identity_arr['email'], $command);
+	}
 
 	foreach (explode(",", $uids) as $uid) {
-		$tmpfname = tempnam($temp_dir, 'rcmSALearn');
-		file_put_contents($tmpfname, $rcmail->imap->get_raw_body($uid));
+		// get DSPAM signature from header (if %xds macro is used)
+		if (preg_match('/%xds/', $command)) {
+			if (preg_match('/^X\-DSPAM\-Signature:\s+((\d+,)?([a-f\d]+))\s*$/im', $rcmail->imap->get_raw_headers($uid), $dspam_signature))
+				$tmp_command = str_replace('%xds', $dspam_signature[1], $command);
+			else
+				continue; // no DSPAM signature found in headers -> continue with next uid/message
+		}
 
-		$tmp_command = str_replace('%f', $tmpfname, $command);
+		if (preg_match('/%f/', $command)) {
+			$tmpfname = tempnam($temp_dir, 'rcmSALearn');
+			file_put_contents($tmpfname, $rcmail->imap->get_raw_body($uid));
+			$tmp_command = str_replace('%f', $tmpfname, $command);
+		}
+
 		exec($tmp_command, $output);
 
 		if ($rcmail->config->get('markasjunk2_debug')) {
@@ -44,7 +60,9 @@ function do_salearn($uids, $spam)
 			write_log('markasjunk2', $output);
 		}
 
-		unlink($tmpfname);
+		if (preg_match('/%f/', $command))
+			unlink($tmpfname);
+
 		$output = '';
 	}
 }

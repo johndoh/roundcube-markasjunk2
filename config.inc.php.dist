@@ -41,7 +41,9 @@ $rcmail_config['markasjunk2_mb_toolbar'] = true;
 //      %u is replaced with the username (from the session info)
 //      %l is replaced with the local part of the username (if the username is an email address)
 //      %d is replaced with the domain part of the username (if the username is an email address or default mail domain if not)
-//      %f is replaced with the path to the message file (THIS SHOULD ALWAYS BE PRESENT)
+//      %i is replaced with the email address from the user's default identity
+//      %xds is replaced with the X-DSPAM-Signature header
+//      %f is replaced with the path to the message file
 // If you do not want run the command set this to null
 $rcmail_config['markasjunk2_spam_cmd'] = null;
 
@@ -50,7 +52,9 @@ $rcmail_config['markasjunk2_spam_cmd'] = null;
 //      %u is replaced with the username (from the session info)
 //      %l is replaced with the local part of the username (if the username is an email address)
 //      %d is replaced with the domain part of the username (if the username is an email address or default mail domain if not)
-//      %f is replaced with the path to the message file (THIS SHOULD ALWAYS BE PRESENT)
+//      %i is replaced with the email address from the user's default identity
+//      %xds is replaced with the X-DSPAM-Signature header
+//      %f is replaced with the path to the message file
 // If you do not want run the command set this to null
 $rcmail_config['markasjunk2_ham_cmd'] = null;
 
