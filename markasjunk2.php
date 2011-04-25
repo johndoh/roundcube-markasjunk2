@@ -42,7 +42,7 @@ class markasjunk2 extends rcube_plugin
 			if ($_SESSION['mbox'] == $this->spam_mbox)
 				$display_junk = 'display: none;';
 			else
-				 $display_not_junk = 'display: none;';
+				$display_not_junk = 'display: none;';
 
 			if ($rcmail->action == 'show') {
 				$this->add_button(array('command' => 'plugin.markasjunk2.junk', 'type' => 'link', 'class' => 'buttonPas markasjunk2', 'classact' => 'button markasjunk2', 'classsel' => 'button markasjunk2Sel', 'title' => 'markasjunk2.buttonjunk', 'content' => ' ', 'style' => $display_junk), 'toolbar');
