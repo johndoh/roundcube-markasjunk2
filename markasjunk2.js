@@ -106,18 +106,9 @@ function rcmail_markasjunk2_init() {
 	if (window.rcm_contextmenu_register_command) {
 		rcm_contextmenu_register_command('markasjunk2', 'rcmail_markasjunk2', '&nbsp;&nbsp;' + rcmail.gettext('markasjunk2.markasjunk'), 'reply', null, true);
 		rcm_contextmenu_register_command('markasnotjunk2', 'rcmail_markasjunk2_notjunk', '&nbsp;&nbsp;' + rcmail.gettext('markasjunk2.markasnotjunk'), 'reply', null, true);
-
-		if (rcmail.env.junk_mailbox && rcmail.env.mailbox == rcmail.env.junk_mailbox) {
-			$('#rcmContextMenu li.markasjunk2').hide();
-			$('#rcmContextMenu li.markasnotjunk2').show();
-		}
-		else {
-			$('#rcmContextMenu li.markasjunk2').show();
-			$('#rcmContextMenu li.markasnotjunk2').hide();
-		}
-
 		$('#rcmContextMenu li.unflagged').removeClass('separator_below');
 		$('#rcmContextMenu li.reply').addClass('separator_above');
+		rcmail_markasjunk2_update();
 	}
 }
 
