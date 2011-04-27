@@ -1,14 +1,14 @@
 <?php
-/* Author: Marcin Zawadzki */
+/* Author: DZIOBAK */
 
 $labels = array();
 $labels['buttonjunk'] = 'Oznacz jako Spam';
 $labels['markasjunk'] = 'Jako Spam';
-$labels['buttonnotjunk'] = 'Ta wiadomoœæ nie jest Spamem';
+$labels['buttonnotjunk'] = 'Ta wiadomość nie jest Spamem';
 $labels['markasnotjunk'] = 'Nie Spam';
 
 $messages = array();
-$messages['reportedasjunk'] = 'Pomyœlnie oznaczono jako Spam';
-$messages['reportedasnotjunk'] = 'Wiadomoœæ przeniesiona do odebranych';
+$messages['reportedasjunk'] = 'Pomyślnie oznaczono jako Spam';
+$messages['reportedasnotjunk'] = 'Wiadomość przeniesiona do Odebranych';
 
 ?>
