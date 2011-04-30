@@ -103,8 +103,9 @@ class markasjunk2 extends rcube_plugin
 							if ($saved) {
 								$this->api->output->command('rcmail_markasjunk2_move', null, $uid);
 
-								$a_messageid = $message->headers->messageID;
-								$orig_uid = $imap->get_uid($a_messageid[0], $dest_mbox);
+								// Assume the one we just added has the highest UID
+								$uids = $imap->conn->fetchUIDs($imap->mod_mailbox($dest_mbox));
+								$orig_uid = end($uids);
 
 								$this->_ham($orig_uid, $dest_mbox);
 							}
@@ -148,13 +149,13 @@ class markasjunk2 extends rcube_plugin
 		$imap = $rcmail->imap;
 
 		if ($rcmail->config->get('markasjunk2_unread_ham', false))
-			$imap->unset_flag($uids, 'SEEN', $mbox_nam);
+			$imap->unset_flag($uids, 'SEEN', $mbox_name);
 
 		if ($rcmail->config->get('markasjunk2_spam_flag', false))
-			$imap->unset_flag($uids, $this->spam_flag, $mbox_nam);
+			$imap->unset_flag($uids, $this->spam_flag, $mbox_name);
 
 		if ($rcmail->config->get('markasjunk2_ham_flag', false))
-			$imap->set_flag($uids, $this->ham_flag, $mbox_nam);
+			$imap->set_flag($uids, $this->ham_flag, $mbox_name);
 
 		if ($rcmail->config->get('markasjunk2_learning_driver', false))
 			$this->_call_driver($uids, false);
