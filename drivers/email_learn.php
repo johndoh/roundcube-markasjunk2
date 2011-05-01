@@ -56,6 +56,11 @@ function do_emaillearn($uids, $spam)
 
 	foreach (explode(",", $uids) as $uid) {
 		$MESSAGE = new rcube_message($uid);
+
+		// set message charset as default
+		if (!empty($MESSAGE->headers->charset))
+			$rcmail->imap->set_charset($MESSAGE->headers->charset);
+
 		$MAIL_MIME = new Mail_mime($rcmail->config->header_delimiter());
 
 		if ($rcmail->config->get('markasjunk2_email_attach', false)) {
@@ -67,12 +72,12 @@ function do_emaillearn($uids, $spam)
 			$raw_message = $rcmail->imap->get_raw_body($uid);
 			$subject = $MESSAGE->get_header('subject');
 
-			if(isset($subject) && $subject !="")
+			if (isset($subject) && $subject !="")
 				$disp_name = $subject . ".eml";
 			else
 				$disp_name = "message_rfc822.eml";
 
-			if(file_put_contents($tmpPath, $raw_message)){
+			if (file_put_contents($tmpPath, $raw_message)) {
 				$MAIL_MIME->addAttachment($tmpPath, "message/rfc822", $disp_name, true,
 					$transfer_encoding, 'attachment', '', '', '',
 					$rcmail->config->get('mime_param_folding') ? 'quoted-printable' : NULL,
