@@ -104,7 +104,7 @@ class markasjunk2 extends rcube_plugin
 								$this->api->output->command('rcmail_markasjunk2_move', null, $uid);
 
 								// Assume the one we just added has the highest UID
-								$uids = $imap->conn->fetchUIDs($imap->mod_mailbox($dest_mbox));
+								$uids = $imap->conn->fetchUIDs($dest_mbox);
 								$orig_uid = end($uids);
 
 								$this->_ham($orig_uid, $dest_mbox);
