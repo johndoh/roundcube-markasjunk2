@@ -108,7 +108,6 @@ function rcmail_markasjunk2_init() {
 		rcm_contextmenu_register_command('markasnotjunk2', 'rcmail_markasjunk2_notjunk', '&nbsp;&nbsp;' + rcmail.gettext('markasjunk2.markasnotjunk'), 'reply', null, true);
 		$('#rcmContextMenu li.unflagged').removeClass('separator_below');
 		$('#rcmContextMenu li.reply').addClass('separator_above');
-		rcmail_markasjunk2_update();
 	}
 }
 
