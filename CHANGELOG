@@ -1,6 +1,13 @@
 Roundcube Webmail MarkAsJunk2
 =============================
 
+2011 07 02
+==========
+ * Remove the need to always move the message
+ * Remove the requirement to have a spam mailbox set
+ * Allow both buttons to be shown at once
+ * Execute driver before standard actions so standard actions can be overridden
+
 2010 10 16
 ==========
  * Imporve email_learn driver when not sending as attachemnt

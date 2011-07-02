@@ -9,6 +9,6 @@ $labels['markasnotjunk'] = 'Not spam';
 
 $messages = array();
 $messages['reportedasjunk'] = 'Successfully reported as spam';
-$messages['reportedasnotjunk'] = 'Message moved to Inbox';
+$messages['reportedasnotjunk'] = 'Successfully reported as not spam';
 
 ?>

@@ -8,7 +8,7 @@
  * or to move messages in the Junk folder to the inbox - moving only the
  * attachment if it is a Spamassassin spam report email
  *
- * @version 1.2
+ * @version 1.3
  * @author Philip Weir
  * Based on the Markasjunk plugin by Thomas Bruederli
  */
@@ -31,17 +31,18 @@ class markasjunk2 extends rcube_plugin
 		$this->spam_mbox = $rcmail->config->get('junk_mbox', null);
 		$this->toolbar = $rcmail->config->get('markasjunk2_mb_toolbar', true);
 
-		if ($this->spam_mbox && ($rcmail->action == '' || $rcmail->action == 'show')) {
+		if ($rcmail->action == '' || $rcmail->action == 'show') {
 			$this->include_script('markasjunk2.js');
 			$this->add_texts('localization', true);
 			$this->include_stylesheet($this->local_skin_path() .'/markasjunk2.css');
 			if ($rcmail->output->browser->ie && $rcmail->output->browser->ver == 6)
 				$this->include_stylesheet($this->local_skin_path() . '/ie6hacks.css');
 
+			$mb_override = $rcmail->config->get('markasjunk2_mb_override', false);
 			$display_junk = $display_not_junk = '';
 			if ($_SESSION['mbox'] == $this->spam_mbox)
 				$display_junk = 'display: none;';
-			else
+			elseif (!$mb_override)
 				$display_not_junk = 'display: none;';
 
 			if ($rcmail->action == 'show') {
@@ -58,6 +59,8 @@ class markasjunk2 extends rcube_plugin
 				$this->api->add_content(html::tag('li', array('style' => $display_junk), $markjunk), 'markmenu');
 				$this->api->add_content(html::tag('li', array('style' => $display_not_junk), $marknotjunk), 'markmenu');
 			}
+
+			$this->api->output->set_env('markasjunk2_override', $mb_override);
 		}
 	}
 
@@ -69,14 +72,9 @@ class markasjunk2 extends rcube_plugin
 		$uids = get_input_value('_uid', RCUBE_INPUT_POST);
 		$mbox = get_input_value('_mbox', RCUBE_INPUT_POST);
 
-		if (($dest_mbox = $this->spam_mbox) && $mbox != $dest_mbox) {
-			$this->_spam($uids);
-
-			$this->api->output->command('rcmail_markasjunk2_move', $dest_mbox, $uids);
-
-			$this->api->output->command('display_message', $this->gettext('reportedasjunk'), 'confirmation');
-			$this->api->output->send();
-		}
+		$this->_spam($uids, $mbox, $this->spam_mbox);
+		$this->api->output->command('display_message', $this->gettext('reportedasjunk'), 'confirmation');
+		$this->api->output->send();
 	}
 
 	function mark_notjunk()
@@ -89,46 +87,45 @@ class markasjunk2 extends rcube_plugin
 		$uids = get_input_value('_uid', RCUBE_INPUT_POST);
 		$mbox = get_input_value('_mbox', RCUBE_INPUT_POST);
 
-		if (($dest_mbox = $this->ham_mbox) && $mbox != $dest_mbox) {
-			foreach (explode(",", $uids) as $uid) {
-				$saved = FALSE;
-				$message = new rcube_message($uid);
+		foreach (explode(",", $uids) as $uid) {
+			$saved = FALSE;
+			$message = new rcube_message($uid);
 
-				if ($rcmail->config->get('markasjunk2_detach_ham', false) && sizeof($message->attachments)) {
-					foreach ($message->attachments as $part) {
-						if ($part->ctype_primary == 'message' && $part->ctype_secondary == 'rfc822') {
-							$orig_message_raw = $imap->get_message_part($message->uid, $part->mime_id, $part);
-							$saved = $imap->save_message($dest_mbox, $orig_message_raw);
+			if ($rcmail->config->get('markasjunk2_detach_ham', false) && sizeof($message->attachments)) {
+				foreach ($message->attachments as $part) {
+					if ($part->ctype_primary == 'message' && $part->ctype_secondary == 'rfc822') {
+						$orig_message_raw = $imap->get_message_part($message->uid, $part->mime_id, $part);
+						$saved = $imap->save_message($dest_mbox, $orig_message_raw);
 
-							if ($saved) {
-								$this->api->output->command('rcmail_markasjunk2_move', null, $uid);
+						if ($saved) {
+							$this->api->output->command('rcmail_markasjunk2_move', null, $uid);
 
-								// Assume the one we just added has the highest UID
-								$uids = $imap->conn->fetchUIDs($dest_mbox);
-								$orig_uid = end($uids);
+							// Assume the one we just added has the highest UID
+							$uids = $imap->conn->fetchUIDs($dest_mbox);
+							$orig_uid = end($uids);
 
-								$this->_ham($orig_uid, $dest_mbox);
-							}
+							$this->_ham($orig_uid, $this->ham_mbox, null);
 						}
 					}
 				}
-
-				// if not SA report with attachment then move the whole message
-				if (!$saved) {
-					$this->_ham($uid);
-					$this->api->output->command('rcmail_markasjunk2_move', $dest_mbox, $uid);
-				}
 			}
 
-			$this->api->output->command('display_message', $this->gettext('reportedasnotjunk'), 'confirmation');
-			$this->api->output->send();
+			// if not SA report with attachment then move the whole message
+			if (!$saved)
+				$this->_ham($uid, $mbox, $this->ham_mbox);
 		}
+
+		$this->api->output->command('display_message', $this->gettext('reportedasnotjunk'), 'confirmation');
+		$this->api->output->send();
 	}
 
-	private function _spam($uids, $mbox_name = NULL)
+	private function _spam($uids, $mbox_name = NULL, $dest_mbox = NULL)
 	{
 		$rcmail = rcmail::get_instance();
 		$imap = $rcmail->imap;
+
+		if ($rcmail->config->get('markasjunk2_learning_driver', false))
+			$this->_call_driver($uids, true);
 
 		if ($rcmail->config->get('markasjunk2_read_spam', false))
 			$imap->set_flag($uids, 'SEEN', $mbox_name);
@@ -139,14 +136,19 @@ class markasjunk2 extends rcube_plugin
 		if ($rcmail->config->get('markasjunk2_ham_flag', false))
 			$imap->unset_flag($uids, $this->ham_flag, $mbox_name);
 
-		if ($rcmail->config->get('markasjunk2_learning_driver', false))
-			$this->_call_driver($uids, true);
+		if ($rcmail->config->get('markasjunk2_move_spam', true) && $dest_mbox && $mbox_name != $dest_mbox)
+			$this->api->output->command('rcmail_markasjunk2_move', $dest_mbox, $uids);
+		else
+			$this->api->output->command('command', 'list', $mbox_name);
 	}
 
-	private function _ham($uids, $mbox_name = NULL)
+	private function _ham($uids, $mbox_name = NULL, $dest_mbox = NULL)
 	{
 		$rcmail = rcmail::get_instance();
 		$imap = $rcmail->imap;
+
+		if ($rcmail->config->get('markasjunk2_learning_driver', false))
+			$this->_call_driver($uids, false);
 
 		if ($rcmail->config->get('markasjunk2_unread_ham', false))
 			$imap->unset_flag($uids, 'SEEN', $mbox_name);
@@ -157,8 +159,10 @@ class markasjunk2 extends rcube_plugin
 		if ($rcmail->config->get('markasjunk2_ham_flag', false))
 			$imap->set_flag($uids, $this->ham_flag, $mbox_name);
 
-		if ($rcmail->config->get('markasjunk2_learning_driver', false))
-			$this->_call_driver($uids, false);
+		if ($rcmail->config->get('markasjunk2_move_ham', true) && $dest_mbox && $mbox_name != $dest_mbox)
+			$this->api->output->command('rcmail_markasjunk2_move', $dest_mbox, $uids);
+		else
+			$this->api->output->command('command', 'list', $mbox_name);
 	}
 
 	private function _call_driver($uids, $spam)

@@ -15,6 +15,12 @@ $rcmail_config['markasjunk2_read_spam'] = true;
 // Mark messages as unread when reporting them as ham
 $rcmail_config['markasjunk2_unread_ham'] = false;
 
+// Move messages to junk folder when reporting them as spam
+$rcmail_config['markasjunk2_move_spam'] = true;
+
+// Move messages to inbox folder when reporting them as ham
+$rcmail_config['markasjunk2_move_ham'] = true;
+
 // When reporting a message as ham, if the orginial message is attached (like with SpamAssassin reports),
 // detach the orginial message and move that to the INBOX, deleteing the spam report
 $rcmail_config['markasjunk2_detach_ham'] = true;
@@ -33,6 +39,9 @@ $rcmail_config['markasjunk2_debug'] = false;
 // Show icon on mailbox toolbar
 // The mark as spam/ham icon can either be displayed on the toolbar or as part of the mark messages menu
 $rcmail_config['markasjunk2_mb_toolbar'] = true;
+
+// Always show both icons no matter what folder the user is in
+$rcmail_config['markasjunk2_mb_override'] = false;
 
 // cmd_learn Driver options
 // ------------------------

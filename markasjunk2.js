@@ -8,7 +8,7 @@ if (window.rcmail) {
 		rcmail.register_command('plugin.markasjunk2.junk', rcmail_markasjunk2, rcmail.env.uid);
 		rcmail.register_command('plugin.markasjunk2.not_junk', rcmail_markasjunk2_notjunk, rcmail.env.uid);
 
-		if (rcmail.message_list && rcmail.env.junk_mailbox) {
+		if (rcmail.message_list) {
 			rcmail.message_list.addEventListener('select', function(list) {
 				rcmail.enable_command('plugin.markasjunk2.junk', list.get_selection().length > 0);
 				rcmail.enable_command('plugin.markasjunk2.not_junk', list.get_selection().length > 0);
@@ -120,13 +120,13 @@ function rcmail_markasjunk2_update() {
 		hamobj = hamobj.parent();
 	}
 
-	if (rcmail.env.junk_mailbox && rcmail.env.mailbox != rcmail.env.junk_mailbox) {
+	if (!rcmail.env.markasjunk2_override && rcmail.env.junk_mailbox && rcmail.env.mailbox != rcmail.env.junk_mailbox) {
 		$('#rcmContextMenu li.markasjunk2').show();
 		$('#rcmContextMenu li.markasnotjunk2').hide();
 		spamobj.show();
 		hamobj.hide();
 	}
-	else {
+	else if (!rcmail.env.markasjunk2_override) {
 		$('#rcmContextMenu li.markasjunk2').hide();
 		$('#rcmContextMenu li.markasnotjunk2').show();
 		spamobj.hide();
