@@ -73,7 +73,10 @@ rcmail.rcmail_markasjunk2_move = function(mbox, uid) {
 	var prev_sel = null;
 	var a_uids = uid.split(",");
 
-	if (rcmail.message_list && a_uids.length == 1 && !rcmail.message_list.in_selection(a_uids[0]) && !rcmail.env.threading) {
+	if (rcmail.message_list && a_uids.length == 1 && !rcmail.message_list.rows[a_uids[0]]) {
+		rcmail.env.uid = a_uids[0];
+	}
+	else if (rcmail.message_list && a_uids.length == 1 && !rcmail.message_list.in_selection(a_uids[0]) && !rcmail.env.threading) {
 		rcmail.env.uid = a_uids[0];
 		rcmail.message_list.remove_row(rcmail.env.uid, false);
 	}

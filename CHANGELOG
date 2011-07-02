@@ -7,6 +7,7 @@ Roundcube Webmail MarkAsJunk2
  * Remove the requirement to have a spam mailbox set
  * Allow both buttons to be shown at once
  * Execute driver before standard actions so standard actions can be overridden
+ * Move SA detach code to driver
 
 2010 10 16
 ==========

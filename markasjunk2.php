@@ -87,34 +87,7 @@ class markasjunk2 extends rcube_plugin
 		$uids = get_input_value('_uid', RCUBE_INPUT_POST);
 		$mbox = get_input_value('_mbox', RCUBE_INPUT_POST);
 
-		foreach (explode(",", $uids) as $uid) {
-			$saved = FALSE;
-			$message = new rcube_message($uid);
-
-			if ($rcmail->config->get('markasjunk2_detach_ham', false) && sizeof($message->attachments)) {
-				foreach ($message->attachments as $part) {
-					if ($part->ctype_primary == 'message' && $part->ctype_secondary == 'rfc822') {
-						$orig_message_raw = $imap->get_message_part($message->uid, $part->mime_id, $part);
-						$saved = $imap->save_message($dest_mbox, $orig_message_raw);
-
-						if ($saved) {
-							$this->api->output->command('rcmail_markasjunk2_move', null, $uid);
-
-							// Assume the one we just added has the highest UID
-							$uids = $imap->conn->fetchUIDs($dest_mbox);
-							$orig_uid = end($uids);
-
-							$this->_ham($orig_uid, $this->ham_mbox, null);
-						}
-					}
-				}
-			}
-
-			// if not SA report with attachment then move the whole message
-			if (!$saved)
-				$this->_ham($uid, $mbox, $this->ham_mbox);
-		}
-
+		$this->_ham($uids, $mbox, $this->ham_mbox);
 		$this->api->output->command('display_message', $this->gettext('reportedasnotjunk'), 'confirmation');
 		$this->api->output->send();
 	}
@@ -165,7 +138,7 @@ class markasjunk2 extends rcube_plugin
 			$this->api->output->command('command', 'list', $mbox_name);
 	}
 
-	private function _call_driver($uids, $spam)
+	private function _call_driver(&$uids, $spam)
 	{
 		$driver = $this->home.'/drivers/'.rcmail::get_instance()->config->get('markasjunk2_learning_driver', 'cmd_learn').'.php';
 

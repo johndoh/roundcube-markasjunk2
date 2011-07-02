@@ -21,10 +21,6 @@ $rcmail_config['markasjunk2_move_spam'] = true;
 // Move messages to inbox folder when reporting them as ham
 $rcmail_config['markasjunk2_move_ham'] = true;
 
-// When reporting a message as ham, if the orginial message is attached (like with SpamAssassin reports),
-// detach the orginial message and move that to the INBOX, deleteing the spam report
-$rcmail_config['markasjunk2_detach_ham'] = true;
-
 // Add flag to messages marked as spam (flag will be removed when marking as ham)
 // If you do not want to use message flags set this to null
 $rcmail_config['markasjunk2_spam_flag'] = 'Junk';
