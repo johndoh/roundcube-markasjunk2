@@ -38,7 +38,7 @@ class markasjunk2 extends rcube_plugin
 			if ($rcmail->output->browser->ie && $rcmail->output->browser->ver == 6)
 				$this->include_stylesheet($this->local_skin_path() . '/ie6hacks.css');
 
-			$mb_override = $rcmail->config->get('markasjunk2_mb_override', false);
+			$mb_override = ($this->spam_mbox) ? false : true;
 			$display_junk = $display_not_junk = '';
 			if ($_SESSION['mbox'] == $this->spam_mbox)
 				$display_junk = 'display: none;';
