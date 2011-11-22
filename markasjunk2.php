@@ -8,7 +8,7 @@
  * or to move messages in the Junk folder to the inbox - moving only the
  * attachment if it is a Spamassassin spam report email
  *
- * @version 1.3
+ * @version @package_version@
  * @author Philip Weir
  * Based on the Markasjunk plugin by Thomas Bruederli
  */
