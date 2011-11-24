@@ -2,7 +2,7 @@
 
 /**
  * SpamAssassin Blacklist driver
- * @version 1.0
+ * @version 1.1
  * @requires SAUserPrefs plugin
  * @author Philip Weir
  */
@@ -19,10 +19,10 @@ function learn_ham($uids)
 function do_list($uids, $spam)
 {
 	$rcmail = rcmail::get_instance();
-	if (is_file($rcmail->config->get('addresssync_sauserprefs_config')) && !$rcmail->config->load_from_file($rcmail->config->get('addresssync_sauserprefs_config'))) {
+	if (is_file($rcmail->config->get('markasjunk2_sauserprefs_config')) && !$rcmail->config->load_from_file($rcmail->config->get('markasjunk2_sauserprefs_config'))) {
 		raise_error(array('code' => 527, 'type' => 'php',
 			'file' => __FILE__, 'line' => __LINE__,
-			'message' => "Failed to load config from " . $rcmail->config->get('addresssync_sauserprefs_config')), true, false);
+			'message' => "Failed to load config from " . $rcmail->config->get('markasjunk2_sauserprefs_config')), true, false);
 
 		return false;
 	}
