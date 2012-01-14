@@ -7,6 +7,7 @@
 #messagetoolbar a.markasnotjunk2,
 #messagetoolbar a.markasnotjunk2Sel
 {
+  text-indent: -1000px;
   background-image: url(mail_toolbar.png);
 }
 
