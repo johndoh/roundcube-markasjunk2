@@ -81,8 +81,6 @@ class markasjunk2 extends rcube_plugin
 	{
 		$this->add_texts('localization');
 		$this->_set_flags();
-		$rcmail = rcmail::get_instance();
-		$imap = $rcmail->imap;
 
 		$uids = get_input_value('_uid', RCUBE_INPUT_POST);
 		$mbox = get_input_value('_mbox', RCUBE_INPUT_POST);
@@ -95,19 +93,19 @@ class markasjunk2 extends rcube_plugin
 	private function _spam($uids, $mbox_name = NULL, $dest_mbox = NULL)
 	{
 		$rcmail = rcmail::get_instance();
-		$imap = $rcmail->imap;
+		$storage = $rcmail->storage;
 
 		if ($rcmail->config->get('markasjunk2_learning_driver', false))
 			$this->_call_driver($uids, true);
 
 		if ($rcmail->config->get('markasjunk2_read_spam', false))
-			$imap->set_flag($uids, 'SEEN', $mbox_name);
+			$storage->set_flag($uids, 'SEEN', $mbox_name);
 
 		if ($rcmail->config->get('markasjunk2_spam_flag', false))
-			$imap->set_flag($uids, $this->spam_flag, $mbox_name);
+			$storage->set_flag($uids, $this->spam_flag, $mbox_name);
 
 		if ($rcmail->config->get('markasjunk2_ham_flag', false))
-			$imap->unset_flag($uids, $this->ham_flag, $mbox_name);
+			$storage->unset_flag($uids, $this->ham_flag, $mbox_name);
 
 		if ($rcmail->config->get('markasjunk2_move_spam', true) && $dest_mbox && $mbox_name != $dest_mbox)
 			$this->api->output->command('rcmail_markasjunk2_move', $dest_mbox, $uids);
@@ -118,19 +116,19 @@ class markasjunk2 extends rcube_plugin
 	private function _ham($uids, $mbox_name = NULL, $dest_mbox = NULL)
 	{
 		$rcmail = rcmail::get_instance();
-		$imap = $rcmail->imap;
+		$storage = $rcmail->storage;
 
 		if ($rcmail->config->get('markasjunk2_learning_driver', false))
 			$this->_call_driver($uids, false);
 
 		if ($rcmail->config->get('markasjunk2_unread_ham', false))
-			$imap->unset_flag($uids, 'SEEN', $mbox_name);
+			$storage->unset_flag($uids, 'SEEN', $mbox_name);
 
 		if ($rcmail->config->get('markasjunk2_spam_flag', false))
-			$imap->unset_flag($uids, $this->spam_flag, $mbox_name);
+			$storage->unset_flag($uids, $this->spam_flag, $mbox_name);
 
 		if ($rcmail->config->get('markasjunk2_ham_flag', false))
-			$imap->set_flag($uids, $this->ham_flag, $mbox_name);
+			$storage->set_flag($uids, $this->ham_flag, $mbox_name);
 
 		if ($rcmail->config->get('markasjunk2_move_ham', true) && $dest_mbox && $mbox_name != $dest_mbox)
 			$this->api->output->command('rcmail_markasjunk2_move', $dest_mbox, $uids);
@@ -177,17 +175,17 @@ class markasjunk2 extends rcube_plugin
 		$rcmail = rcmail::get_instance();
 
 		if ($rcmail->config->get('markasjunk2_spam_flag', false)) {
-			if ($flag = array_search($rcmail->config->get('markasjunk2_spam_flag'), $rcmail->imap->conn->flags))
+			if ($flag = array_search($rcmail->config->get('markasjunk2_spam_flag'), $rcmail->storage->conn->flags))
 				$this->spam_flag = $flag;
 			else
-				$rcmail->imap->conn->flags[$this->spam_flag] = $rcmail->config->get('markasjunk2_spam_flag');
+				$rcmail->storage->conn->flags[$this->spam_flag] = $rcmail->config->get('markasjunk2_spam_flag');
 		}
 
 		if ($rcmail->config->get('markasjunk2_ham_flag', false)) {
-			if ($flag = array_search($rcmail->config->get('markasjunk2_ham_flag'), $rcmail->imap->conn->flags))
+			if ($flag = array_search($rcmail->config->get('markasjunk2_ham_flag'), $rcmail->storage->conn->flags))
 				$this->ham_flag = $flag;
 			else
-				$rcmail->imap->conn->flags[$this->ham_flag] = $rcmail->config->get('markasjunk2_ham_flag');
+				$rcmail->storage->conn->flags[$this->ham_flag] = $rcmail->config->get('markasjunk2_ham_flag');
 		}
 	}
 }
