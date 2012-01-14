@@ -27,14 +27,9 @@ function learn_ham(&$uids)
 					$orig_message_raw = $imap->get_message_part($message->uid, $part->mime_id, $part);
 					$saved = $imap->save_message($mbox, $orig_message_raw);
 
-					if ($saved) {
+					if ($saved !== false) {
 						$rcmail->output->command('rcmail_markasjunk2_move', null, $uid);
-
-						// Assume the one we just added has the highest UID
-						$uids = $imap->conn->fetchUIDs($mbox);
-						$orig_uid = end($uids);
-
-						array_push($new_uids, $orig_uid);
+						array_push($new_uids, $saved);
 					}
 				}
 			}
