@@ -1,0 +1,51 @@
+/**
+ * MarkAsJunk2 plugin styles
+ */
+
+#messagetoolbar a.markasjunk2,
+#messagetoolbar a.markasjunk2Sel,
+#messagetoolbar a.markasnotjunk2,
+#messagetoolbar a.markasnotjunk2Sel
+{
+  background-image: url(mail_toolbar.png);
+}
+
+#messagetoolbar a.markasjunk2,
+#messagetoolbar a.markasjunk2Sel
+{
+  background-position: center -14px;
+}
+
+#messagetoolbar a.markasnotjunk2,
+#messagetoolbar a.markasnotjunk2Sel
+{
+  background-position: center -61px;
+}
+
+#rcmContextMenu .markasjunk2 a span,
+#rcmContextMenu .markasnotjunk2 a span,
+#markmessagemenu a.markasjunk2 span,
+#markmessagemenu a.markasnotjunk2 span
+{
+  background-image: url(messageactions.png);
+}
+
+#markmessagemenu a.markasjunk2 span
+{
+  background-position: 2px -15px;
+}
+
+#markmessagemenu a.markasnotjunk2 span
+{
+  background-position: 2px 5px;
+}
+
+#rcmContextMenu .markasjunk2 a span
+{
+  background-position: 5px -18px;
+}
+
+#rcmContextMenu .markasnotjunk2 a span
+{
+  background-position: 5px 0;
+}
