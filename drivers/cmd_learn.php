@@ -2,7 +2,7 @@
 
 /**
  * Command line learn driver
- * @version 1.1
+ * @version 1.2
  * @author Philip Weir
  * Patched by Julien Vehent to support DSPAM
  * Enhanced support for DSPAM by Stevan Bajic <stevan@bajic.ch>
@@ -41,7 +41,7 @@ function do_salearn($uids, $spam)
 	foreach (explode(",", $uids) as $uid) {
 		// get DSPAM signature from header (if %xds macro is used)
 		if (preg_match('/%xds/', $command)) {
-			if (preg_match('/^X\-DSPAM\-Signature:\s+((\d+,)?([a-f\d]+))\s*$/im', $rcmail->imap->get_raw_headers($uid), $dspam_signature))
+			if (preg_match('/^X\-DSPAM\-Signature:\s+((\d+,)?([a-f\d]+))\s*$/im', $rcmail->storage->get_raw_headers($uid), $dspam_signature))
 				$tmp_command = str_replace('%xds', $dspam_signature[1], $command);
 			else
 				continue; // no DSPAM signature found in headers -> continue with next uid/message
@@ -49,7 +49,7 @@ function do_salearn($uids, $spam)
 
 		if (preg_match('/%f/', $command)) {
 			$tmpfname = tempnam($temp_dir, 'rcmSALearn');
-			file_put_contents($tmpfname, $rcmail->imap->get_raw_body($uid));
+			file_put_contents($tmpfname, $rcmail->storage->get_raw_body($uid));
 			$tmp_command = str_replace('%f', $tmpfname, $command);
 		}
 

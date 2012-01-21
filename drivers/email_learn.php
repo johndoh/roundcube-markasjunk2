@@ -2,7 +2,7 @@
 
 /**
  * Email learn driver
- * @version 1.0
+ * @version 1.1
  * @author Philip Weir
  */
 function learn_spam($uids)
@@ -59,7 +59,7 @@ function do_emaillearn($uids, $spam)
 
 		// set message charset as default
 		if (!empty($MESSAGE->headers->charset))
-			$rcmail->imap->set_charset($MESSAGE->headers->charset);
+			$rcmail->storage->set_charset($MESSAGE->headers->charset);
 
 		$MAIL_MIME = new Mail_mime($rcmail->config->header_delimiter());
 
@@ -69,7 +69,7 @@ function do_emaillearn($uids, $spam)
 			// send mail as attachment
 			$MAIL_MIME->setTXTBody(($spam ? 'Spam' : 'Ham'). ' report from ' . $rcmail->config->get('product_name'), false, true);
 
-			$raw_message = $rcmail->imap->get_raw_body($uid);
+			$raw_message = $rcmail->storage->get_raw_body($uid);
 			$subject = $MESSAGE->get_header('subject');
 
 			if (isset($subject) && $subject !="")

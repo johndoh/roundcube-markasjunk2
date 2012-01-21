@@ -2,7 +2,7 @@
 
 /**
  * Copy spam/ham messages to a direcotry for learning later
- * @version 1.0
+ * @version 1.1
  * @author Philip Weir
  */
 function learn_spam($uids)
@@ -35,7 +35,7 @@ function do_messagemove($uids, $spam)
 
 	foreach (explode(",", $uids) as $uid) {
 		$tmpfname = tempnam($dest_dir, $filename);
-		file_put_contents($tmpfname, $rcmail->imap->get_raw_body($uid));
+		file_put_contents($tmpfname, $rcmail->storage->get_raw_body($uid));
 
 		if ($rcmail->config->get('markasjunk2_debug'))
 			write_log('markasjunk2', $tmpfname);
