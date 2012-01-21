@@ -13,11 +13,11 @@
 		<email>roundcube@tehinterweb.co.uk</email>
 		<active>yes</active>
 	</lead>
-	<date>2012-01-15</date>
-	<time>11:36:43</time>
+	<date>2012-01-21</date>
+	<time>11:26:15</time>
 	<version>
-		<release>1.3</release>
-		<api>1.3</api>
+		<release>1.4</release>
+		<api>1.4</api>
 	</version>
 	<stability>
 		<release>stable</release>
@@ -69,6 +69,10 @@
 			<file name="skins/default/markasjunk2.css" role="data"/>
 			<file name="skins/default/messageactions.gif" role="data"/>
 			<file name="skins/default/messageactions.png" role="data"/>
+			<file name="skins/larry/ie6hacks.css" role="data"/>
+			<file name="skins/larry/mail_toolbar.png" role="data"/>
+			<file name="skins/larry/markasjunk2.css" role="data"/>
+			<file name="skins/larry/messageactions.png" role="data"/>
 		</dir>
 		<!-- / -->
 	</contents>
