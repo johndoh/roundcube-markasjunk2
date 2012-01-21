@@ -20,7 +20,7 @@ function do_list($uids, $spam)
 {
 	$rcmail = rcmail::get_instance();
 	if (is_file($rcmail->config->get('markasjunk2_sauserprefs_config')) && !$rcmail->config->load_from_file($rcmail->config->get('markasjunk2_sauserprefs_config'))) {
-		raise_error(array('code' => 527, 'type' => 'php',
+		rcube_ui::raise_error(array('code' => 527, 'type' => 'php',
 			'file' => __FILE__, 'line' => __LINE__,
 			'message' => "Failed to load config from " . $rcmail->config->get('markasjunk2_sauserprefs_config')), true, false);
 
@@ -32,7 +32,7 @@ function do_list($uids, $spam)
 
 	// check DB connections and exit on failure
 	if ($err_str = $db->is_error()) {
-		raise_error(array(
+		rcube_ui::raise_error(array(
 			'code' => 603,
 			'type' => 'db',
 			'message' => $err_str), FALSE, TRUE);
