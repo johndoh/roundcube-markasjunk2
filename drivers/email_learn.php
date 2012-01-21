@@ -166,7 +166,7 @@ function do_emaillearn($uids, $spam)
 			}
 		}
 
-		rcmail_deliver_message($MAIL_MIME, $from, $mailto, $smtp_error, $body_file);
+		$rcmail->deliver_message($MAIL_MIME, $from, $mailto, $smtp_error, $body_file);
 
 		// clean up
 		if (file_exists($tmpPath))
@@ -174,12 +174,12 @@ function do_emaillearn($uids, $spam)
 
 		if ($rcmail->config->get('markasjunk2_debug')) {
 			if ($spam)
-				write_log('markasjunk2', $uid . ' SPAM ' . $mailto . ' (' . $subject . ')');
+				rcmail::write_log('markasjunk2', $uid . ' SPAM ' . $mailto . ' (' . $subject . ')');
 			else
-				write_log('markasjunk2', $uid . ' HAM ' . $mailto . ' (' . $subject . ')');
+				rcmail::write_log('markasjunk2', $uid . ' HAM ' . $mailto . ' (' . $subject . ')');
 
 			if ($smtp_error['vars'])
-				write_log('markasjunk2', $smtp_error['vars']);
+				rcmail::write_log('markasjunk2', $smtp_error['vars']);
 		}
 	}
 }

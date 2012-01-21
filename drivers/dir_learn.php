@@ -38,7 +38,7 @@ function do_messagemove($uids, $spam)
 		file_put_contents($tmpfname, $rcmail->storage->get_raw_body($uid));
 
 		if ($rcmail->config->get('markasjunk2_debug'))
-			write_log('markasjunk2', $tmpfname);
+			rcmail::write_log('markasjunk2', $tmpfname);
 	}
 }
 

@@ -52,7 +52,7 @@ function do_list($uids, $spam)
 				$db->query("INSERT INTO ". $rcmail->config->get('sauserprefs_sql_table_name') ." (". $rcmail->config->get('sauserprefs_sql_username_field') .", ". $rcmail->config->get('sauserprefs_sql_preference_field') .", ". $rcmail->config->get('sauserprefs_sql_value_field') .") VALUES ('". $_SESSION['username'] ."', 'blacklist_from', '". $email ."');");
 
 				if ($rcmail->config->get('markasjunk2_debug'))
-					write_log('markasjunk2', $_SESSION['username'] . ' blacklist ' . $email);
+					rcmail::write_log('markasjunk2', $_SESSION['username'] . ' blacklist ' . $email);
 			}
 		}
 		else {
@@ -65,7 +65,7 @@ function do_list($uids, $spam)
 				$db->query("INSERT INTO ". $rcmail->config->get('sauserprefs_sql_table_name') ." (". $rcmail->config->get('sauserprefs_sql_username_field') .", ". $rcmail->config->get('sauserprefs_sql_preference_field') .", ". $rcmail->config->get('sauserprefs_sql_value_field') .") VALUES ('". $_SESSION['username'] ."', 'whitelist_from', '". $email ."');");
 
 				if ($rcmail->config->get('markasjunk2_debug'))
-					write_log('markasjunk2', $_SESSION['username'] . ' whitelist ' . $email);
+					rcmail::write_log('markasjunk2', $_SESSION['username'] . ' whitelist ' . $email);
 			}
 		}
 	}

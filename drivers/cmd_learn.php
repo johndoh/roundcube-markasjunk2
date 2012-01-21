@@ -56,8 +56,8 @@ function do_salearn($uids, $spam)
 		exec($tmp_command, $output);
 
 		if ($rcmail->config->get('markasjunk2_debug')) {
-			write_log('markasjunk2', $tmp_command);
-			write_log('markasjunk2', $output);
+			rcmail::write_log('markasjunk2', $tmp_command);
+			rcmail::write_log('markasjunk2', $output);
 		}
 
 		if (preg_match('/%f/', $command))
