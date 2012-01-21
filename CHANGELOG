@@ -1,6 +1,10 @@
 Roundcube Webmail MarkAsJunk2
 =============================
 
+2012 01 21
+==========
+ * Update after r5781
+
 2011 07 02
 ==========
  * Remove the need to always move the message
