@@ -4,7 +4,7 @@
 	http://pear.php.net/dtd/package-2.0
 	http://pear.php.net/dtd/package-2.0.xsd">
 	<name>markasjunk2</name>
-	<channel>pear.roundcube.net</channel>
+	<uri>http://github.com/JohnDoh/Roundcube-Plugin-Mark-as-Junk-2/</uri>
 	<summary>Learn messages as Junk/Not Junk</summary>
 	<description>Adds a new button to the mailbox toolbar to mark the selected messages as Junk/Not Junk, optionally detaching original messages from spam reports if the message is not junk and learning junk/not junk using various methods (sa-learn, etc.).</description>
 	<lead>
@@ -13,8 +13,8 @@
 		<email>roundcube@tehinterweb.co.uk</email>
 		<active>yes</active>
 	</lead>
-	<date>2012-01-21</date>
-	<time>11:26:15</time>
+	<date>2012-01-22</date>
+	<time>10:42:53</time>
 	<version>
 		<release>1.4</release>
 		<api>1.4</api>
@@ -23,7 +23,7 @@
 		<release>stable</release>
 		<api>stable</api>
 	</stability>
-	<license uri="http://www.gnu.org/licenses/gpl-3.0.html">GNU GPLv3</license>
+	<license uri="http://www.gnu.org/licenses/gpl.html">GNU GPLv3+</license>
 	<notes>-</notes>
 	<contents>
 		<dir baseinstalldir="/" name="/">
