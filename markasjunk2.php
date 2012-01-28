@@ -141,7 +141,7 @@ class markasjunk2 extends rcube_plugin
 		$driver = $this->home.'/drivers/'.rcmail::get_instance()->config->get('markasjunk2_learning_driver', 'cmd_learn').'.php';
 
 		if (!is_readable($driver)) {
-			rcube_ui::raise_error(array(
+			rcmail::raise_error(array(
 				'code' => 600,
 				'type' => 'php',
 				'file' => __FILE__,
@@ -154,7 +154,7 @@ class markasjunk2 extends rcube_plugin
 		include_once($driver);
 
 		if (!function_exists('learn_spam') || !function_exists('learn_ham')) {
-			rcube_ui::raise_error(array(
+			rcmail::raise_error(array(
 				'code' => 600,
 				'type' => 'php',
 				'file' => __FILE__,
