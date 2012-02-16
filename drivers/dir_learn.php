@@ -17,7 +17,7 @@ function learn_ham($uids)
 
 function do_messagemove($uids, $spam)
 {
-    $rcmail = rcmail::get_instance();
+    $rcmail = rcube::get_instance();
 
 	if ($spam)
 		$dest_dir = unslashify($rcmail->config->get('markasjunk2_spam_dir'));
@@ -38,7 +38,7 @@ function do_messagemove($uids, $spam)
 		file_put_contents($tmpfname, $rcmail->storage->get_raw_body($uid));
 
 		if ($rcmail->config->get('markasjunk2_debug'))
-			rcmail::write_log('markasjunk2', $tmpfname);
+			rcube::write_log('markasjunk2', $tmpfname);
 	}
 }
 

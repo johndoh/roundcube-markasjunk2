@@ -12,7 +12,7 @@ function learn_spam($uids)
 
 function learn_ham(&$uids)
 {
-	$rcmail = rcmail::get_instance();
+	$rcmail = rcube::get_instance();
 	$storage = $rcmail->storage;
 	$mbox = rcube_ui::get_input_value('_mbox', rcube_ui::INPUT_POST);
 

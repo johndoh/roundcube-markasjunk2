@@ -17,7 +17,7 @@ function learn_ham($uids)
 
 function do_emaillearn($uids, $spam)
 {
-	$rcmail = rcmail::get_instance();
+	$rcmail = rcube::get_instance();
 	$identity_arr = $rcmail->user->get_identity();
 	$from = $identity_arr['email'];
 
@@ -174,12 +174,12 @@ function do_emaillearn($uids, $spam)
 
 		if ($rcmail->config->get('markasjunk2_debug')) {
 			if ($spam)
-				rcmail::write_log('markasjunk2', $uid . ' SPAM ' . $mailto . ' (' . $subject . ')');
+				rcube::write_log('markasjunk2', $uid . ' SPAM ' . $mailto . ' (' . $subject . ')');
 			else
-				rcmail::write_log('markasjunk2', $uid . ' HAM ' . $mailto . ' (' . $subject . ')');
+				rcube::write_log('markasjunk2', $uid . ' HAM ' . $mailto . ' (' . $subject . ')');
 
 			if ($smtp_error['vars'])
-				rcmail::write_log('markasjunk2', $smtp_error['vars']);
+				rcube::write_log('markasjunk2', $smtp_error['vars']);
 		}
 	}
 }

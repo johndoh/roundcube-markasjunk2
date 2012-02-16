@@ -26,7 +26,7 @@ class markasjunk2 extends rcube_plugin
 		$this->register_action('plugin.markasjunk2.junk', array($this, 'mark_junk'));
 		$this->register_action('plugin.markasjunk2.not_junk', array($this, 'mark_notjunk'));
 
-		$rcmail = rcmail::get_instance();
+		$rcmail = rcube::get_instance();
 		$this->load_config();
 		$this->spam_mbox = $rcmail->config->get('junk_mbox', null);
 		$this->toolbar = $rcmail->config->get('markasjunk2_mb_toolbar', true);
@@ -92,7 +92,7 @@ class markasjunk2 extends rcube_plugin
 
 	private function _spam($uids, $mbox_name = NULL, $dest_mbox = NULL)
 	{
-		$rcmail = rcmail::get_instance();
+		$rcmail = rcube::get_instance();
 		$storage = $rcmail->storage;
 
 		if ($rcmail->config->get('markasjunk2_learning_driver', false))
@@ -115,7 +115,7 @@ class markasjunk2 extends rcube_plugin
 
 	private function _ham($uids, $mbox_name = NULL, $dest_mbox = NULL)
 	{
-		$rcmail = rcmail::get_instance();
+		$rcmail = rcube::get_instance();
 		$storage = $rcmail->storage;
 
 		if ($rcmail->config->get('markasjunk2_learning_driver', false))
@@ -138,10 +138,10 @@ class markasjunk2 extends rcube_plugin
 
 	private function _call_driver(&$uids, $spam)
 	{
-		$driver = $this->home.'/drivers/'.rcmail::get_instance()->config->get('markasjunk2_learning_driver', 'cmd_learn').'.php';
+		$driver = $this->home.'/drivers/'.rcube::get_instance()->config->get('markasjunk2_learning_driver', 'cmd_learn').'.php';
 
 		if (!is_readable($driver)) {
-			rcmail::raise_error(array(
+			rcube::raise_error(array(
 				'code' => 600,
 				'type' => 'php',
 				'file' => __FILE__,
@@ -154,7 +154,7 @@ class markasjunk2 extends rcube_plugin
 		include_once($driver);
 
 		if (!function_exists('learn_spam') || !function_exists('learn_ham')) {
-			rcmail::raise_error(array(
+			rcube::raise_error(array(
 				'code' => 600,
 				'type' => 'php',
 				'file' => __FILE__,
@@ -172,7 +172,7 @@ class markasjunk2 extends rcube_plugin
 
 	private function _set_flags()
 	{
-		$rcmail = rcmail::get_instance();
+		$rcmail = rcube::get_instance();
 
 		if ($rcmail->config->get('markasjunk2_spam_flag', false)) {
 			if ($flag = array_search($rcmail->config->get('markasjunk2_spam_flag'), $rcmail->storage->conn->flags))

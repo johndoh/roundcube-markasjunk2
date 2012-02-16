@@ -18,9 +18,9 @@ function learn_ham($uids)
 
 function do_list($uids, $spam)
 {
-	$rcmail = rcmail::get_instance();
+	$rcmail = rcube::get_instance();
 	if (is_file($rcmail->config->get('markasjunk2_sauserprefs_config')) && !$rcmail->config->load_from_file($rcmail->config->get('markasjunk2_sauserprefs_config'))) {
-		rcmail::raise_error(array('code' => 527, 'type' => 'php',
+		rcube::raise_error(array('code' => 527, 'type' => 'php',
 			'file' => __FILE__, 'line' => __LINE__,
 			'message' => "Failed to load config from " . $rcmail->config->get('markasjunk2_sauserprefs_config')), true, false);
 
@@ -32,7 +32,7 @@ function do_list($uids, $spam)
 
 	// check DB connections and exit on failure
 	if ($err_str = $db->is_error()) {
-		rcmail::raise_error(array(
+		rcube::raise_error(array(
 			'code' => 603,
 			'type' => 'db',
 			'message' => $err_str), FALSE, TRUE);
@@ -52,7 +52,7 @@ function do_list($uids, $spam)
 				$db->query("INSERT INTO ". $rcmail->config->get('sauserprefs_sql_table_name') ." (". $rcmail->config->get('sauserprefs_sql_username_field') .", ". $rcmail->config->get('sauserprefs_sql_preference_field') .", ". $rcmail->config->get('sauserprefs_sql_value_field') .") VALUES ('". $_SESSION['username'] ."', 'blacklist_from', '". $email ."');");
 
 				if ($rcmail->config->get('markasjunk2_debug'))
-					rcmail::write_log('markasjunk2', $_SESSION['username'] . ' blacklist ' . $email);
+					rcube::write_log('markasjunk2', $_SESSION['username'] . ' blacklist ' . $email);
 			}
 		}
 		else {
@@ -65,7 +65,7 @@ function do_list($uids, $spam)
 				$db->query("INSERT INTO ". $rcmail->config->get('sauserprefs_sql_table_name') ." (". $rcmail->config->get('sauserprefs_sql_username_field') .", ". $rcmail->config->get('sauserprefs_sql_preference_field') .", ". $rcmail->config->get('sauserprefs_sql_value_field') .") VALUES ('". $_SESSION['username'] ."', 'whitelist_from', '". $email ."');");
 
 				if ($rcmail->config->get('markasjunk2_debug'))
-					rcmail::write_log('markasjunk2', $_SESSION['username'] . ' whitelist ' . $email);
+					rcube::write_log('markasjunk2', $_SESSION['username'] . ' whitelist ' . $email);
 			}
 		}
 	}
