@@ -138,7 +138,8 @@ class markasjunk2 extends rcube_plugin
 
 	private function _call_driver(&$uids, $spam)
 	{
-		$driver = $this->home.'/drivers/'.rcmail::get_instance()->config->get('markasjunk2_learning_driver', 'cmd_learn').'.php';
+		$driver = $this->home.'/drivers/'. rcmail::get_instance()->config->get('markasjunk2_learning_driver', 'cmd_learn') .'.php';
+		$class = 'markasjunk2_' . rcmail::get_instance()->config->get('markasjunk2_learning_driver', 'cmd_learn');
 
 		if (!is_readable($driver)) {
 			raise_error(array(
@@ -148,12 +149,13 @@ class markasjunk2 extends rcube_plugin
 				'line' => __LINE__,
 				'message' => "MarkasJunk2 plugin: Unable to open driver file $driver"
 				), true, false);
+
 			return $this->gettext('internalerror');
 		}
 
-		include_once($driver);
+		include_once $driver;
 
-		if (!function_exists('learn_spam') || !function_exists('learn_ham')) {
+		if (!class_exists($class, false) || !method_exists($class, 'spam') || !method_exists($class, 'ham')) {
 			raise_error(array(
 				'code' => 600,
 				'type' => 'php',
@@ -161,13 +163,15 @@ class markasjunk2 extends rcube_plugin
 				'line' => __LINE__,
 				'message' => "MarkasJunk2 plugin: Broken driver: $driver"
 				), true, false);
+
 			return $this->gettext('internalerror');
 		}
 
+		$object = new $class;
 		if ($spam)
-			learn_spam($uids);
+			$object->spam($uids);
 		else
-			learn_ham($uids);
+			$object->ham($uids);
 	}
 
 	private function _set_flags()

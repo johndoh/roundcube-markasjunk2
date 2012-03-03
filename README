@@ -41,12 +41,13 @@ All config parameters are optional
 The Learning Driver
 ===================
 The learning driver allows you to perform additional processing on each message
-marked as spam/hem. A driver must contain 2 functions:
+marked as spam/ham. A driver must contain a class named markasjunk2_{driver
+file name}. The class must contain 2 functions:
 
-learn_spam: This function should take 1 argument, the UID of message being
+spam: This function should take 1 argument, the UID of message being
             marked as spam
 
-learn_ham: This function should take 1 argument, the UID of message being
+ham: This function should take 1 argument, the UID of message being
            marked as ham
 
 Five drivers are provided by default they are:
