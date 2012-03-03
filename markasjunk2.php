@@ -16,7 +16,7 @@ class markasjunk2 extends rcube_plugin
 {
 	public $task = 'mail';
 	private $spam_mbox = null;
-	private $ham_mbox = 'INBOX';
+	private $ham_mbox = null;
 	private $spam_flag = 'JUNK';
 	private $ham_flag = 'NOTJUNK';
 	private $toolbar = true;
@@ -28,7 +28,8 @@ class markasjunk2 extends rcube_plugin
 
 		$rcmail = rcmail::get_instance();
 		$this->load_config();
-		$this->spam_mbox = $rcmail->config->get('junk_mbox', null);
+		$this->ham_mbox = $rcmail->config->get('markasjunk2_ham_mbox', 'INBOX');
+		$this->spam_mbox = $rcmail->config->get('markasjunk2_spam_mbox', $rcmail->config->get('junk_mbox', null));
 		$this->toolbar = $rcmail->config->get('markasjunk2_mb_toolbar', true);
 
 		if ($rcmail->action == '' || $rcmail->action == 'show') {
@@ -107,7 +108,7 @@ class markasjunk2 extends rcube_plugin
 		if ($rcmail->config->get('markasjunk2_ham_flag', false))
 			$storage->unset_flag($uids, $this->ham_flag, $mbox_name);
 
-		if ($rcmail->config->get('markasjunk2_move_spam', true) && $dest_mbox && $mbox_name != $dest_mbox)
+		if ($dest_mbox && $mbox_name != $dest_mbox)
 			$this->api->output->command('rcmail_markasjunk2_move', $dest_mbox, $uids);
 		else
 			$this->api->output->command('command', 'list', $mbox_name);
@@ -130,7 +131,7 @@ class markasjunk2 extends rcube_plugin
 		if ($rcmail->config->get('markasjunk2_ham_flag', false))
 			$storage->set_flag($uids, $this->ham_flag, $mbox_name);
 
-		if ($rcmail->config->get('markasjunk2_move_ham', true) && $dest_mbox && $mbox_name != $dest_mbox)
+		if ($dest_mbox && $mbox_name != $dest_mbox)
 			$this->api->output->command('rcmail_markasjunk2_move', $dest_mbox, $uids);
 		else
 			$this->api->output->command('command', 'list', $mbox_name);

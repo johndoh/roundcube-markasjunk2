@@ -4,6 +4,7 @@ Roundcube Webmail MarkAsJunk2
 2012 03 03
 ==========
  * Fixed drivers namespace issues
+ * Improve spam/ham box configs
 
 2012 01 21
 ==========
