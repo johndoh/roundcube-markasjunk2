@@ -13,8 +13,8 @@
 		<email>roundcube@tehinterweb.co.uk</email>
 		<active>yes</active>
 	</lead>
-	<date>2012-03-03</date>
-	<time>08:48:05</time>
+	<date>2012-03-17</date>
+	<time>10:53:28</time>
 	<version>
 		<release>1.5</release>
 		<api>1.5</api>
@@ -51,7 +51,7 @@
 			<file name="localization/en_US.inc" role="data"/>
 			<file name="localization/es_AR.inc" role="data"/>
 			<file name="localization/es_ES.inc" role="data"/>
-			<file name="localization/fa.inc" role="data"/>
+			<file name="localization/fa_IR.inc" role="data"/>
 			<file name="localization/fr_FR.inc" role="data"/>
 			<file name="localization/gl_ES.inc" role="data"/>
 			<file name="localization/hu_HU.inc" role="data"/>
