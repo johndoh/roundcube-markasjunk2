@@ -47,12 +47,25 @@ class markasjunk2_sa_blacklist
 
 			if ($spam) {
 				// delete any whitelisting for this address
-				$db->query("DELETE FROM ". $rcmail->config->get('sauserprefs_sql_table_name') ." WHERE ". $rcmail->config->get('sauserprefs_sql_username_field') ." = '". $_SESSION['username'] ."' AND ". $rcmail->config->get('sauserprefs_sql_preference_field') ." = 'whitelist_from' AND ". $rcmail->config->get('sauserprefs_sql_value_field') ." = '". $email ."';");
+				$db->query(
+					"DELETE FROM ". $rcmail->config->get('sauserprefs_sql_table_name') ." WHERE ". $rcmail->config->get('sauserprefs_sql_username_field') ." = ? AND ". $rcmail->config->get('sauserprefs_sql_preference_field') ." = ? AND ". $rcmail->config->get('sauserprefs_sql_value_field') ." = ?;",
+					$_SESSION['username'],
+					'whitelist_from',
+					$email);
 
 				// check address is not already blacklisted
-				$sql_result = $db->query("SELECT value FROM ". $rcmail->config->get('sauserprefs_sql_table_name') ." WHERE ". $rcmail->config->get('sauserprefs_sql_username_field') ." = '". $_SESSION['username'] ."' AND ". $rcmail->config->get('sauserprefs_sql_preference_field') ." = 'blacklist_from' AND ". $rcmail->config->get('sauserprefs_sql_value_field') ." = '". $email ."';");
+				$sql_result = $db->query(
+								"SELECT value FROM ". $rcmail->config->get('sauserprefs_sql_table_name') ." WHERE ". $rcmail->config->get('sauserprefs_sql_username_field') ." = ? AND ". $rcmail->config->get('sauserprefs_sql_preference_field') ." = ? AND ". $rcmail->config->get('sauserprefs_sql_value_field') ." = ?;",
+								$_SESSION['username'],
+								'blacklist_from',
+								$email);
+
 				if ($db->num_rows($sql_result) == 0) {
-					$db->query("INSERT INTO ". $rcmail->config->get('sauserprefs_sql_table_name') ." (". $rcmail->config->get('sauserprefs_sql_username_field') .", ". $rcmail->config->get('sauserprefs_sql_preference_field') .", ". $rcmail->config->get('sauserprefs_sql_value_field') .") VALUES ('". $_SESSION['username'] ."', 'blacklist_from', '". $email ."');");
+					$db->query(
+						"INSERT INTO ". $rcmail->config->get('sauserprefs_sql_table_name') ." (". $rcmail->config->get('sauserprefs_sql_username_field') .", ". $rcmail->config->get('sauserprefs_sql_preference_field') .", ". $rcmail->config->get('sauserprefs_sql_value_field') .") VALUES (?, ?, ?);",
+						$_SESSION['username'],
+						'blacklist_from',
+						$email);
 
 					if ($rcmail->config->get('markasjunk2_debug'))
 						write_log('markasjunk2', $_SESSION['username'] . ' blacklist ' . $email);
@@ -60,12 +73,25 @@ class markasjunk2_sa_blacklist
 			}
 			else {
 				// delete any blacklisting for this address
-				$db->query("DELETE FROM ". $rcmail->config->get('sauserprefs_sql_table_name') ." WHERE ". $rcmail->config->get('sauserprefs_sql_username_field') ." = '". $_SESSION['username'] ."' AND ". $rcmail->config->get('sauserprefs_sql_preference_field') ." = 'blacklist_from' AND ". $rcmail->config->get('sauserprefs_sql_value_field') ." = '". $email ."';");
+				$db->query(
+					"DELETE FROM ". $rcmail->config->get('sauserprefs_sql_table_name') ." WHERE ". $rcmail->config->get('sauserprefs_sql_username_field') ." = ? AND ". $rcmail->config->get('sauserprefs_sql_preference_field') ." = ? AND ". $rcmail->config->get('sauserprefs_sql_value_field') ." = ?;",
+					$_SESSION['username'],
+					'blacklist_from',
+					$email);
 
 				// check address is not already whitelisted
-				$sql_result = $db->query("SELECT value FROM ". $rcmail->config->get('sauserprefs_sql_table_name') ." WHERE ". $rcmail->config->get('sauserprefs_sql_username_field') ." = '". $_SESSION['username'] ."' AND ". $rcmail->config->get('sauserprefs_sql_preference_field') ." = 'whitelist_from' AND ". $rcmail->config->get('sauserprefs_sql_value_field') ." = '". $email ."';");
+				$sql_result = $db->query(
+								"SELECT value FROM ". $rcmail->config->get('sauserprefs_sql_table_name') ." WHERE ". $rcmail->config->get('sauserprefs_sql_username_field') ." = ? AND ". $rcmail->config->get('sauserprefs_sql_preference_field') ." = ? AND ". $rcmail->config->get('sauserprefs_sql_value_field') ." = ?;",
+								$_SESSION['username'],
+								'whitelist_from',
+								$email);
+
 				if ($db->num_rows($sql_result) == 0) {
-					$db->query("INSERT INTO ". $rcmail->config->get('sauserprefs_sql_table_name') ." (". $rcmail->config->get('sauserprefs_sql_username_field') .", ". $rcmail->config->get('sauserprefs_sql_preference_field') .", ". $rcmail->config->get('sauserprefs_sql_value_field') .") VALUES ('". $_SESSION['username'] ."', 'whitelist_from', '". $email ."');");
+					$db->query(
+						"INSERT INTO ". $rcmail->config->get('sauserprefs_sql_table_name') ." (". $rcmail->config->get('sauserprefs_sql_username_field') .", ". $rcmail->config->get('sauserprefs_sql_preference_field') .", ". $rcmail->config->get('sauserprefs_sql_value_field') .") VALUES (?, ?, ?);",
+						$_SESSION['username'],
+						'whitelist_from',
+						$email);
 
 					if ($rcmail->config->get('markasjunk2_debug'))
 						write_log('markasjunk2', $_SESSION['username'] . ' whitelist ' . $email);
