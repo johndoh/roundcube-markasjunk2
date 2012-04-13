@@ -22,7 +22,7 @@ class markasjunk2_cmd_learn
 
 	private function _do_salearn($uids, $spam)
 	{
-		$rcmail = rcmail::get_instance();
+		$rcmail = rcube::get_instance();
 		$temp_dir = realpath($rcmail->config->get('temp_dir'));
 
 		if ($spam)
@@ -59,8 +59,8 @@ class markasjunk2_cmd_learn
 			exec($tmp_command, $output);
 
 			if ($rcmail->config->get('markasjunk2_debug')) {
-				write_log('markasjunk2', $tmp_command);
-				write_log('markasjunk2', $output);
+				rcube::write_log('markasjunk2', $tmp_command);
+				rcube::write_log('markasjunk2', $output);
 			}
 
 			if (preg_match('/%f/', $command))

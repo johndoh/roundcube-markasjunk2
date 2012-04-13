@@ -20,7 +20,7 @@ class markasjunk2_dir_learn
 
 	private function _do_messagemove($uids, $spam)
 	{
-	    $rcmail = rcmail::get_instance();
+	    $rcmail = rcube::get_instance();
 
 		if ($spam)
 			$dest_dir = unslashify($rcmail->config->get('markasjunk2_spam_dir'));
@@ -41,7 +41,7 @@ class markasjunk2_dir_learn
 			file_put_contents($tmpfname, $rcmail->storage->get_raw_body($uid));
 
 			if ($rcmail->config->get('markasjunk2_debug'))
-				write_log('markasjunk2', $tmpfname);
+				rcube::write_log('markasjunk2', $tmpfname);
 		}
 	}
 }
