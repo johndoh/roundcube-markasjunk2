@@ -1,6 +1,10 @@
 Roundcube Webmail MarkAsJunk2
 =============================
 
+2012 04 14
+==========
+ * Update for Roundcube framework
+
 2012 03 03
 ==========
  * Fixed drivers namespace issues
