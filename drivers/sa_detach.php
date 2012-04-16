@@ -17,7 +17,7 @@ class markasjunk2_sa_detach
 	{
 		$rcmail = rcube::get_instance();
 		$storage = $rcmail->storage;
-		$mbox = rcube_ui::get_input_value('_mbox', rcube_ui::INPUT_POST);
+		$mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
 
 		$new_uids = array();
 		foreach (explode(",", $uids) as $uid) {

@@ -70,8 +70,8 @@ class markasjunk2 extends rcube_plugin
 		$this->add_texts('localization');
 		$this->_set_flags();
 
-		$uids = rcube_ui::get_input_value('_uid', rcube_ui::INPUT_POST);
-		$mbox = rcube_ui::get_input_value('_mbox', rcube_ui::INPUT_POST);
+		$uids = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
+		$mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
 
 		$this->_spam($uids, $mbox, $this->spam_mbox);
 		$this->api->output->command('display_message', $this->gettext('reportedasjunk'), 'confirmation');
@@ -83,8 +83,8 @@ class markasjunk2 extends rcube_plugin
 		$this->add_texts('localization');
 		$this->_set_flags();
 
-		$uids = rcube_ui::get_input_value('_uid', rcube_ui::INPUT_POST);
-		$mbox = rcube_ui::get_input_value('_mbox', rcube_ui::INPUT_POST);
+		$uids = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
+		$mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
 
 		$this->_ham($uids, $mbox, $this->ham_mbox);
 		$this->api->output->command('display_message', $this->gettext('reportedasnotjunk'), 'confirmation');
