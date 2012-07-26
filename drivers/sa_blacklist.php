@@ -59,7 +59,7 @@ class markasjunk2_sa_blacklist
 								'blacklist_from',
 								$email);
 
-				if ($db->num_rows($sql_result) == 0) {
+				if (!$db->fetch_array($sql_result)) {
 					$db->query(
 						"INSERT INTO ". $rcmail->config->get('sauserprefs_sql_table_name') ." (". $rcmail->config->get('sauserprefs_sql_username_field') .", ". $rcmail->config->get('sauserprefs_sql_preference_field') .", ". $rcmail->config->get('sauserprefs_sql_value_field') .") VALUES (?, ?, ?);",
 						$_SESSION['username'],
