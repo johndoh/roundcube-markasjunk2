@@ -117,4 +117,26 @@ $rcmail_config['markasjunk2_email_subject'] = 'learn this message as %t';
 // Path to SAUserPrefs config file
 $rcmail_config['markasjunk2_sauserprefs_config'] = '../sauserprefs/config.inc.php';
 
+// edit_headers Driver options
+// ---------------------------
+// Patterns to match and replace headers for spam messages
+// Replacement method uses preg_replace - http://www.php.net/manual/function.preg-replace.php
+// WARNING: Be sure to match the entire header line, including the name of the header, also use ^ and $ and the 'm' flag
+// see the README for an example
+// TEST CAREFULLY BEFORE USE ON REAL MESSAGES
+$rcmail_config['markasjunk2_spam_patterns'] = array(
+												'patterns' => array(),
+												'replacements' => array()
+												);
+
+// Patterns to match and replace headers for spam messages
+// Replacement method uses preg_replace - http://www.php.net/manual/function.preg-replace.php
+// WARNING: Be sure to match the entire header line, including the name of the header, also use ^ and $ and the 'm' flag
+// see the README for an example
+// TEST CAREFULLY BEFORE USE ON REAL MESSAGES
+$rcmail_config['markasjunk2_ham_patterns'] = array(
+												'patterns' => array(),
+												'replacements' => array()
+												);
+
 ?>

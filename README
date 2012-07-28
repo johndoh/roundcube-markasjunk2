@@ -69,6 +69,12 @@ sa_detach: If the message is a Spamassassin spam report with the original email
            attached then this is detached and saved in the Inbox, the spam
            report is deleted
 
+edit_headers: Edit the message headers. Headers are edited using preg_replace.
+              WARNING: Be sure to match the entire header line, including the
+              name of the header, and include the ^ and $ and test carefully
+              before use on real messages. This driver alters the message
+              source
+
 Spam learning commands
 ======================
 Spamassassin:
@@ -80,3 +86,19 @@ Ham learning commands
 Spamassassin:
   'sa-learn --ham --username=%u %f' or
   'sa-learn --ham --prefs-file=/var/mail/%d/%l/.spamassassin/user_prefs %f'
+
+
+edit_headers example config
+===========================
+WARNING: These are simple examples of how to configure the driver options, use
+at your own risk
+
+$rcmail_config['markasjunk2_spam_patterns'] = array(
+  'patterns' => array('/^(Subject:\s*)(.*)$/m'),
+  'replacements' => array('$1[SPAM] $2')
+);
+
+$rcmail_config['markasjunk2_ham_patterns'] = array(
+  'patterns' => array('/^(Subject:\s*)\[SPAM\](.*)$/m'),
+  'replacements' => array('$1$2')
+);
