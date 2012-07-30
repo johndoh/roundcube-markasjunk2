@@ -13,8 +13,8 @@
 		<email>roundcube@tehinterweb.co.uk</email>
 		<active>yes</active>
 	</lead>
-	<date>2012-04-14</date>
-	<time>11:52:04</time>
+	<date>2012-07-30</date>
+	<time>11:41:13</time>
 	<version>
 		<release>1.6</release>
 		<api>1.6</api>
@@ -40,6 +40,7 @@
 			<file name="README" role="data"/>
 			<file name="drivers/cmd_learn.php" role="php"/>
 			<file name="drivers/dir_learn.php" role="php"/>
+			<file name="drivers/edit_headers.php" role="php"/>
 			<file name="drivers/email_learn.php" role="php"/>
 			<file name="drivers/sa_blacklist.php" role="php"/>
 			<file name="drivers/sa_detach.php" role="php"/>
@@ -63,12 +64,12 @@
 			<file name="localization/ru_RU.inc" role="data"/>
 			<file name="localization/tr_TR.inc" role="data"/>
 			<file name="localization/zh_TW.inc" role="data"/>
-			<file name="skins/default/ie6hacks.css" role="data"/>
-			<file name="skins/default/mail_toolbar.gif" role="data"/>
-			<file name="skins/default/mail_toolbar.png" role="data"/>
-			<file name="skins/default/markasjunk2.css" role="data"/>
-			<file name="skins/default/messageactions.gif" role="data"/>
-			<file name="skins/default/messageactions.png" role="data"/>
+			<file name="skins/classic/ie6hacks.css" role="data"/>
+			<file name="skins/classic/mail_toolbar.gif" role="data"/>
+			<file name="skins/classic/mail_toolbar.png" role="data"/>
+			<file name="skins/classic/markasjunk2.css" role="data"/>
+			<file name="skins/classic/messageactions.gif" role="data"/>
+			<file name="skins/classic/messageactions.png" role="data"/>
 			<file name="skins/larry/ie6hacks.css" role="data"/>
 			<file name="skins/larry/mail_toolbar.png" role="data"/>
 			<file name="skins/larry/markasjunk2.css" role="data"/>
