@@ -1,97 +1,55 @@
 Roundcube Webmail MarkAsJunk2
 =============================
 
-2012 04 16
-==========
+ * rename default skin to classic (c40419bdfe)
+ * add new edit_headers driver
  * rcube_ui > rcube_utils (r6091)
-
-2012 04 14
-==========
  * Update for Roundcube framework
 
-2012 03 03
-==========
+Version 1.5 (2012-06-19, rc-0.8)
+=================================================
  * Fixed drivers namespace issues
+
+Version 1.4 (2012-01-21, rc-0.8)
+=================================================
  * Improve spam/ham box configs
 
-2012 01 21
-==========
+Version 1.3 (2012-01-21, rc-0.8)
+=================================================
  * Update after r5781
  * Add inital support for Larry
-
-2011 07 02
-==========
  * Remove the need to always move the message
  * Remove the requirement to have a spam mailbox set
  * Allow both buttons to be shown at once
  * Execute driver before standard actions so standard actions can be overridden
  * Move SA detach code to driver
 
-2010 10 16
-==========
+Version 1.2 (2010-07-02, rc-0.5)
+=================================================
  * Imporve email_learn driver when not sending as attachemnt
-
-2010 08 07
-==========
  * Use better command names
-
-2010 05 20
-==========
  * Username parsing now in core (r3774)
-
-2010 03 27
-==========
  * Respect display_next setting
  * Fix mark as ham in message view
  * Fix ham detachment, broken after c585116e7759c94d19fe6713af72cb5b45f7fde2,
    also see RC ticket #1486584
-
-2010 03 20
-==========
  * Update to r3393
-
-2010 03 07
-==========
  * Better toolbar icons
-
-2010 02 23
-==========
  * Update after r3261
-
-2010 02 14
-==========
  * Another update after r3258
-
-2010 02 07
-==========
  * Update after r3258
 
-2010 01 29
-==========
+Version 1.1 (2010-02-07, rc-0.4)
+=================================================
  * Move toolbar config to config file
-
-2009 12 01
-==========
  * CSS update after r3141
-
-2009 11 30
-==========
  * Use explode() rather than split()
-
-2009 10 31
-==========
  * Create driver based system for different learning methods
-
-2009 10 29
-==========
  * Rename plugin to markasjunk2
 
-2009 10 29
-==========
+Version 1.0 (2009-10-31, rc-0.3)
+=================================================
  * Use local_skin_path() (rev 3076)
-
-2009 08 02
-==========
  * Added ability to mark ham as unread
  * Added ability to flag/unflag spam/ham
  * Added ability to trigger sa-learn
