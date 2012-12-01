@@ -85,7 +85,7 @@ class markasjunk2_email_learn
 						$transfer_encoding, 'attachment', '', '', '',
 						$rcmail->config->get('mime_param_folding') ? 'quoted-printable' : NULL,
 						$rcmail->config->get('mime_param_folding') == 2 ? 'quoted-printable' : NULL,
-						'', RCMAIL_CHARSET
+						'', RCUBE_CHARSET
 					);
 				}
 
