@@ -41,6 +41,10 @@ $rcmail_config['markasjunk2_debug'] = false;
 // The mark as spam/ham icon can either be displayed on the toolbar or as part of the mark messages menu
 $rcmail_config['markasjunk2_mb_toolbar'] = true;
 
+// Show icon on compose toolbar
+// The mark as spam/ham icon can either be displayed on the toolbar or as part of the mark messages menu
+$rcmail_config['markasjunk2_cp_toolbar'] = true;
+
 // cmd_learn Driver options
 // ------------------------
 // The command used to learn that a message is spam
