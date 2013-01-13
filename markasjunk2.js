@@ -108,7 +108,7 @@ function rcmail_markasjunk2_update() {
 		hamobj = hamobj.parent();
 	}
 
-	if (!rcmail.env.markasjunk2_override && rcmail.env.junk_mailbox && rcmail.env.mailbox != rcmail.env.junk_mailbox) {
+	if (!rcmail.env.markasjunk2_override && rcmail.env.markasjunk2_junk_mailbox && rcmail.env.mailbox != rcmail.env.markasjunk2_junk_mailbox) {
 		$('#rcmContextMenu li.markasjunk2').show();
 		$('#rcmContextMenu li.markasnotjunk2').hide();
 		spamobj.show();

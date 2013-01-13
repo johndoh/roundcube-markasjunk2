@@ -16,7 +16,7 @@ $rcmail_config['markasjunk2_ham_mbox'] = null;
 
 // Spam mailbox
 // Mailbox messages should be moved to when they are marked as spam.
-// null = the mailbox assigned as the spam folder in Roundcube settins
+// null = the mailbox assigned as the spam folder in Roundcube settings
 // set to FALSE to disable message moving
 $rcmail_config['markasjunk2_spam_mbox'] = null;
 
