@@ -70,8 +70,9 @@ class markasjunk2 extends rcube_plugin
 		$uids = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
 		$mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
 
-		$this->_spam($uids, $mbox, $this->spam_mbox);
-		$this->api->output->command('display_message', $this->gettext('reportedasjunk'), 'confirmation');
+		if ($this->_spam($uids, $mbox, $this->spam_mbox))
+			$this->api->output->command('display_message', $this->gettext('reportedasjunk'), 'confirmation');
+
 		$this->api->output->send();
 	}
 
@@ -83,8 +84,9 @@ class markasjunk2 extends rcube_plugin
 		$uids = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
 		$mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
 
-		$this->_ham($uids, $mbox, $this->ham_mbox);
-		$this->api->output->command('display_message', $this->gettext('reportedasnotjunk'), 'confirmation');
+		if ($this->_ham($uids, $mbox, $this->ham_mbox))
+			$this->api->output->command('display_message', $this->gettext('reportedasnotjunk'), 'confirmation');
+
 		$this->api->output->send();
 	}
 
@@ -93,8 +95,12 @@ class markasjunk2 extends rcube_plugin
 		$rcmail = rcube::get_instance();
 		$storage = $rcmail->storage;
 
-		if ($rcmail->config->get('markasjunk2_learning_driver', false))
-			$this->_call_driver($uids, true);
+		if ($rcmail->config->get('markasjunk2_learning_driver', false)) {
+			$result = $this->_call_driver($uids, true);
+
+			if (!$result)
+				return false;
+		}
 
 		if ($rcmail->config->get('markasjunk2_read_spam', false))
 			$storage->set_flag($uids, 'SEEN', $mbox_name);
@@ -109,6 +115,8 @@ class markasjunk2 extends rcube_plugin
 			$this->api->output->command('rcmail_markasjunk2_move', $dest_mbox, $uids);
 		else
 			$this->api->output->command('command', 'list', $mbox_name);
+
+		return true;
 	}
 
 	private function _ham($uids, $mbox_name = NULL, $dest_mbox = NULL)
@@ -116,8 +124,12 @@ class markasjunk2 extends rcube_plugin
 		$rcmail = rcube::get_instance();
 		$storage = $rcmail->storage;
 
-		if ($rcmail->config->get('markasjunk2_learning_driver', false))
-			$this->_call_driver($uids, false);
+		if ($rcmail->config->get('markasjunk2_learning_driver', false)) {
+			$result = $this->_call_driver($uids, false);
+
+			if (!$result)
+				return false;
+		}
 
 		if ($rcmail->config->get('markasjunk2_unread_ham', false))
 			$storage->unset_flag($uids, 'SEEN', $mbox_name);
@@ -132,6 +144,8 @@ class markasjunk2 extends rcube_plugin
 			$this->api->output->command('rcmail_markasjunk2_move', $dest_mbox, $uids);
 		else
 			$this->api->output->command('command', 'list', $mbox_name);
+
+		return true;
 	}
 
 	private function _call_driver(&$uids, $spam)
@@ -147,8 +161,6 @@ class markasjunk2 extends rcube_plugin
 				'line' => __LINE__,
 				'message' => "MarkasJunk2 plugin: Unable to open driver file $driver"
 				), true, false);
-
-			return $this->gettext('internalerror');
 		}
 
 		include_once $driver;
@@ -161,8 +173,6 @@ class markasjunk2 extends rcube_plugin
 				'line' => __LINE__,
 				'message' => "MarkasJunk2 plugin: Broken driver: $driver"
 				), true, false);
-
-			return $this->gettext('internalerror');
 		}
 
 		$object = new $class;
@@ -170,6 +180,8 @@ class markasjunk2 extends rcube_plugin
 			$object->spam($uids);
 		else
 			$object->ham($uids);
+
+		return $object->is_error ? false : true;
 	}
 
 	private function _set_flags()
