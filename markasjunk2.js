@@ -108,7 +108,7 @@ function rcmail_markasjunk2_update() {
 		hamobj = hamobj.parent();
 	}
 
-	if (!rcmail.env.markasjunk2_override && rcmail.env.markasjunk2_junk_mailbox && rcmail.env.mailbox != rcmail.env.markasjunk2_junk_mailbox) {
+	if (!rcmail.env.markasjunk2_override && rcmail.env.markasjunk2_spam_mailbox && rcmail.env.mailbox != rcmail.env.markasjunk2_spam_mailbox) {
 		$('#rcmContextMenu li.markasjunk2').show();
 		$('#rcmContextMenu li.markasnotjunk2').hide();
 		spamobj.show();
@@ -167,6 +167,25 @@ $(document).ready(function() {
 
 		rcmail.add_onload('rcmail_markasjunk2_init()');
 		rcmail.addEventListener('listupdate', function(props) { rcmail_markasjunk2_update(); } );
+
+		rcmail.addEventListener('beforemoveto', function(mbox) {
+			if (mbox && typeof mbox === 'object')
+				mbox = mbox.id;
+
+			// check if destination mbox equals junk box (and we're not already in the junk box)
+			if (rcmail.env.markasjunk2_move_spam && mbox && mbox == rcmail.env.markasjunk2_spam_mailbox && mbox != rcmail.env.mailbox) {
+				rcmail_markasjunk2();
+				return false;
+
+			}
+			// or if destination mbox equals ham box and we are in the junk box
+			else if (rcmail.env.markasjunk2_move_ham && mbox && mbox == rcmail.env.markasjunk2_ham_mailbox && rcmail.env.mailbox == rcmail.env.markasjunk2_spam_mailbox) {
+				rcmail_markasjunk2_notjunk();
+				return false;
+			}
+
+			return;
+		} );
 
 		// update button activation after external events
 		rcmail.addEventListener('beforedelete', function(props) { rcmail_markasjunk2_status('beforedelete'); } );

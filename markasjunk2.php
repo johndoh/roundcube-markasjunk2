@@ -58,7 +58,11 @@ class markasjunk2 extends rcube_plugin
 			}
 
 			$this->api->output->set_env('markasjunk2_override', $mb_override);
-			$this->api->output->set_env('markasjunk2_junk_mailbox', $this->spam_mbox);
+			$this->api->output->set_env('markasjunk2_ham_mailbox', $this->ham_mbox);
+			$this->api->output->set_env('markasjunk2_spam_mailbox', $this->spam_mbox);
+
+			$this->api->output->set_env('markasjunk2_move_spam', $rcmail->config->get('markasjunk2_move_spam', false));
+			$this->api->output->set_env('markasjunk2_move_ham', $rcmail->config->get('markasjunk2_move_ham', false));
 		}
 	}
 
