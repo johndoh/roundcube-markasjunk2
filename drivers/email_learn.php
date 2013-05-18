@@ -169,7 +169,7 @@ class markasjunk2_email_learn
 				}
 			}
 
-			$rcmail->rcmail_deliver_message($MAIL_MIME, $from, $mailto, $smtp_error, $body_file);
+			$rcmail->deliver_message($MAIL_MIME, $from, $mailto, $smtp_error, $body_file);
 
 			// clean up
 			if (file_exists($tmpPath))

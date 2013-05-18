@@ -2,6 +2,7 @@ Roundcube Webmail MarkAsJunk2
 =============================
 
  * add option to call markasjunk2 functions on message move
+ * rcmail_deliver_message() > deliver_message()
 
 Version 1.6 (2013-03-03, rc-0.9)
 =================================================
