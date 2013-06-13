@@ -30,6 +30,7 @@ class markasjunk2_sa_blacklist
 		}
 
 		$db = rcube_db::factory($rcmail->config->get('sauserprefs_db_dsnw'), $rcmail->config->get('sauserprefs_db_dsnr'), $rcmail->config->get('sauserprefs_db_persistent'));
+		$db->set_debug((bool)$rcmail->config->get('sql_debug'));
 		$db->db_connect('w');
 
 		// check DB connections and exit on failure
