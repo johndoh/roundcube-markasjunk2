@@ -28,7 +28,7 @@ folder for details on the skin license.
 Install
 -------
 * Place this plugin folder into plugins directory of Roundcube
-* Add markasjunk2 to $rcmail_config['plugins'] in your Roundcube config
+* Add markasjunk2 to $config['plugins'] in your Roundcube config
 
 **NB:** When downloading the plugin from GitHub you will need to create a
 directory called markasjunk2 and place the files in there, ignoring the root
@@ -97,14 +97,14 @@ edit_headers example config
 use at your own risk
 
 ```php
-$rcmail_config['markasjunk2_spam_patterns'] = array(
+$config['markasjunk2_spam_patterns'] = array(
   'patterns' => array('/^(Subject:\s*)(.*)$/m'),
   'replacements' => array('$1[SPAM] $2')
 );
 ```
 
 ```php
-$rcmail_config['markasjunk2_ham_patterns'] = array(
+$config['markasjunk2_ham_patterns'] = array(
   'patterns' => array('/^(Subject:\s*)\[SPAM\](.*)$/m'),
   'replacements' => array('$1$2')
 );
