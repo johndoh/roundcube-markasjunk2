@@ -1,6 +1,10 @@
 Roundcube Webmail MarkAsJunk2
 =============================
 
+ * Update config file var names to match core
+ * Add support for global sql_debug option
+ * Improve handling of multiple marcos in cmd_learn driver
+
 Version 1.7 (2013-05-193, rc-1.0)
 =================================================
  * add option to call markasjunk2 functions on message move
