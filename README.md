@@ -52,7 +52,7 @@ marked as spam
 **ham:** This function should take 1 argument, the UID of message being
 marked as ham
 
-Five drivers are provided by default they are:
+Several drivers are provided by default they are:
 
 **cmd_learn:** This driver calls an external command (for example salearn) to
 process the message
