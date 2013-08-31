@@ -1,6 +1,7 @@
 Roundcube Webmail MarkAsJunk2
 =============================
 
+ * Use plugin API to set message flags (05da157)
  * Update config file var names to match core
  * Add support for global sql_debug option
  * Improve handling of multiple marcos in cmd_learn driver

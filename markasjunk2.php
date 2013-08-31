@@ -32,6 +32,9 @@ class markasjunk2 extends rcube_plugin
 		$this->spam_mbox = $rcmail->config->get('markasjunk2_spam_mbox', $rcmail->config->get('junk_mbox', null));
 		$this->toolbar = $rcmail->action == 'show' ? $rcmail->config->get('markasjunk2_cp_toolbar', true) : $rcmail->config->get('markasjunk2_mb_toolbar', true);
 
+		// register the ham/spam flags with the core
+		$this->add_hook('storage_init', array($this, 'set_flags'));
+
 		if ($rcmail->action == '' || $rcmail->action == 'show') {
 			$this->include_script('markasjunk2.js');
 			$this->add_texts('localization', true);
@@ -39,6 +42,7 @@ class markasjunk2 extends rcube_plugin
 			if ($rcmail->output->browser->ie && $rcmail->output->browser->ver == 6)
 				$this->include_stylesheet($this->local_skin_path() . '/ie6hacks.css');
 
+			// check which folder we are currently in to display the correct button
 			$mb_override = ($this->spam_mbox) ? false : true;
 			$display_junk = $display_not_junk = '';
 			if ($_SESSION['mbox'] == $this->spam_mbox)
@@ -47,16 +51,19 @@ class markasjunk2 extends rcube_plugin
 				$display_not_junk = 'display: none;';
 
 			if ($this->toolbar) {
+				// add the buttons to the main toolbar
 				$this->add_button(array('command' => 'plugin.markasjunk2.junk', 'type' => 'link', 'class' => 'button buttonPas markasjunk2 disabled', 'classact' => 'button markasjunk2', 'classsel' => 'button markasjunk2Sel', 'title' => 'markasjunk2.buttonjunk', 'label' => 'junk', 'style' => $display_junk), 'toolbar');
 				$this->add_button(array('command' => 'plugin.markasjunk2.not_junk', 'type' => 'link', 'class' => 'button buttonPas markasnotjunk2 disabled', 'classact' => 'button markasnotjunk2', 'classsel' => 'button markasnotjunk2Sel', 'title' => 'markasjunk2.buttonnotjunk', 'label' => 'markasjunk2.notjunk', 'style' => $display_not_junk), 'toolbar');
 			}
 			else {
+				// add the buttons to the mark message menu
 				$markjunk = $this->api->output->button(array('command' => 'plugin.markasjunk2.junk', 'label' => 'markasjunk2.markasjunk', 'id' => 'markasjunk2', 'class' => 'icon markasjunk2', 'classact' => 'icon markasjunk2 active', 'innerclass' => 'icon markasjunk2'));
 				$marknotjunk = $this->api->output->button(array('command' => 'plugin.markasjunk2.not_junk', 'label' => 'markasjunk2.markasnotjunk', 'id' => 'markasnotjunk2', 'class' => 'icon markasnotjunk2', 'classact' => 'icon markasnotjunk2 active', 'innerclass' => 'icon markasnotjunk2'));
 				$this->api->add_content(html::tag('li', array('style' => $display_junk), $markjunk), 'markmenu');
 				$this->api->add_content(html::tag('li', array('style' => $display_not_junk), $marknotjunk), 'markmenu');
 			}
 
+			// add markasjunk2 folder settings to the env for JS
 			$this->api->output->set_env('markasjunk2_override', $mb_override);
 			$this->api->output->set_env('markasjunk2_ham_mailbox', $this->ham_mbox);
 			$this->api->output->set_env('markasjunk2_spam_mailbox', $this->spam_mbox);
@@ -69,7 +76,6 @@ class markasjunk2 extends rcube_plugin
 	function mark_junk()
 	{
 		$this->add_texts('localization');
-		$this->_set_flags();
 
 		$uids = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
 		$mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
@@ -83,7 +89,6 @@ class markasjunk2 extends rcube_plugin
 	function mark_notjunk()
 	{
 		$this->add_texts('localization');
-		$this->_set_flags();
 
 		$uids = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
 		$mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
@@ -94,6 +99,20 @@ class markasjunk2 extends rcube_plugin
 		$this->api->output->send();
 	}
 
+	function set_flags($p)
+	{
+		$rcmail = rcube::get_instance();
+
+		$flags = array(
+			$this->spam_flag => $rcmail->config->get('markasjunk2_spam_flag'),
+			$this->ham_flag => $rcmail->config->get('markasjunk2_ham_flag')
+		);
+
+		$p['message_flags'] = array_merge((array)$p['message_flags'], $flags);
+
+		return $p;
+	}
+
 	private function _spam($uids, $mbox_name = NULL, $dest_mbox = NULL)
 	{
 		$rcmail = rcube::get_instance();
@@ -102,6 +121,7 @@ class markasjunk2 extends rcube_plugin
 		if ($rcmail->config->get('markasjunk2_learning_driver', false)) {
 			$result = $this->_call_driver($uids, true);
 
+			// abort function of the driver says so
 			if (!$result)
 				return false;
 		}
@@ -131,6 +151,7 @@ class markasjunk2 extends rcube_plugin
 		if ($rcmail->config->get('markasjunk2_learning_driver', false)) {
 			$result = $this->_call_driver($uids, false);
 
+			// abort function of the driver says so
 			if (!$result)
 				return false;
 		}
@@ -179,6 +200,7 @@ class markasjunk2 extends rcube_plugin
 				), true, false);
 		}
 
+		// call the relevant function from the driver
 		$object = new $class;
 		if ($spam)
 			$object->spam($uids);
@@ -186,25 +208,6 @@ class markasjunk2 extends rcube_plugin
 			$object->ham($uids);
 
 		return $object->is_error ? false : true;
-	}
-
-	private function _set_flags()
-	{
-		$rcmail = rcube::get_instance();
-
-		if ($rcmail->config->get('markasjunk2_spam_flag', false)) {
-			if ($flag = array_search($rcmail->config->get('markasjunk2_spam_flag'), $rcmail->storage->conn->flags))
-				$this->spam_flag = $flag;
-			else
-				$rcmail->storage->conn->flags[$this->spam_flag] = $rcmail->config->get('markasjunk2_spam_flag');
-		}
-
-		if ($rcmail->config->get('markasjunk2_ham_flag', false)) {
-			if ($flag = array_search($rcmail->config->get('markasjunk2_ham_flag'), $rcmail->storage->conn->flags))
-				$this->ham_flag = $flag;
-			else
-				$rcmail->storage->conn->flags[$this->ham_flag] = $rcmail->config->get('markasjunk2_ham_flag');
-		}
 	}
 }
 
