@@ -16,6 +16,15 @@ When in the Junk mailbox:
 
 This plugin also integrates with the ContextMenu plugin
 
+ATTENTION
+---------
+This is just a snapshot from the GIT repository and is **NOT A STABLE version
+of MarkAsJunk2**. It is Intended for use with the **GIT-master** version of
+Roundcube and it may not be compatible with older versions. Stable versions of
+MarkAsJunk2 are available from the [Roundcube plugin repository][rcplugrepo]
+(for 1.0 and above) or the [releases section][releases] of the GitHub
+repository.
+
 License
 -------
 This plugin is released under the [GNU General Public License Version 3+][gpl].
@@ -112,4 +121,6 @@ $config['markasjunk2_ham_patterns'] = array(
 
 [thomas]: mailto:roundcube@gmail.com
 [rcmaj]: http://github.com/roundcube/roundcubemail/tree/master/plugins/markasjunk
+[rcplugrepo]: http://plugins.roundcube.net/packages/johndoh/markasjunk2
+[releases]: http://github.com/JohnDoh/Roundcube-Plugin-Mark-as-Junk-2/releases
 [gpl]: http://www.gnu.org/licenses/gpl.html
