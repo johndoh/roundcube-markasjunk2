@@ -7,7 +7,7 @@
 #messagetoolbar a.markasnotjunk2,
 #messagetoolbar a.markasnotjunk2Sel
 {
-  background-image: url(mail_toolbar.gif);
+  background-image: url(images/mail_toolbar.gif);
 }
 
 #rcmContextMenu .markasjunk2 a,
@@ -15,5 +15,5 @@
 #markmessagemenu a.markasjunk2,
 #markmessagemenu a.markasnotjunk2
 {
-  background-image: url(messageactions.gif);
+  background-image: url(images/messageactions.gif);
 }

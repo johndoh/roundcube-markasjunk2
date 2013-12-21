@@ -7,7 +7,7 @@
 #messagetoolbar a.markasnotjunk2,
 #messagetoolbar a.markasnotjunk2Sel
 {
-  background-image: url(mail_toolbar.png);
+  background-image: url(images/mail_toolbar.png);
 }
 
 #messagetoolbar a.markasjunk2,
@@ -27,7 +27,7 @@
 #markmessagemenu a.markasjunk2 span,
 #markmessagemenu a.markasnotjunk2 span
 {
-  background-image: url(messageactions.png);
+  background-image: url(images/messageactions.png);
 }
 
 #markmessagemenu a.markasjunk2 span

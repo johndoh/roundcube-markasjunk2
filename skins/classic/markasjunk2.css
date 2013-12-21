@@ -8,7 +8,7 @@
 #messagetoolbar a.markasnotjunk2Sel
 {
   text-indent: -5000px;
-  background-image: url(mail_toolbar.png);
+  background-image: url(images/mail_toolbar.png);
 }
 
 #messagetoolbar a.markasjunk2
@@ -36,7 +36,7 @@
 #markmessagemenu a.markasjunk2,
 #markmessagemenu a.markasnotjunk2
 {
-  background-image: url(messageactions.png);
+  background-image: url(images/messageactions.png);
 }
 
 #rcmContextMenu .markasjunk2 a,
