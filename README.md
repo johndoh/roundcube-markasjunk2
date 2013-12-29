@@ -86,6 +86,17 @@ preg_replace.
 header, and include the ^ and $ and test carefully before use on real messages.
 This driver alters the message source
 
+Running multiple drivers
+------------------------
+**WARNING:** This is very dangerous please always test carefully. Run multiple
+drivers at your own risk! It may be safer to create one driver that does
+everything you want.
+
+It is possible to run multiple drivers when marking a message as spam/ham. For
+example running sa_blacklist followed by cmd_learn or edit_headers and
+cmd_learn. An [example multi-driver][multidriver] is available. This is a
+starting point only, it requires modification for individual cases.
+
 Spam learning commands
 ----------------------
 Spamassassin:
@@ -124,3 +135,4 @@ $config['markasjunk2_ham_patterns'] = array(
 [rcplugrepo]: http://plugins.roundcube.net/packages/johndoh/markasjunk2
 [releases]: http://github.com/JohnDoh/Roundcube-Plugin-Mark-as-Junk-2/releases
 [gpl]: http://www.gnu.org/licenses/gpl.html
+[multidriver]: http://gist.github.com/JohnDoh/8173505
