@@ -26,7 +26,7 @@ class markasjunk2_sa_detach
 
 			if (sizeof($message->attachments) > 0) {
 				foreach ($message->attachments as $part) {
-					if ($part->ctype_primary == 'message' && $part->ctype_secondary == 'rfc822') {
+					if ($part->ctype_primary == 'message' && $part->ctype_secondary == 'rfc822' && $part->ctype_parameters['x-spam-type'] == 'original') {
 						$orig_message_raw = $storage->get_message_part($message->uid, $part->mime_id, $part);
 						$saved = $storage->save_message($mbox, $orig_message_raw);
 
