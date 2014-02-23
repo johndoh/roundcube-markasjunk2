@@ -24,18 +24,22 @@
 
 #rcmContextMenu .markasjunk2 a span,
 #rcmContextMenu .markasnotjunk2 a span,
-#markmessagemenu a.markasjunk2 span,
-#markmessagemenu a.markasnotjunk2 span
+ul.toolbarmenu li a span.markasjunk2,
+ul.toolbarmenu li a span.markasnotjunk2,
+ul.toolbarmenu li a.markasjunk2 span.cmicon,
+ul.toolbarmenu li a.markasnotjunk2 span.cmicon
 {
   background-image: url(images/messageactions.png);
 }
 
-#markmessagemenu a.markasjunk2 span
+ul.toolbarmenu li a span.markasjunk2,
+ul.toolbarmenu li a.markasjunk2 span.cmicon
 {
   background-position: 1px -17px;
 }
 
-#markmessagemenu a.markasnotjunk2 span
+ul.toolbarmenu li a span.markasnotjunk2,
+ul.toolbarmenu li a.markasnotjunk2 span.cmicon
 {
   background-position: 1px 5px;
 }
