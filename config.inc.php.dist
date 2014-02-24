@@ -127,6 +127,11 @@ $config['markasjunk2_email_subject'] = 'learn this message as %t';
 // Path to SAUserPrefs config file
 $config['markasjunk2_sauserprefs_config'] = '../sauserprefs/config.inc.php';
 
+// amavis_blacklist Driver options
+// ---------------------------
+// Path to amacube config file
+$config['markasjunk2_amacube_config'] = '../amacube/config.inc.php';
+
 // edit_headers Driver options
 // ---------------------------
 // Patterns to match and replace headers for spam messages

@@ -62,7 +62,9 @@ class markasjunk2_amavis_blacklist
 	     	   	if ($sql_result && ($res_array = $db->fetch_assoc($sql_result))) {
 				$sid = $res_array['id'];
 			} else {
-				rcube::write_log('markasjunk2', $email . ' not found in mailaddr table - add it');
+				if ($rcmail->config->get('markasjunk2_debug')) {
+					rcube::write_log('markasjunk2', $email . ' not found in mailaddr table - add it');
+				}
 				$sql_result = $db->query( "INSERT INTO mailaddr ( priority, email ) VALUES ( 20, ? )", $email);
 				if ($sql_result) {						
 					$sid = $db->insert_id(); 
