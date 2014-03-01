@@ -66,6 +66,10 @@ directly to a set address
 **sa_blacklist:** This driver adds the sender address of a spam message to the
 users blacklist (or whitelist of ham messages) Requires SAUserPrefs plugin
 
+**amavis_blacklist:** This driver adds the sender address of a spam message to
+the users blacklist (or whitelist of ham messages) Requires Amacube plugin.
+Driver by Der-Jan
+
 **sa_detach:** If the message is a Spamassassin spam report with the original
 email attached then this is detached and saved in the Inbox, the spam report is
 deleted
