@@ -22,8 +22,6 @@
   background-position: center -61px;
 }
 
-#rcmContextMenu .markasjunk2 a span,
-#rcmContextMenu .markasnotjunk2 a span,
 ul.toolbarmenu li a span.markasjunk2,
 ul.toolbarmenu li a span.markasnotjunk2,
 ul.toolbarmenu li a.markasjunk2 span.cmicon,
@@ -42,14 +40,4 @@ ul.toolbarmenu li a span.markasnotjunk2,
 ul.toolbarmenu li a.markasnotjunk2 span.cmicon
 {
   background-position: 1px 5px;
-}
-
-#rcmContextMenu .markasjunk2 a span
-{
-  background-position: 7px -14px;
-}
-
-#rcmContextMenu .markasnotjunk2 a span
-{
-  background-position: 7px 7px;
 }

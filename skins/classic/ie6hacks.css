@@ -10,8 +10,6 @@
   background-image: url(images/mail_toolbar.gif);
 }
 
-#rcmContextMenu .markasjunk2 a,
-#rcmContextMenu .markasnotjunk2 a,
 #markmessagemenu a.markasjunk2,
 #markmessagemenu a.markasnotjunk2
 {

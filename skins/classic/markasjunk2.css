@@ -31,8 +31,6 @@
   background-position: 0 -32px;
 }
 
-#rcmContextMenu .markasjunk2 a,
-#rcmContextMenu .markasnotjunk2 a,
 ul.toolbarmenu li a.markasjunk2,
 ul.toolbarmenu li a.markasnotjunk2
 {
@@ -40,13 +38,11 @@ ul.toolbarmenu li a.markasnotjunk2
   background-repeat: no-repeat;
 }
 
-#rcmContextMenu .markasjunk2 a,
 ul.toolbarmenu li a.markasjunk2
 {
   background-position: 6px -17px !important;
 }
 
-#rcmContextMenu .markasnotjunk2 a,
 ul.toolbarmenu li a.markasnotjunk2
 {
   background-position: 6px 0 !important;

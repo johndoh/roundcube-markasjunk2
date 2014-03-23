@@ -90,15 +90,6 @@ rcube_webmail.prototype.rcmail_markasjunk2_move = function(mbox, uid) {
 	}
 }
 
-function rcmail_markasjunk2_init() {
-	if (window.rcm_contextmenu_register_command) {
-		rcm_contextmenu_register_command('markasjunk2', 'rcmail_markasjunk2', rcmail.gettext('markasjunk2.markasjunk'), 'reply', null, true, null, null, 'markmessage markasjunk2');
-		rcm_contextmenu_register_command('markasnotjunk2', 'rcmail_markasjunk2_notjunk', rcmail.gettext('markasjunk2.markasnotjunk'), 'reply', null, true, null, null, 'markmessage markasnotjunk2');
-		$('#rcmContextMenu li.unflagged').removeClass('separator_below');
-		$('#rcmContextMenu li.reply').addClass('separator_above');
-	}
-}
-
 function rcmail_markasjunk2_update() {
 	var spamobj = $('#' + rcmail.buttons['plugin.markasjunk2.junk'][0].id);
 	var hamobj = $('#' + rcmail.buttons['plugin.markasjunk2.not_junk'][0].id);
@@ -165,7 +156,6 @@ $(document).ready(function() {
 			}
 		});
 
-		rcmail.add_onload('rcmail_markasjunk2_init()');
 		rcmail.addEventListener('listupdate', function(props) { rcmail_markasjunk2_update(); } );
 
 		rcmail.addEventListener('beforemoveto', function(mbox) {
