@@ -1,6 +1,15 @@
 Roundcube Webmail MarkAsJunk2
 =============================
 
+Version 1.8.2 (2014-03-30, rc-1.0)
+=================================================
+ * Add amavis_blacklist driver (by Der-Jan)
+
+Version 1.8.1 (2014-01-01, rc-1.0)
+=================================================
+ * Improve sa_detach driver, make sure only original message is detached
+ * Correct skin folder structure for Roundcube packaging
+
 Version 1.8 (2013-12-01, rc-1.0)
 =================================================
  * Use sauserprefs_userid config setting in sa_blacklist driver
