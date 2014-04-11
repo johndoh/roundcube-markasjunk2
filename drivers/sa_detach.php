@@ -8,19 +8,18 @@
 
 class markasjunk2_sa_detach
 {
-	public function spam($uids)
+	public function spam($uids, $mbox)
 	{
 		// do nothing
 	}
 
-	public function ham(&$uids)
+	public function ham(&$uids, $mbox)
 	{
 		$rcmail = rcube::get_instance();
 		$storage = $rcmail->storage;
-		$mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
 
 		$new_uids = array();
-		foreach (explode(",", $uids) as $uid) {
+		foreach ($uids as $uid) {
 			$saved = false;
 			$message = new rcube_message($uid);
 
@@ -40,7 +39,7 @@ class markasjunk2_sa_detach
 		}
 
 		if (sizeof($new_uids) > 0)
-			$uids = implode(',', $new_uids);
+			$uids = $new_uids;
 	}
 }
 

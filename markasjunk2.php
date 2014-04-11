@@ -23,8 +23,8 @@ class markasjunk2 extends rcube_plugin
 
 	function init()
 	{
-		$this->register_action('plugin.markasjunk2.junk', array($this, 'mark_junk'));
-		$this->register_action('plugin.markasjunk2.not_junk', array($this, 'mark_notjunk'));
+		$this->register_action('plugin.markasjunk2.junk', array($this, 'mark_message'));
+		$this->register_action('plugin.markasjunk2.not_junk', array($this, 'mark_message'));
 
 		$rcmail = rcube::get_instance();
 		$this->load_config();
@@ -45,10 +45,13 @@ class markasjunk2 extends rcube_plugin
 			// check which folder we are currently in to display the correct button
 			$mb_override = ($this->spam_mbox) ? false : true;
 			$display_junk = $display_not_junk = '';
-			if ($_SESSION['mbox'] == $this->spam_mbox)
+
+			if ($_SESSION['mbox'] == $this->spam_mbox) {
 				$display_junk = 'display: none;';
-			elseif (!$mb_override)
+			}
+			elseif (!$mb_override) {
 				$display_not_junk = 'display: none;';
+			}
 
 			if ($this->toolbar) {
 				// add the buttons to the main toolbar
@@ -73,28 +76,27 @@ class markasjunk2 extends rcube_plugin
 		}
 	}
 
-	function mark_junk()
+	function mark_message()
 	{
 		$this->add_texts('localization');
 
-		$uids = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
-		$mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
+		$is_spam = rcube::get_instance()->action == 'plugin.markasjunk2.junk' ? true : false;
+		$multi_folder = $_POST['_multifolder'] == 'true' ? true : false;
+		$messageset = rcmail::get_uids();
+		$mbox_name = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
+		$dest_mbox = $is_spam ? $this->spam_mbox : $this->ham_mbox;
+		$result = $is_spam ? $this->_spam($messageset, $dest_mbox) : $this->_ham($messageset, $dest_mbox);
 
-		if ($this->_spam($uids, $mbox, $this->spam_mbox))
-			$this->api->output->command('display_message', $this->gettext('reportedasjunk'), 'confirmation');
+		if ($result) {
+			if ($dest_mbox && ($mbox_name != $dest_mbox || $multi_folder)) {
+				$this->api->output->command('rcmail_markasjunk2_move', $dest_mbox, $this->_messageset_to_uids($messageset, $multi_folder));
+			}
+			else {
+				$this->api->output->command('command', 'list', $mbox_name);
+			}
 
-		$this->api->output->send();
-	}
-
-	function mark_notjunk()
-	{
-		$this->add_texts('localization');
-
-		$uids = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
-		$mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
-
-		if ($this->_ham($uids, $mbox, $this->ham_mbox))
-			$this->api->output->command('display_message', $this->gettext('reportedasnotjunk'), 'confirmation');
+			$this->api->output->command('display_message', $is_spam ? $this->gettext('reportedasjunk') : $this->gettext('reportedasnotjunk'), 'confirmation');
+		}
 
 		$this->api->output->send();
 	}
@@ -113,67 +115,67 @@ class markasjunk2 extends rcube_plugin
 		return $p;
 	}
 
-	private function _spam($uids, $mbox_name = NULL, $dest_mbox = NULL)
+	private function _spam(&$messageset, $dest_mbox = NULL)
 	{
 		$rcmail = rcube::get_instance();
-		$storage = $rcmail->storage;
+		$storage = $rcmail->get_storage();
+		$result = true;
 
-		if ($rcmail->config->get('markasjunk2_learning_driver', false)) {
-			$result = $this->_call_driver($uids, true);
+		foreach ($messageset as $mbox => &$uids) {
+			$storage->set_folder($mbox);
 
-			// abort function of the driver says so
-			if (!$result)
-				return false;
+			if ($rcmail->config->get('markasjunk2_learning_driver', false)) {
+				$result = $this->_call_driver($uids, $mbox, true);
+
+				// abort function of the driver says so
+				if (!$result)
+					break;
+			}
+
+			if ($rcmail->config->get('markasjunk2_read_spam', false))
+				$storage->set_flag($uids, 'SEEN', $mbox);
+
+			if ($rcmail->config->get('markasjunk2_spam_flag', false))
+				$storage->set_flag($uids, $this->spam_flag, $mbox);
+
+			if ($rcmail->config->get('markasjunk2_ham_flag', false))
+				$storage->unset_flag($uids, $this->ham_flag, $mbox);
 		}
 
-		if ($rcmail->config->get('markasjunk2_read_spam', false))
-			$storage->set_flag($uids, 'SEEN', $mbox_name);
-
-		if ($rcmail->config->get('markasjunk2_spam_flag', false))
-			$storage->set_flag($uids, $this->spam_flag, $mbox_name);
-
-		if ($rcmail->config->get('markasjunk2_ham_flag', false))
-			$storage->unset_flag($uids, $this->ham_flag, $mbox_name);
-
-		if ($dest_mbox && $mbox_name != $dest_mbox)
-			$this->api->output->command('rcmail_markasjunk2_move', $dest_mbox, $uids);
-		else
-			$this->api->output->command('command', 'list', $mbox_name);
-
-		return true;
+		return $result;
 	}
 
-	private function _ham($uids, $mbox_name = NULL, $dest_mbox = NULL)
+	private function _ham(&$messageset, $dest_mbox = NULL)
 	{
 		$rcmail = rcube::get_instance();
-		$storage = $rcmail->storage;
+		$storage = $rcmail->get_storage();
+		$result = true;
 
-		if ($rcmail->config->get('markasjunk2_learning_driver', false)) {
-			$result = $this->_call_driver($uids, false);
+		foreach ($messageset as $mbox => &$uids) {
+			$storage->set_folder($mbox);
 
-			// abort function of the driver says so
-			if (!$result)
-				return false;
+			if ($rcmail->config->get('markasjunk2_learning_driver', false)) {
+				$result = $this->_call_driver($uids, $mbox, false);
+
+				// abort function of the driver says so
+				if (!$result)
+					break;
+			}
+
+			if ($rcmail->config->get('markasjunk2_unread_ham', false))
+				$storage->unset_flag($uids, 'SEEN', $mbox);
+
+			if ($rcmail->config->get('markasjunk2_spam_flag', false))
+				$storage->unset_flag($uids, $this->spam_flag, $mbox);
+
+			if ($rcmail->config->get('markasjunk2_ham_flag', false))
+				$storage->set_flag($uids, $this->ham_flag, $mbox);
 		}
 
-		if ($rcmail->config->get('markasjunk2_unread_ham', false))
-			$storage->unset_flag($uids, 'SEEN', $mbox_name);
-
-		if ($rcmail->config->get('markasjunk2_spam_flag', false))
-			$storage->unset_flag($uids, $this->spam_flag, $mbox_name);
-
-		if ($rcmail->config->get('markasjunk2_ham_flag', false))
-			$storage->set_flag($uids, $this->ham_flag, $mbox_name);
-
-		if ($dest_mbox && $mbox_name != $dest_mbox)
-			$this->api->output->command('rcmail_markasjunk2_move', $dest_mbox, $uids);
-		else
-			$this->api->output->command('command', 'list', $mbox_name);
-
-		return true;
+		return $result;
 	}
 
-	private function _call_driver(&$uids, $spam)
+	private function _call_driver(&$uids, $mbox, $spam)
 	{
 		$driver = $this->home.'/drivers/'. rcube::get_instance()->config->get('markasjunk2_learning_driver', 'cmd_learn') .'.php';
 		$class = 'markasjunk2_' . rcube::get_instance()->config->get('markasjunk2_learning_driver', 'cmd_learn');
@@ -203,11 +205,24 @@ class markasjunk2 extends rcube_plugin
 		// call the relevant function from the driver
 		$object = new $class;
 		if ($spam)
-			$object->spam($uids);
+			$object->spam($uids, $mbox);
 		else
-			$object->ham($uids);
+			$object->ham($uids, $mbox);
 
 		return $object->is_error ? false : true;
+	}
+
+	private function _messageset_to_uids($messageset, $multi_folder)
+	{
+		$a_uids = array();
+
+		foreach ($messageset as $mbox => $uids) {
+			foreach ($uids as $uid) {
+				$a_uids[] = $multi_folder ? $uid . '-' . $mbox : $uid;
+			}
+		}
+
+		return $a_uids;
 	}
 }
 

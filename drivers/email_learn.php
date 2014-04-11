@@ -8,12 +8,12 @@
 
 class markasjunk2_email_learn
 {
-	public function spam($uids)
+	public function spam($uids, $mbox)
 	{
 		$this->_do_emaillearn($uids, true);
 	}
 
-	public function ham($uids)
+	public function ham($uids, $mbox)
 	{
 		$this->_do_emaillearn($uids, false);
 	}
@@ -57,7 +57,7 @@ class markasjunk2_email_learn
 		$headers['To'] = $mailto;
 		$headers['Subject'] = $subject;
 
-		foreach (explode(",", $uids) as $uid) {
+		foreach ($uids as $uid) {
 			$MESSAGE = new rcube_message($uid);
 
 			// set message charset as default

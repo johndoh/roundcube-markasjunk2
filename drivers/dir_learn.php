@@ -8,12 +8,12 @@
 
 class markasjunk2_dir_learn
 {
-	public function spam($uids)
+	public function spam($uids, $mbox)
 	{
 		$this->_do_messagemove($uids, true);
 	}
 
-	public function ham($uids)
+	public function ham($uids, $mbox)
 	{
 		$this->_do_messagemove($uids, false);
 	}
@@ -36,7 +36,7 @@ class markasjunk2_dir_learn
 		$filename = str_replace('%l', $rcmail->user->get_username('local'), $filename);
 		$filename = str_replace('%d', $rcmail->user->get_username('domain'), $filename);
 
-		foreach (explode(",", $uids) as $uid) {
+		foreach ($uids as $uid) {
 			$tmpfname = tempnam($dest_dir, $filename);
 			file_put_contents($tmpfname, $rcmail->storage->get_raw_body($uid));
 

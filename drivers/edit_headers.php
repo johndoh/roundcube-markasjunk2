@@ -8,17 +8,17 @@
 
 class markasjunk2_edit_headers
 {
-	public function spam(&$uids)
+	public function spam(&$uids, $mbox)
 	{
 		$this->_edit_headers($uids, true);
 	}
 
-	public function ham(&$uids)
+	public function ham(&$uids, $mbox)
 	{
 		$this->_edit_headers($uids, false);
 	}
 
-	private function _edit_headers(&$uids, $spam)
+	private function _edit_headers(&$uids, $spam, $mbox)
 	{
 		$rcmail = rcube::get_instance();
 		$args = $spam ? $rcmail->config->get('markasjunk2_spam_patterns') : $rcmail->config->get('markasjunk2_ham_patterns');
@@ -26,10 +26,8 @@ class markasjunk2_edit_headers
 		if (sizeof($args['patterns']) == 0)
 			return;
 
-		$mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
-
 		$new_uids = array();
-		foreach (explode(",", $uids) as $uid) {
+		foreach ($uids as $uid) {
 			$raw_message = $rcmail->storage->get_raw_body($uid);
 			$raw_headers = $rcmail->storage->get_raw_headers($uid);
 
@@ -46,7 +44,7 @@ class markasjunk2_edit_headers
 		}
 
 		if (sizeof($new_uids) > 0)
-			$uids = implode(',', $new_uids);
+			$uids = $new_uids;
 	}
 }
 

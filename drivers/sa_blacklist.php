@@ -11,12 +11,12 @@ class markasjunk2_sa_blacklist
 {
 	private $sa_user;
 
-	public function spam($uids)
+	public function spam($uids, $mbox)
 	{
 		$this->_do_list($uids, true);
 	}
 
-	public function ham($uids)
+	public function ham($uids, $mbox)
 	{
 		$this->_do_list($uids, false);
 	}
@@ -52,7 +52,7 @@ class markasjunk2_sa_blacklist
 				'message' => $err_str), FALSE, TRUE);
 		}
 
-		foreach (explode(",", $uids) as $uid) {
+		foreach ($uids as $uid) {
 			$message = new rcube_message($uid);
 			$email = $message->sender['mailto'];
 

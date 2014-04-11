@@ -10,12 +10,12 @@
 
 class markasjunk2_cmd_learn
 {
-	public function spam($uids)
+	public function spam($uids, $mbox)
 	{
 		$this->_do_salearn($uids, true);
 	}
 
-	public function ham($uids)
+	public function ham($uids, $mbox)
 	{
 		$this->_do_salearn($uids, false);
 	}
@@ -41,7 +41,7 @@ class markasjunk2_cmd_learn
 			$command = str_replace('%i', $identity_arr['email'], $command);
 		}
 
-		foreach (explode(",", $uids) as $uid) {
+		foreach ($uids as $uid) {
 			// reset command for next message
 			$tmp_command = $command;
 

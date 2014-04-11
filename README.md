@@ -55,11 +55,11 @@ The learning driver allows you to perform additional processing on each message
 marked as spam/ham. A driver must contain a class named markasjunk2_{driver
 file name}. The class must contain 2 functions:
 
-**spam:** This function should take 1 argument, the UID of message being
-marked as spam
+**spam:** This function should take 2 arguments: an array of UIDs of message(s)
+being marked as spam, the name of the mailbox containing those messages
 
-**ham:** This function should take 1 argument, the UID of message being
-marked as ham
+**ham:** This function should take 2 arguments: an array of UIDs of message(s)
+being marked as ham, the name of the mailbox containing those messages
 
 Several drivers are provided by default they are:
 

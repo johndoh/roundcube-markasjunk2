@@ -36,10 +36,10 @@ function rcmail_markasjunk2(prop) {
 		}
 	}
 
-	var uids = rcmail.env.uid ? rcmail.env.uid : rcmail.message_list.get_selection().join(',');
+	var uids = rcmail.env.uid ? rcmail.env.uid : rcmail.message_list.get_selection();
 
 	var lock = rcmail.set_busy(true, 'loading');
-	rcmail.http_post('plugin.markasjunk2.' + prop, '_uid='+uids+'&_mbox='+urlencode(rcmail.env.mailbox), lock);
+	rcmail.http_post('plugin.markasjunk2.' + prop, rcmail.selection_post_data({_uid: uids, _multifolder: rcmail.is_multifolder_listing()}), lock);
 
 	if (prev_sel) {
 		rcmail.message_list.clear_selection();
@@ -53,10 +53,10 @@ function rcmail_markasjunk2_notjunk(prop) {
 	rcmail_markasjunk2('not_junk');
 }
 
-rcube_webmail.prototype.rcmail_markasjunk2_move = function(mbox, uid) {
+rcube_webmail.prototype.rcmail_markasjunk2_move = function(mbox, uids) {
 	var prev_uid = rcmail.env.uid;
 	var prev_sel = null;
-	var a_uids = uid.split(",");
+	var a_uids = $.isArray(uids) ? uids : uids.split(",");;
 
 	if (rcmail.message_list && a_uids.length == 1 && !rcmail.message_list.rows[a_uids[0]]) {
 		rcmail.env.uid = a_uids[0];
@@ -99,15 +99,15 @@ function rcmail_markasjunk2_update() {
 		hamobj = hamobj.parent();
 	}
 
-	if (!rcmail.env.markasjunk2_override && rcmail.env.markasjunk2_spam_mailbox && rcmail.env.mailbox != rcmail.env.markasjunk2_spam_mailbox) {
-		$('#rcmContextMenu li.markasjunk2').show();
-		$('#rcmContextMenu li.markasnotjunk2').hide();
+	if (rcmail.env.markasjunk2_override || rcmail.is_multifolder_listing()) {
+		spamobj.show();
+		hamobj.show();
+	}
+	else if (rcmail.env.markasjunk2_spam_mailbox && rcmail.env.mailbox != rcmail.env.markasjunk2_spam_mailbox) {
 		spamobj.show();
 		hamobj.hide();
 	}
-	else if (!rcmail.env.markasjunk2_override) {
-		$('#rcmContextMenu li.markasjunk2').hide();
-		$('#rcmContextMenu li.markasnotjunk2').show();
+	else {
 		spamobj.hide();
 		hamobj.show();
 	}

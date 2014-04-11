@@ -1,6 +1,8 @@
 Roundcube Webmail MarkAsJunk2
 =============================
 
+ * Support multi-folder search results (66536974fe)
+
 Version 1.8.2 (2014-03-30, rc-1.0)
 =================================================
  * Add amavis_blacklist driver (by Der-Jan)

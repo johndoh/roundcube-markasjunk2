@@ -17,12 +17,12 @@ class markasjunk2_amavis_blacklist
 {
 	private $user_email = '';
 
-	public function spam($uids)
+	public function spam($uids, $mbox)
 	{
 		$this->_do_list($uids, true);
 	}
 
-	public function ham($uids)
+	public function ham($uids, $mbox)
 	{
 		$this->_do_list($uids, false);
 	}
@@ -63,7 +63,7 @@ class markasjunk2_amavis_blacklist
 			return false;
 		}
 
-		foreach (explode(",", $uids) as $uid) {
+		foreach ($uids as $uid) {
 			$message = new rcube_message($uid);
 			$email = $message->sender['mailto'];
 			$sql_result = $db->query("SELECT id FROM mailaddr WHERE email = ? ORDER BY mailaddr.priority DESC", $email);
