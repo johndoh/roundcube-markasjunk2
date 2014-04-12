@@ -39,8 +39,6 @@ class markasjunk2 extends rcube_plugin
 			$this->include_script('markasjunk2.js');
 			$this->add_texts('localization', true);
 			$this->include_stylesheet($this->local_skin_path() .'/markasjunk2.css');
-			if ($rcmail->output->browser->ie && $rcmail->output->browser->ver == 6)
-				$this->include_stylesheet($this->local_skin_path() . '/ie6hacks.css');
 
 			// check which folder we are currently in to display the correct button
 			$mb_override = ($this->spam_mbox) ? false : true;
