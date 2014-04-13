@@ -86,7 +86,7 @@ class markasjunk2 extends rcube_plugin
 		$result = $is_spam ? $this->_spam($messageset, $dest_mbox) : $this->_ham($messageset, $dest_mbox);
 
 		if ($result) {
-			if ($dest_mbox && ($mbox_name != $dest_mbox || $multi_folder)) {
+			if ($dest_mbox && ($mbox_name !== $dest_mbox || $multi_folder)) {
 				$this->api->output->command('rcmail_markasjunk2_move', $dest_mbox, $this->_messageset_to_uids($messageset, $multi_folder));
 			}
 			else {
