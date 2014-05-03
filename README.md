@@ -14,8 +14,6 @@ When in the Junk mailbox:
   The buttons are changed to "mark as not spam" or "this message is not spam"
   and the message is moved to the Inbox
 
-This plugin also integrates with the ContextMenu plugin
-
 ATTENTION
 ---------
 This is just a snapshot from the GIT repository and is **NOT A STABLE version
