@@ -60,8 +60,8 @@ class markasjunk2 extends rcube_plugin
 				// add the buttons to the mark message menu
 				$markjunk = $this->api->output->button(array('command' => 'plugin.markasjunk2.junk', 'label' => 'markasjunk2.markasjunk', 'id' => 'markasjunk2', 'class' => 'icon markasjunk2', 'classact' => 'icon markasjunk2 active', 'innerclass' => 'icon markasjunk2'));
 				$marknotjunk = $this->api->output->button(array('command' => 'plugin.markasjunk2.not_junk', 'label' => 'markasjunk2.markasnotjunk', 'id' => 'markasnotjunk2', 'class' => 'icon markasnotjunk2', 'classact' => 'icon markasnotjunk2 active', 'innerclass' => 'icon markasnotjunk2'));
-				$this->api->add_content(html::tag('li', array('style' => $display_junk), $markjunk), 'markmenu');
-				$this->api->add_content(html::tag('li', array('style' => $display_not_junk), $marknotjunk), 'markmenu');
+				$this->api->add_content(html::tag('li', array('style' => $display_junk, 'role' => 'menuitem'), $markjunk), 'markmenu');
+				$this->api->add_content(html::tag('li', array('style' => $display_not_junk, 'role' => 'menuitem'), $marknotjunk), 'markmenu');
 			}
 
 			// add markasjunk2 folder settings to the env for JS
