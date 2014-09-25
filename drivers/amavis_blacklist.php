@@ -51,7 +51,7 @@ class markasjunk2_amavis_blacklist
 				'message' => $err_str), FALSE, TRUE);
 		}
 
-		$sql_result = $db->query( "SELECT id FROM users WHERE email = ?", $this->user_email);
+		$sql_result = $db->query( "SELECT `id` FROM `users` WHERE `email` = ?", $this->user_email);
 		if ($sql_result && ($res_array = $db->fetch_assoc($sql_result))) {
 			$rid = $res_array['id'];
 		}
@@ -66,7 +66,7 @@ class markasjunk2_amavis_blacklist
 		foreach ($uids as $uid) {
 			$message = new rcube_message($uid);
 			$email = $message->sender['mailto'];
-			$sql_result = $db->query("SELECT id FROM mailaddr WHERE email = ? ORDER BY mailaddr.priority DESC", $email);
+			$sql_result = $db->query("SELECT `id` FROM `mailaddr` WHERE `email` = ? ORDER BY `priority` DESC", $email);
 
 			if ($sql_result && ($res_array = $db->fetch_assoc($sql_result))) {
 				$sid = $res_array['id'];
@@ -76,7 +76,7 @@ class markasjunk2_amavis_blacklist
 					rcube::write_log('markasjunk2', $email . ' not found in mailaddr table - add it');
 				}
 
-				$sql_result = $db->query("INSERT INTO mailaddr ( priority, email ) VALUES ( 20, ? )", $email);
+				$sql_result = $db->query("INSERT INTO `mailaddr` ( `priority`, `email` ) VALUES ( 20, ? )", $email);
 				if ($sql_result) {
 					$sid = $db->insert_id();
 				}
@@ -90,7 +90,7 @@ class markasjunk2_amavis_blacklist
 			}
 
 			$wb = '';
-			$sql_result = $db->query("SELECT wb FROM wblist WHERE sid = ? AND rid =?", $sid, $rid);
+			$sql_result = $db->query("SELECT `wb` FROM `wblist` WHERE `sid` = ? AND `rid` =?", $sid, $rid);
 			if ($sql_result && ($res_array = $db->fetch_assoc($sql_result))) {
 				$wb = $res_array['wb'];
 			}
@@ -102,11 +102,11 @@ class markasjunk2_amavis_blacklist
 					$newwb = 'b';
 
 				if ($wb) {
-					$sql_result = $db->query('UPDATE wblist SET wb = ? WHERE sid = ? AND rid = ?',
+					$sql_result = $db->query('UPDATE `wblist` SET `wb` = ? WHERE `sid` = ? AND `rid` = ?',
 					$newwb, $sid, $rid);
 				}
 				else {
-					$sql_result = $db->query('INSERT INTO wblist (sid, rid, wb) VALUES (?,?,?)',
+					$sql_result = $db->query('INSERT INTO `wblist` (`sid`, `rid`, `wb`) VALUES (?,?,?)',
 					$sid, $rid,$newwb);
 				}
 
