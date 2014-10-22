@@ -118,7 +118,7 @@ class markasjunk2_email_learn
 
 				foreach ($MESSAGE->attachments as $attachment) {
 					$MAIL_MIME->addAttachment(
-						$MESSAGE->get_part_content($attachment->mime_id),
+						$MESSAGE->get_part_body($attachment->mime_id, true),
 						$attachment->mimetype,
 						$attachment->filename,
 						false,
@@ -143,7 +143,7 @@ class markasjunk2_email_learn
 						$MAIL_MIME->setHTMLBody($message_body);
 
 						$MAIL_MIME->addHTMLImage(
-							$MESSAGE->get_part_content($attachment->mime_id),
+							$MESSAGE->get_part_body($attachment->mime_id, true),
 							$attachment->mimetype,
 							$attachment->filename,
 							false

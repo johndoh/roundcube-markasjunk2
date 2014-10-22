@@ -1,6 +1,7 @@
 Roundcube Webmail MarkAsJunk2
 =============================
 
+ * Use get_part_body add in 48ba4414b3
  * Support multi-folder search results (66536974fe)
  * Drop IE6 support
 
