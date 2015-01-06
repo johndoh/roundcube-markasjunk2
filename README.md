@@ -14,15 +14,6 @@ When in the Junk mailbox:
   The buttons are changed to "mark as not spam" or "this message is not spam"
   and the message is moved to the Inbox
 
-ATTENTION
----------
-This is just a snapshot from the GIT repository and is **NOT A STABLE version
-of MarkAsJunk2**. It is Intended for use with the **GIT-master** version of
-Roundcube and it may not be compatible with older versions. Stable versions of
-MarkAsJunk2 are available from the [Roundcube plugin repository][rcplugrepo]
-(for 1.0 and above) or the [releases section][releases] of the GitHub
-repository.
-
 License
 -------
 This plugin is released under the [GNU General Public License Version 3+][gpl].
