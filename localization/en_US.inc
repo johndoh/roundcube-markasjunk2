@@ -11,5 +11,3 @@ $labels['notjunk'] = 'Not junk';
 $messages = array();
 $messages['reportedasjunk'] = 'Successfully reported as junk';
 $messages['reportedasnotjunk'] = 'Successfully reported as not junk';
-
-?>

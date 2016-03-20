@@ -153,5 +153,3 @@ $config['markasjunk2_ham_patterns'] = array(
 												'patterns' => array(),
 												'replacements' => array()
 												);
-
-?>

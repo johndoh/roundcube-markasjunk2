@@ -10,5 +10,3 @@ $labels['markasnotjunk'] = 'Nemí spam';
 $messages = array();
 $messages['reportedasjunk'] = 'Úspešne hlášeny jako spam';
 $messages['reportedasnotjunk'] = 'Úspešne hlášeny jako spam';
-
-?>

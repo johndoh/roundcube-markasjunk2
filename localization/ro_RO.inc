@@ -10,5 +10,3 @@ $labels['markasnotjunk'] = 'Nu este spam';
 $messages = array();
 $messages['reportedasjunk'] = 'Raportat cu succes ca Spam';
 $messages['reportedasnotjunk'] = 'Mesajul a fost mutat in Inbox';
-
-?>

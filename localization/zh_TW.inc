@@ -11,5 +11,3 @@ $labels['notjunk'] = '非垃圾郵件';
 $messages = array();
 $messages['reportedasjunk'] = '已標為垃圾郵件';
 $messages['reportedasnotjunk'] = '已移至收件匣';
-
-?>

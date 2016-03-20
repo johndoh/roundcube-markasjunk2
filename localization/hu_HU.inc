@@ -11,5 +11,3 @@ $labels['notjunk'] = 'Nem levélszemét';
 $messages = array();
 $messages['reportedasjunk'] = 'Sikeresen jelentve, mint levélszemét';
 $messages['reportedasnotjunk'] = 'Az üzenet visszakerült az Érkezett levelek mappába';
-
-?>

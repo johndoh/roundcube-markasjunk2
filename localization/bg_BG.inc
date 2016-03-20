@@ -11,5 +11,3 @@ $labels['notjunk'] = 'Не е спам';
 $messages = array();
 $messages['reportedasjunk'] = 'Успешно отбелязахте съобщението като спам';
 $messages['reportedasnotjunk'] = 'Успешно отбелязахте съобщението като желано';
-
-?>

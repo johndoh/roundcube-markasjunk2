@@ -10,5 +10,3 @@ $labels['markasnotjunk'] = 'Geen spam';
 $messages = array();
 $messages['reportedasjunk'] = 'Bericht gemarkeerd als spam';
 $messages['reportedasnotjunk'] = 'Bericht verplaatst naar Inbox';
-
-?>

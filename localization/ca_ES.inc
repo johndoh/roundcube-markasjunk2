@@ -10,5 +10,3 @@ $labels['markasnotjunk'] = 'No és Spam';
 $messages = array();
 $messages['reportedasjunk'] = 'Reportat conrrectament com spam.';
 $messages['reportedasnotjunk'] = 'Missatge mogut a la safata d\'Entrada';
-
-?>

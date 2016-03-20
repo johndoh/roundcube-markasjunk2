@@ -10,5 +10,3 @@ $labels['markasnotjunk'] = 'Spam değildir';
 $messages = array();
 $messages['reportedasjunk'] = 'Başarıyla spam olarak bildirildi';
 $messages['reportedasnotjunk'] = 'Mesaj, gelen klasörüne taşındı';
-
-?>

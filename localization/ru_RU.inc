@@ -11,5 +11,3 @@ $labels['notjunk'] = 'Не спам';
 $messages = array();
 $messages['reportedasjunk'] = 'Помечено как спам';
 $messages['reportedasnotjunk'] = 'Сообщение перемещено во Входящие';
-
-?>

@@ -11,5 +11,3 @@ $labels['notjunk'] = 'Ne-mēstules';
 $messages = array();
 $messages['reportedasjunk'] = 'Veiksmīgi ziņots par mēstuli';
 $messages['reportedasnotjunk'] = 'Veiksmīgi ziņots par ne-mēstuli';
-
-?>

@@ -10,5 +10,3 @@ $labels['markasnotjunk'] = 'Comme acceptable';
 $messages = array();
 $messages['reportedasjunk'] = 'Message classé en spam';
 $messages['reportedasnotjunk'] = 'Message déplacé dans Inbox';
-
-?>

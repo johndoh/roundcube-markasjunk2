@@ -11,5 +11,3 @@ $labels['notjunk'] = 'kein Spam';
 $messages = array();
 $messages['reportedasjunk'] = 'Erfolgreich als Spam gekennzeichnet';
 $messages['reportedasnotjunk'] = 'Nachricht in Posteingang verschoben';
-
-?>

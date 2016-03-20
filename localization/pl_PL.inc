@@ -11,5 +11,3 @@ $labels['notjunk'] = 'Nie Spam';
 $messages = array();
 $messages['reportedasjunk'] = 'Pomyślnie oznaczono jako Spam';
 $messages['reportedasnotjunk'] = 'Wiadomość przeniesiona do Odebranych';
-
-?>
