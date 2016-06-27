@@ -24,7 +24,7 @@ function rcmail_markasjunk2(prop) {
 
 	var prev_sel = null;
 
-	// also select childs of (collapsed) threads
+	// also select children of (collapsed) threads
 	if (rcmail.message_list) {
 		if (rcmail.env.uid) {
 			if (rcmail.message_list.rows[rcmail.env.uid].has_children && !rcmail.message_list.rows[rcmail.env.uid].expanded) {
@@ -33,7 +33,7 @@ function rcmail_markasjunk2(prop) {
 					rcmail.message_list.select_row(rcmail.env.uid);
 				}
 
-				rcmail.message_list.select_childs(rcmail.env.uid);
+				rcmail.message_list.select_children(rcmail.env.uid);
 				rcmail.env.uid = null;
 			}
 			else if (rcmail.message_list.get_single_selection() == rcmail.env.uid) {
@@ -44,7 +44,7 @@ function rcmail_markasjunk2(prop) {
 			selection = rcmail.message_list.get_selection();
 			for (var i in selection) {
 				if (rcmail.message_list.rows[selection[i]].has_children && !rcmail.message_list.rows[selection[i]].expanded)
-					rcmail.message_list.select_childs(selection[i]);
+					rcmail.message_list.select_children(selection[i]);
 			}
 		}
 	}
