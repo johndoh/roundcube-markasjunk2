@@ -1,6 +1,8 @@
 Roundcube Webmail MarkAsJunk2
 =============================
 
+ * Replace config options markasjunk2_mb_toolbar and markasjunk2_cp_toolbar with new markasjunk2_toolbar option
+
 Version 1.9 (2015-01-06, rc-1.1)
 =================================================
  * Use get_part_body add in 48ba4414b3

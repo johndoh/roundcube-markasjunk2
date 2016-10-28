@@ -49,7 +49,7 @@ class markasjunk2 extends rcube_plugin
 		$this->load_config();
 		$this->ham_mbox = $rcmail->config->get('markasjunk2_ham_mbox', 'INBOX');
 		$this->spam_mbox = $rcmail->config->get('markasjunk2_spam_mbox', $rcmail->config->get('junk_mbox', null));
-		$this->toolbar = $rcmail->action == 'show' ? $rcmail->config->get('markasjunk2_cp_toolbar', true) : $rcmail->config->get('markasjunk2_mb_toolbar', true);
+		$this->toolbar = $this->_set_toolbar_display($rcmail->config->get('markasjunk2_toolbar', -1), $rcmail->action);
 
 		// register the ham/spam flags with the core
 		$this->add_hook('storage_init', array($this, 'set_flags'));
@@ -130,6 +130,48 @@ class markasjunk2 extends rcube_plugin
 		$p['message_flags'] = array_merge((array)$p['message_flags'], $flags);
 
 		return $p;
+	}
+
+	private function _set_toolbar_display($display, $action)
+	{
+		$ret = true;
+
+		// backwards compatibility for old config options (removed in 1.10)
+		if ($display < 0) {
+			$rcmail = rcube::get_instance();
+			$mb = $rcmail->config->get('markasjunk2_mb_toolbar', true);
+			$cp = $rcmail->config->get('markasjunk2_cp_toolbar', true);
+
+			if ($mb && $cp) {
+				$display = 1;
+			}
+			elseif ($mb && !$cp) {
+				$display = 2;
+			}
+			elseif (!$mb && $cp) {
+				$display = 3;
+			}
+			else {
+				$display = 0;
+			}
+		}
+
+		switch ($display) {
+			case 0: // always show in mark message menu
+				$ret = false;
+				break;
+			case 1: // always show on toolbar
+				$ret = true;
+				break;
+			case 2: // show in toolbar on mailbox screen, show in mark message menu message on screen
+				$ret = ($action != 'show');
+				break;
+			case 3: // show in mark message menu on mailbox screen, show in toolbar message on screen
+				$ret = ($action == 'show');
+				break;
+		}
+
+		return $ret;
 	}
 
 	private function _spam(&$messageset, $dest_mbox = NULL)
