@@ -34,6 +34,8 @@ class markasjunk2 extends rcube_plugin
 {
 	public $task = 'mail';
 	private $spam_mbox = null;
+	private $spam_sec_mbox = null;
+	private $spam_sus_mbox = null;
 	private $ham_mbox = null;
 	private $spam_flag = 'JUNK';
 	private $ham_flag = 'NOTJUNK';
@@ -48,6 +50,8 @@ class markasjunk2 extends rcube_plugin
 		$this->load_config();
 		$this->ham_mbox = $rcmail->config->get('markasjunk2_ham_mbox', 'INBOX');
 		$this->spam_mbox = $rcmail->config->get('markasjunk2_spam_mbox', $rcmail->config->get('junk_mbox', null));
+		$this->spam_sec_mbox = $rcmail->config->get('markasjunk2_secondary_spam_mbox', null);
+		$this->spam_sus_mbox = $rcmail->config->get('markasjunk2_suspicious_mbox', null);
 		$this->toolbar = $this->_set_toolbar_display($rcmail->config->get('markasjunk2_toolbar', -1), $rcmail->action);
 
 		// register the ham/spam flags with the core
@@ -62,13 +66,17 @@ class markasjunk2 extends rcube_plugin
 			$mb_override = ($this->spam_mbox) ? false : true;
 			$display_junk = $display_not_junk = '';
 
-			if ($_SESSION['mbox'] == $this->spam_mbox) {
-				$display_junk = 'display: none;';
-			}
-			elseif (!$mb_override) {
-				$display_not_junk = 'display: none;';
-			}
+			$dbg_inarray = $this->spam_sec_mbox && in_array($_SESSION['mbox'], $this->spam_sec_mbox);
 
+			// are we not in "suspicious" folder?
+			if (!$this->spam_sus_mbox || !in_array($_SESSION['mbox'], $this->spam_sus_mbox)) {
+				if ($_SESSION['mbox'] == $this->spam_mbox || ($this->spam_sec_mbox && in_array($_SESSION['mbox'], $this->spam_sec_mbox))) {
+					$display_junk = 'display: none;';
+				}
+				elseif (!$mb_override) {
+					$display_not_junk = 'display: none;';
+				}
+			}
 			if ($this->toolbar) {
 				// add the buttons to the main toolbar
 				$this->add_button(array('command' => 'plugin.markasjunk2.junk', 'type' => 'link', 'class' => 'button buttonPas markasjunk2 disabled', 'classact' => 'button markasjunk2', 'classsel' => 'button markasjunk2Sel', 'title' => 'markasjunk2.buttonjunk', 'label' => 'junk', 'style' => $display_junk), 'toolbar');
@@ -86,6 +94,8 @@ class markasjunk2 extends rcube_plugin
 			$this->api->output->set_env('markasjunk2_override', $mb_override);
 			$this->api->output->set_env('markasjunk2_ham_mailbox', $this->ham_mbox);
 			$this->api->output->set_env('markasjunk2_spam_mailbox', $this->spam_mbox);
+			$this->api->output->set_env('markasjunk2_secondary_spam_mailbox', $this->spam_sec_mbox);
+			$this->api->output->set_env('markasjunk2_suspicious_mailbox', $this->spam_sus_mbox);
 
 			$this->api->output->set_env('markasjunk2_move_spam', $rcmail->config->get('markasjunk2_move_spam', false));
 			$this->api->output->set_env('markasjunk2_move_ham', $rcmail->config->get('markasjunk2_move_ham', false));

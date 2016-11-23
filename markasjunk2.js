@@ -112,11 +112,11 @@ function rcmail_markasjunk2_update() {
 		hamobj = hamobj.parent();
 	}
 
-	if (rcmail.env.markasjunk2_override || rcmail.is_multifolder_listing()) {
+	if (rcmail.env.markasjunk2_override || rcmail.is_multifolder_listing() || (rcmail.env.markasjunk2_suspicious_mailbox && rcmail.env.markasjunk2_suspicious_mailbox.indexOf(rcmail.env.mailbox) >= 0) ) {
 		spamobj.show();
 		hamobj.show();
 	}
-	else if (rcmail.env.markasjunk2_spam_mailbox && rcmail.env.mailbox != rcmail.env.markasjunk2_spam_mailbox) {
+	else if (rcmail.env.markasjunk2_spam_mailbox && rcmail.env.mailbox != rcmail.env.markasjunk2_spam_mailbox && (!rcmail.env.markasjunk2_secondary_spam_mailbox || rcmail.env.markasjunk2_secondary_spam_mailbox.indexOf(rcmail.env.mailbox) == -1)) {
 		spamobj.show();
 		hamobj.hide();
 	}
