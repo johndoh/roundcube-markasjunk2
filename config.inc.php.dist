@@ -20,6 +20,17 @@ $config['markasjunk2_ham_mbox'] = null;
 // set to FALSE to disable message moving
 $config['markasjunk2_spam_mbox'] = null;
 
+// Secondary Spam mailboxes
+// If there are other systems (like spamassassin) that move spam around,
+// set additional mbox(es) here to treat as spam folder.
+$config['markasjunk2_secondary_spam_mbox'] = null;
+
+// Suspicious mail mailbox
+// If there are other systems (like spamassassin) that move spam around,
+// set additional mbox(es) here to treat as "suspicious" folder -
+// both "mark as spam" and "mark as not spam" buttons will be shown
+$config['markasjunk2_suspicious_mbox'] = null;
+
 // Mark messages as read when reporting them as spam
 $config['markasjunk2_read_spam'] = true;
 
