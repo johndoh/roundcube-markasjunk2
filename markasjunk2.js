@@ -112,18 +112,23 @@ function rcmail_markasjunk2_update() {
 		hamobj = hamobj.parent();
 	}
 
-	if (rcmail.env.markasjunk2_override || rcmail.is_multifolder_listing()) {
-		spamobj.show();
-		hamobj.show();
+	var disp = {'spam': true, 'ham': true};
+	if (!rcmail.is_multifolder_listing() && rcmail.env.markasjunk2_spam_mailbox) {
+		if (rcmail.env.mailbox != rcmail.env.markasjunk2_spam_mailbox) {
+			disp.ham = false;
+		}
+		else {
+			disp.spam = false;
+		}
 	}
-	else if (rcmail.env.markasjunk2_spam_mailbox && rcmail.env.mailbox != rcmail.env.markasjunk2_spam_mailbox) {
-		spamobj.show();
-		hamobj.hide();
-	}
-	else {
-		spamobj.hide();
-		hamobj.show();
-	}
+
+	var evt_rtn = rcmail.triggerEvent('markasjunk2-update', {'objs': {'spamobj': spamobj, 'hamobj': hamobj}, 'disp': disp});
+	if (evt_rtn && evt_rtn.abort)
+		return;
+	disp = evt_rtn ? evt_rtn.disp : disp;
+
+	disp.spam ? spamobj.show() : spamobj.hide();
+	disp.ham ? hamobj.show() : hamobj.hide();
 }
 
 $(document).ready(function() {

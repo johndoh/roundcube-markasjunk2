@@ -58,37 +58,28 @@ class markasjunk2 extends rcube_plugin
 			$this->add_texts('localization', true);
 			$this->include_stylesheet($this->local_skin_path() .'/markasjunk2.css');
 
-			// check which folder we are currently in to display the correct button
-			$mb_override = ($this->spam_mbox) ? false : true;
-			$display_junk = $display_not_junk = '';
-
-			if ($_SESSION['mbox'] == $this->spam_mbox) {
-				$display_junk = 'display: none;';
-			}
-			elseif (!$mb_override) {
-				$display_not_junk = 'display: none;';
-			}
-
 			if ($this->toolbar) {
 				// add the buttons to the main toolbar
-				$this->add_button(array('command' => 'plugin.markasjunk2.junk', 'type' => 'link', 'class' => 'button buttonPas markasjunk2 disabled', 'classact' => 'button markasjunk2', 'classsel' => 'button markasjunk2Sel', 'title' => 'markasjunk2.buttonjunk', 'label' => 'junk', 'style' => $display_junk), 'toolbar');
-				$this->add_button(array('command' => 'plugin.markasjunk2.not_junk', 'type' => 'link', 'class' => 'button buttonPas markasnotjunk2 disabled', 'classact' => 'button markasnotjunk2', 'classsel' => 'button markasnotjunk2Sel', 'title' => 'markasjunk2.buttonnotjunk', 'label' => 'markasjunk2.notjunk', 'style' => $display_not_junk), 'toolbar');
+				$this->add_button(array('command' => 'plugin.markasjunk2.junk', 'type' => 'link', 'class' => 'button buttonPas markasjunk2 disabled', 'classact' => 'button markasjunk2', 'classsel' => 'button markasjunk2Sel', 'title' => 'markasjunk2.buttonjunk', 'label' => 'junk'), 'toolbar');
+				$this->add_button(array('command' => 'plugin.markasjunk2.not_junk', 'type' => 'link', 'class' => 'button buttonPas markasnotjunk2 disabled', 'classact' => 'button markasnotjunk2', 'classsel' => 'button markasnotjunk2Sel', 'title' => 'markasjunk2.buttonnotjunk', 'label' => 'markasjunk2.notjunk'), 'toolbar');
 			}
 			else {
 				// add the buttons to the mark message menu
 				$markjunk = $this->api->output->button(array('command' => 'plugin.markasjunk2.junk', 'label' => 'markasjunk2.markasjunk', 'id' => 'markasjunk2', 'class' => 'icon markasjunk2', 'classact' => 'icon markasjunk2 active', 'innerclass' => 'icon markasjunk2'));
 				$marknotjunk = $this->api->output->button(array('command' => 'plugin.markasjunk2.not_junk', 'label' => 'markasjunk2.markasnotjunk', 'id' => 'markasnotjunk2', 'class' => 'icon markasnotjunk2', 'classact' => 'icon markasnotjunk2 active', 'innerclass' => 'icon markasnotjunk2'));
-				$this->api->add_content(html::tag('li', array('style' => $display_junk, 'role' => 'menuitem'), $markjunk), 'markmenu');
-				$this->api->add_content(html::tag('li', array('style' => $display_not_junk, 'role' => 'menuitem'), $marknotjunk), 'markmenu');
+				$this->api->add_content(html::tag('li', array('role' => 'menuitem'), $markjunk), 'markmenu');
+				$this->api->add_content(html::tag('li', array('role' => 'menuitem'), $marknotjunk), 'markmenu');
 			}
 
 			// add markasjunk2 folder settings to the env for JS
-			$this->api->output->set_env('markasjunk2_override', $mb_override);
 			$this->api->output->set_env('markasjunk2_ham_mailbox', $this->ham_mbox);
 			$this->api->output->set_env('markasjunk2_spam_mailbox', $this->spam_mbox);
 
 			$this->api->output->set_env('markasjunk2_move_spam', $rcmail->config->get('markasjunk2_move_spam', false));
 			$this->api->output->set_env('markasjunk2_move_ham', $rcmail->config->get('markasjunk2_move_ham', false));
+
+			// check for init method from driver
+			$this->_call_driver('init');
 		}
 	}
 
@@ -183,7 +174,7 @@ class markasjunk2 extends rcube_plugin
 			$storage->set_folder($mbox);
 
 			if ($rcmail->config->get('markasjunk2_learning_driver', false)) {
-				$result = $this->_call_driver($uids, $mbox, true);
+				$result = $this->_call_driver('spam', $uids, $mbox);
 
 				// abort function of the driver says so
 				if (!$result)
@@ -213,7 +204,7 @@ class markasjunk2 extends rcube_plugin
 			$storage->set_folder($mbox);
 
 			if ($rcmail->config->get('markasjunk2_learning_driver', false)) {
-				$result = $this->_call_driver($uids, $mbox, false);
+				$result = $this->_call_driver('ham', $uids, $mbox);
 
 				// abort function of the driver says so
 				if (!$result)
@@ -233,7 +224,7 @@ class markasjunk2 extends rcube_plugin
 		return $result;
 	}
 
-	private function _call_driver(&$uids, $mbox, $spam)
+	private function _call_driver($action, &$uids = null, $mbox = null)
 	{
 		$driver = $this->home.'/drivers/'. rcube::get_instance()->config->get('markasjunk2_learning_driver', 'cmd_learn') .'.php';
 		$class = 'markasjunk2_' . rcube::get_instance()->config->get('markasjunk2_learning_driver', 'cmd_learn');
@@ -262,10 +253,12 @@ class markasjunk2 extends rcube_plugin
 
 		// call the relevant function from the driver
 		$object = new $class;
-		if ($spam)
+		if ($action == 'spam')
 			$object->spam($uids, $mbox);
-		else
+		elseif ($action == 'ham')
 			$object->ham($uids, $mbox);
+		elseif ($action == 'init' && method_exists($object, 'init')) // method_exists check here for backwards compatibility, init method added 20161127
+			$object->init();
 
 		return $object->is_error ? false : true;
 	}

@@ -1,6 +1,8 @@
 Roundcube Webmail MarkAsJunk2
 =============================
 
+ * Add JS event markasjunk2-update to allow other plugins to influence the spam/ham options show
+ * Add init method to allow drivers to access markasjunk2-update JS event
  * Replace config options markasjunk2_mb_toolbar and markasjunk2_cp_toolbar with new markasjunk2_toolbar option
 
 Version 1.9 (2015-01-06, rc-1.1)
