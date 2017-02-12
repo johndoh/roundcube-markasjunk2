@@ -40,7 +40,7 @@ class markasjunk2_edit_headers
 		$rcmail = rcube::get_instance();
 		$args = $spam ? $rcmail->config->get('markasjunk2_spam_patterns') : $rcmail->config->get('markasjunk2_ham_patterns');
 
-		if (sizeof($args['patterns']) == 0)
+		if (count($args['patterns']) == 0)
 			return;
 
 		$new_uids = array();
@@ -60,7 +60,7 @@ class markasjunk2_edit_headers
 
 		}
 
-		if (sizeof($new_uids) > 0)
+		if (count($new_uids) > 0)
 			$uids = $new_uids;
 	}
 }

@@ -40,7 +40,7 @@ class markasjunk2_sa_detach
 			$saved = false;
 			$message = new rcube_message($uid);
 
-			if (sizeof($message->attachments) > 0) {
+			if (count($message->attachments) > 0) {
 				foreach ($message->attachments as $part) {
 					if ($part->ctype_primary == 'message' && $part->ctype_secondary == 'rfc822' && $part->ctype_parameters['x-spam-type'] == 'original') {
 						$orig_message_raw = $message->get_part_body($part->mime_id);
@@ -55,7 +55,7 @@ class markasjunk2_sa_detach
 			}
 		}
 
-		if (sizeof($new_uids) > 0)
+		if (count($new_uids) > 0)
 			$uids = $new_uids;
 	}
 }
