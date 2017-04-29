@@ -22,22 +22,18 @@
   background-position: center -61px;
 }
 
-ul.toolbarmenu li a span.markasjunk2,
-ul.toolbarmenu li a span.markasnotjunk2,
-ul.toolbarmenu li a.markasjunk2 span.cmicon,
-ul.toolbarmenu li a.markasnotjunk2 span.cmicon
+ul.toolbarmenu li a.markasjunk2 span.icon,
+ul.toolbarmenu li a.markasnotjunk2 span.icon
 {
-  background-image: url(images/messageactions.png);
+  background-image: url(images/messageactions.png) !important;
 }
 
-ul.toolbarmenu li a span.markasjunk2,
-ul.toolbarmenu li a.markasjunk2 span.cmicon
+ul.toolbarmenu li a.markasjunk2 span.icon
 {
-  background-position: 1px -17px;
+  background-position: 1px -17px !important;
 }
 
-ul.toolbarmenu li a span.markasnotjunk2,
-ul.toolbarmenu li a.markasnotjunk2 span.cmicon
+ul.toolbarmenu li a.markasnotjunk2 span.icon
 {
-  background-position: 1px 5px;
+  background-position: 1px 5px !important;
 }
