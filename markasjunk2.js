@@ -144,6 +144,9 @@ $(document).ready(function() {
 					rcmail.enable_command('plugin.markasjunk2.not_junk', list.get_selection().length > 0);
 				});
 			}
+
+			// make sure the correct icon is displayed even when there is no listupdate event
+			rcmail_markasjunk2_update();
 		});
 
 		rcmail.addEventListener('listupdate', function(props) { rcmail_markasjunk2_update(); } );
