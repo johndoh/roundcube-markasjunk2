@@ -25,44 +25,44 @@
 
 class markasjunk2_edit_headers
 {
-	public function spam(&$uids, $mbox)
-	{
-		$this->_edit_headers($uids, true);
-	}
+    public function spam(&$uids, $mbox)
+    {
+        $this->_edit_headers($uids, true);
+    }
 
-	public function ham(&$uids, $mbox)
-	{
-		$this->_edit_headers($uids, false);
-	}
+    public function ham(&$uids, $mbox)
+    {
+        $this->_edit_headers($uids, false);
+    }
 
-	private function _edit_headers(&$uids, $spam, $mbox)
-	{
-		$rcmail = rcube::get_instance();
-		$args = $spam ? $rcmail->config->get('markasjunk2_spam_patterns') : $rcmail->config->get('markasjunk2_ham_patterns');
+    private function _edit_headers(&$uids, $spam, $mbox)
+    {
+        $rcmail = rcube::get_instance();
+        $args = $spam ? $rcmail->config->get('markasjunk2_spam_patterns') : $rcmail->config->get('markasjunk2_ham_patterns');
 
-		if (count($args['patterns']) == 0)
-			return;
+        if (count($args['patterns']) == 0)
+            return;
 
-		$new_uids = array();
-		foreach ($uids as $uid) {
-			$raw_message = $rcmail->storage->get_raw_body($uid);
-			$raw_headers = $rcmail->storage->get_raw_headers($uid);
+        $new_uids = array();
+        foreach ($uids as $uid) {
+            $raw_message = $rcmail->storage->get_raw_body($uid);
+            $raw_headers = $rcmail->storage->get_raw_headers($uid);
 
-			$updated_headers = preg_replace($args['patterns'], $args['replacements'], $raw_headers);
-			$raw_message = str_replace($raw_headers, $updated_headers, $raw_message);
+            $updated_headers = preg_replace($args['patterns'], $args['replacements'], $raw_headers);
+            $raw_message = str_replace($raw_headers, $updated_headers, $raw_message);
 
-			$saved = $rcmail->storage->save_message($mbox, $raw_message);
+            $saved = $rcmail->storage->save_message($mbox, $raw_message);
 
-			if ($saved !== false) {
-				$rcmail->output->command('rcmail_markasjunk2_move', null, $uid);
-				array_push($new_uids, $saved);
-			}
+            if ($saved !== false) {
+                $rcmail->output->command('rcmail_markasjunk2_move', null, $uid);
+                array_push($new_uids, $saved);
+            }
 
-		}
+        }
 
-		if (count($new_uids) > 0)
-			$uids = $new_uids;
-	}
+        if (count($new_uids) > 0)
+            $uids = $new_uids;
+    }
 }
 
 ?>
