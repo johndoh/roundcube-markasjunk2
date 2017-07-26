@@ -69,21 +69,19 @@ function rcmail_markasjunk2_notjunk(prop) {
 rcube_webmail.prototype.rcmail_markasjunk2_move = function(mbox, uids) {
     var prev_uid = rcmail.env.uid;
     var prev_sel = null;
-    var a_uids = $.isArray(uids) ? uids : uids.split(",");;
+    var a_uids = $.isArray(uids) ? uids : uids.split(",");
 
-    if (rcmail.message_list && a_uids.length == 1 && !rcmail.message_list.rows[a_uids[0]]) {
-        rcmail.env.uid = a_uids[0];
-    }
-    else if (rcmail.message_list && a_uids.length == 1 && !rcmail.message_list.in_selection(a_uids[0]) && !rcmail.env.threading) {
-        rcmail.env.uid = a_uids[0];
-        rcmail.message_list.remove_row(rcmail.env.uid, false);
-    }
-    else if (rcmail.message_list && (!rcmail.message_list.in_selection(a_uids[0]) || a_uids.length != rcmail.message_list.selection.length)) {
-        prev_sel = rcmail.message_list.get_selection();
-        rcmail.message_list.clear_selection();
+    if (rcmail.message_list) {
+        if (a_uids.length == 1 && !rcmail.message_list.rows[a_uids[0]]) {
+            rcmail.env.uid = a_uids[0];
+        }
+        else if (!rcmail.message_list.in_selection(a_uids[0]) || a_uids.length != rcmail.message_list.get_selection().length) {
+            prev_sel = rcmail.message_list.get_selection();
+            rcmail.message_list.clear_selection();
 
-        for (var i in a_uids)
-            rcmail.message_list.select_row(a_uids[i], CONTROL_KEY);
+            for (var i in a_uids)
+                rcmail.message_list.highlight_row(a_uids[i], true);
+        }
     }
 
     if (mbox)
@@ -96,10 +94,8 @@ rcube_webmail.prototype.rcmail_markasjunk2_move = function(mbox, uids) {
     if (prev_sel) {
         rcmail.message_list.clear_selection();
 
-        for (var i in prev_sel) {
-            if (prev_sel[i] != uid)
-                rcmail.message_list.select_row(prev_sel[i], CONTROL_KEY);
-        }
+        for (var i in prev_sel)
+            rcmail.message_list.highlight_row(prev_sel[i], true);
     }
 }
 
