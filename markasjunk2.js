@@ -16,7 +16,7 @@
  */
 
 function rcmail_markasjunk2(prop) {
-    if (!rcmail.env.uid && (!rcmail.message_list || !rcmail.message_list.get_selection().length))
+    if (!rcmail.env.uid && (!rcmail.message_list || !rcmail.message_list.get_selection(false).length))
         return;
 
     if (!prop || prop == 'markasjunk2')
@@ -29,7 +29,7 @@ function rcmail_markasjunk2(prop) {
         if (rcmail.env.uid) {
             if (rcmail.message_list.rows[rcmail.env.uid].has_children && !rcmail.message_list.rows[rcmail.env.uid].expanded) {
                 if (!rcmail.message_list.in_selection(rcmail.env.uid)) {
-                    prev_sel = rcmail.message_list.get_selection();
+                    prev_sel = rcmail.message_list.get_selection(false);
                     rcmail.message_list.select_row(rcmail.env.uid);
                 }
 
@@ -41,7 +41,7 @@ function rcmail_markasjunk2(prop) {
             }
         }
         else {
-            selection = rcmail.message_list.get_selection();
+            selection = rcmail.message_list.get_selection(false);
             for (var i in selection) {
                 if (rcmail.message_list.rows[selection[i]].has_children && !rcmail.message_list.rows[selection[i]].expanded)
                     rcmail.message_list.select_children(selection[i]);
@@ -75,8 +75,8 @@ rcube_webmail.prototype.rcmail_markasjunk2_move = function(mbox, uids) {
         if (a_uids.length == 1 && !rcmail.message_list.rows[a_uids[0]]) {
             rcmail.env.uid = a_uids[0];
         }
-        else if (!rcmail.message_list.in_selection(a_uids[0]) || a_uids.length != rcmail.message_list.get_selection().length) {
-            prev_sel = rcmail.message_list.get_selection();
+        else if (!rcmail.message_list.in_selection(a_uids[0]) || a_uids.length != rcmail.message_list.get_selection(false).length) {
+            prev_sel = rcmail.message_list.get_selection(false);
             rcmail.message_list.clear_selection();
 
             for (var i in a_uids)
@@ -136,8 +136,8 @@ $(document).ready(function() {
 
             if (rcmail.message_list) {
                 rcmail.message_list.addEventListener('select', function(list) {
-                    rcmail.enable_command('plugin.markasjunk2.junk', list.get_selection().length > 0);
-                    rcmail.enable_command('plugin.markasjunk2.not_junk', list.get_selection().length > 0);
+                    rcmail.enable_command('plugin.markasjunk2.junk', list.get_selection(false).length > 0);
+                    rcmail.enable_command('plugin.markasjunk2.not_junk', list.get_selection(false).length > 0);
                 });
             }
 
