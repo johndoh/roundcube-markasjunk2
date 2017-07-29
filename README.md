@@ -72,7 +72,7 @@ process the message
 for example to allow for processing later
 
 **email_learn:** This driver emails the message either as an attachment or
-directly to a set address
+directly to a set address. This driver requires Roundcube 1.4 or above.
 
 **sa_blacklist:** This driver adds the sender address of a spam message to the
 users blacklist (or whitelist of ham messages) Requires SAUserPrefs plugin

@@ -1,6 +1,8 @@
 Roundcube Webmail MarkAsJunk2
 =============================
 
+ * email_learn driver: use new rcmail_resend_mail class (req RC 040a71e)
+
 Version 1.11.1 (2017-07-29, rc-1.3)
 =================================================
  * Fix icon display on message view screen
