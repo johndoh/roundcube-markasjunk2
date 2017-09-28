@@ -125,6 +125,25 @@ function rcmail_markasjunk2_update() {
 
     disp.spam ? spamobj.show() : spamobj.hide();
     disp.ham ? hamobj.show() : hamobj.hide();
+
+    // if only 1 button is visible make sure its the last one (for styling)
+    var cur_index = spamobj.index();
+    if (disp.spam && !disp.ham) {
+        if (cur_index < hamobj.index())
+            spamobj.insertAfter(hamobj);
+    }
+    else if (cur_index > hamobj.index()) {
+        hamobj.insertAfter(spamobj);
+    }
+
+    // contextmenu integration
+    // if the contextmenu exists, remove it to force an update of the buttons
+    if (cur_index != spamobj.index() && $('div.contextmenu.rcm-submenu').has('a.markasjunk2').length > 0) {
+        var menu_name = $('div.contextmenu.submenu').has('a.markasjunk2').attr('id').replace(/^rcm_/, '');
+        rcmail.env.contextmenus['messagelist'].submenus[menu_name].hide();
+        rcmail.env.contextmenus['messagelist'].submenus[menu_name].destroy();
+        rcmail.env.contextmenus['messagelist'].submenus[menu_name] = null;
+    }
 }
 
 $(document).ready(function() {
