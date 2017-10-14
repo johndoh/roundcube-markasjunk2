@@ -60,8 +60,8 @@ class markasjunk2 extends rcube_plugin
 
             if ($this->toolbar) {
                 // add the buttons to the main toolbar
-                $this->add_button(array('command' => 'plugin.markasjunk2.junk', 'type' => 'link', 'class' => 'button buttonPas markasjunk2 disabled', 'classact' => 'button markasjunk2', 'classsel' => 'button markasjunk2Sel', 'title' => 'markasjunk2.buttonjunk', 'innerclass' => 'inner', 'label' => 'junk'), 'toolbar');
-                $this->add_button(array('command' => 'plugin.markasjunk2.not_junk', 'type' => 'link', 'class' => 'button buttonPas markasnotjunk2 disabled', 'classact' => 'button markasnotjunk2', 'classsel' => 'button markasnotjunk2Sel', 'title' => 'markasjunk2.buttonnotjunk', 'innerclass' => 'inner', 'label' => 'markasjunk2.notjunk'), 'toolbar');
+                $this->add_button(array('command' => 'plugin.markasjunk2.junk', 'type' => 'link', 'class' => 'button buttonPas markasjunk2 disabled', 'classact' => 'button markasjunk2', 'classsel' => 'button markasjunk2 pressed', 'title' => 'markasjunk2.buttonjunk', 'innerclass' => 'inner', 'label' => 'junk'), 'toolbar');
+                $this->add_button(array('command' => 'plugin.markasjunk2.not_junk', 'type' => 'link', 'class' => 'button buttonPas markasnotjunk2 disabled', 'classact' => 'button markasnotjunk2', 'classsel' => 'button markasnotjunk2 pressed', 'title' => 'markasjunk2.buttonnotjunk', 'innerclass' => 'inner', 'label' => 'markasjunk2.notjunk'), 'toolbar');
             }
             else {
                 // add the buttons to the mark message menu

@@ -3,9 +3,7 @@
  */
 
 #messagetoolbar a.markasjunk2,
-#messagetoolbar a.markasjunk2Sel,
-#messagetoolbar a.markasnotjunk2,
-#messagetoolbar a.markasnotjunk2Sel
+#messagetoolbar a.markasnotjunk2
 {
   text-indent: -5000px;
   background-image: url(images/mail_toolbar.png);
@@ -16,7 +14,7 @@
   background-position: -32px 0;
 }
 
-#messagetoolbar a.markasjunk2Sel
+#messagetoolbar a.markasjunk2.pressed
 {
   background-position: -32px -32px;
 }
@@ -26,7 +24,7 @@
   background-position: 0 0;
 }
 
-#messagetoolbar a.markasnotjunk2Sel
+#messagetoolbar a.markasnotjunk2.pressed
 {
   background-position: 0 -32px;
 }
