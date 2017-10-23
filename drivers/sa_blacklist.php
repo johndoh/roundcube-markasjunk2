@@ -2,8 +2,10 @@
 
 /**
  * SpamAssassin Blacklist driver
+ *
  * @version 2.0
  * @requires SAUserPrefs plugin
+ *
  * @author Philip Weir
  *
  * Copyright (C) 2010-2014 Philip Weir
@@ -23,7 +25,6 @@
  * You should have received a copy of the GNU General Public License
  * along with Roundcube. If not, see http://www.gnu.org/licenses/.
  */
-
 class markasjunk2_sa_blacklist
 {
     private $sa_user;
@@ -61,12 +62,14 @@ class markasjunk2_sa_blacklist
         if (is_file($rcmail->config->get('markasjunk2_sauserprefs_config')) && !$rcmail->config->load_from_file($rcmail->config->get('markasjunk2_sauserprefs_config'))) {
             rcube::raise_error(array('code' => 527, 'type' => 'php',
                 'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Failed to load config from " . $rcmail->config->get('markasjunk2_sauserprefs_config')), true, false);
+                'message' => "Failed to load config from " . $rcmail->config->get('markasjunk2_sauserprefs_config')
+            ), true, false);
+
             return false;
         }
 
         $db = rcube_db::factory($rcmail->config->get('sauserprefs_db_dsnw'), $rcmail->config->get('sauserprefs_db_dsnr'), $rcmail->config->get('sauserprefs_db_persistent'));
-        $db->set_debug((bool)$rcmail->config->get('sql_debug'));
+        $db->set_debug((bool) $rcmail->config->get('sql_debug'));
         $db->db_connect('w');
 
         // check DB connections and exit on failure
@@ -74,7 +77,8 @@ class markasjunk2_sa_blacklist
             rcube::raise_error(array(
                 'code' => 603,
                 'type' => 'db',
-                'message' => $err_str), FALSE, TRUE);
+                'message' => $err_str
+            ), false, true);
         }
 
         foreach ($uids as $uid) {
@@ -103,8 +107,9 @@ class markasjunk2_sa_blacklist
                         'blacklist_from',
                         $email);
 
-                    if ($rcmail->config->get('markasjunk2_debug'))
+                    if ($rcmail->config->get('markasjunk2_debug')) {
                         rcube::write_log('markasjunk2', $this->sa_user . ' blacklist ' . $email);
+                    }
                 }
             }
             else {
@@ -129,12 +134,11 @@ class markasjunk2_sa_blacklist
                         'whitelist_from',
                         $email);
 
-                    if ($rcmail->config->get('markasjunk2_debug'))
+                    if ($rcmail->config->get('markasjunk2_debug')) {
                         rcube::write_log('markasjunk2', $this->sa_user . ' whitelist ' . $email);
+                    }
                 }
             }
         }
     }
 }
-
-?>

@@ -2,7 +2,9 @@
 
 /**
  * Edit headers
+ *
  * @version 1.0
+ *
  * @author Philip Weir
  *
  * Copyright (C) 2012-2014 Philip Weir
@@ -22,7 +24,6 @@
  * You should have received a copy of the GNU General Public License
  * along with Roundcube. If not, see http://www.gnu.org/licenses/.
  */
-
 class markasjunk2_edit_headers
 {
     public function spam(&$uids, $mbox)
@@ -40,9 +41,9 @@ class markasjunk2_edit_headers
         $rcmail = rcube::get_instance();
         $args = $spam ? $rcmail->config->get('markasjunk2_spam_patterns') : $rcmail->config->get('markasjunk2_ham_patterns');
 
-        if (count($args['patterns']) == 0)
+        if (count($args['patterns']) == 0) {
             return;
-
+        }
         $new_uids = array();
         foreach ($uids as $uid) {
             $raw_message = $rcmail->storage->get_raw_body($uid);
@@ -57,12 +58,10 @@ class markasjunk2_edit_headers
                 $rcmail->output->command('rcmail_markasjunk2_move', null, $uid);
                 array_push($new_uids, $saved);
             }
-
         }
 
-        if (count($new_uids) > 0)
+        if (count($new_uids) > 0) {
             $uids = $new_uids;
+        }
     }
 }
-
-?>

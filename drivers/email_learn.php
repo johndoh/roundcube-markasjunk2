@@ -2,7 +2,9 @@
 
 /**
  * Email learn driver
+ *
  * @version 3.0
+ *
  * @author Philip Weir
  *
  * NOTICE: THIS DRIVER REQUIRES ROUNDCUBE 1.4 OR ABOVE
@@ -24,7 +26,6 @@
  * You should have received a copy of the GNU General Public License
  * along with Roundcube. If not, see http://www.gnu.org/licenses/.
  */
-
 class markasjunk2_email_learn
 {
     public function spam($uids, $mbox)
@@ -50,9 +51,9 @@ class markasjunk2_email_learn
         $mailto = $this->_parse_vars($mailto, $spam, $from);
 
         // no address to send to, exit
-        if (!$mailto)
+        if (!$mailto) {
             return;
-
+        }
         $subject = $rcmail->config->get('markasjunk2_email_subject');
         $subject = $this->_parse_vars($subject, $spam, $from);
 
@@ -61,8 +62,9 @@ class markasjunk2_email_learn
             $message_file = null;
 
             // set message charset as default
-            if (!empty($MESSAGE->headers->charset))
+            if (!empty($MESSAGE->headers->charset)) {
                 $rcmail->storage->set_charset($MESSAGE->headers->charset);
+            }
 
             $OUTPUT = $rcmail->output;
             $SENDMAIL = new rcmail_sendmail(null, array(
@@ -88,7 +90,7 @@ class markasjunk2_email_learn
                     'X-Sender' => $from
                 );
 
-                $message_text = ($spam ? 'Spam' : 'Ham'). ' report from ' . $rcmail->config->get('product_name');
+                $message_text = ($spam ? 'Spam' : 'Ham') . ' report from ' . $rcmail->config->get('product_name');
 
                 // create attachment
                 $orig_subject = $MESSAGE->get_header('subject');
@@ -118,8 +120,8 @@ class markasjunk2_email_learn
                     $MAIL_MIME->addAttachment($attachment['path'],
                         $attachment['mimetype'], $attachment['name'], true,
                         '8bit', 'attachment', $attachment['charset'], '', '',
-                        $folding ? 'quoted-printable' : NULL,
-                        $folding == 2 ? 'quoted-printable' : NULL,
+                        $folding ? 'quoted-printable' : null,
+                        $folding == 2 ? 'quoted-printable' : null,
                         '', RCUBE_CHARSET
                     );
                 }
@@ -143,14 +145,16 @@ class markasjunk2_email_learn
             $message_file = $message_file ?: $MAIL_MIME->mailbody_file;
 
             // clean up
-            if ($message_file)
+            if ($message_file) {
                 unlink($message_file);
+            }
 
             if ($rcmail->config->get('markasjunk2_debug')) {
                 rcube::write_log('markasjunk2', $uid . ($spam ? ' SPAM ' : ' HAM ') . $mailto . ' (' . $subject . ')');
 
-                if ($smtp_error['vars'])
+                if ($smtp_error['vars']) {
                     rcube::write_log('markasjunk2', $smtp_error['vars']);
+                }
             }
         }
     }
@@ -168,5 +172,3 @@ class markasjunk2_email_learn
         return $data;
     }
 }
-
-?>

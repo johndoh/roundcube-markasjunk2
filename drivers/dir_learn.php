@@ -2,7 +2,9 @@
 
 /**
  * Copy spam/ham messages to a direcotry for learning later
+ *
  * @version 2.0
+ *
  * @author Philip Weir
  *
  * Copyright (C) 2009-2014 Philip Weir
@@ -22,7 +24,6 @@
  * You should have received a copy of the GNU General Public License
  * along with Roundcube. If not, see http://www.gnu.org/licenses/.
  */
-
 class markasjunk2_dir_learn
 {
     public function spam($uids, $mbox)
@@ -39,14 +40,16 @@ class markasjunk2_dir_learn
     {
         $rcmail = rcube::get_instance();
 
-        if ($spam)
+        if ($spam) {
             $dest_dir = unslashify($rcmail->config->get('markasjunk2_spam_dir'));
-        else
+        }
+        else {
             $dest_dir = unslashify($rcmail->config->get('markasjunk2_ham_dir'));
+        }
 
-        if (!$dest_dir)
+        if (!$dest_dir) {
             return;
-
+        }
         $filename = $rcmail->config->get('markasjunk2_filename');
         $filename = str_replace('%u', $_SESSION['username'], $filename);
         $filename = str_replace('%t', ($spam) ? 'spam' : 'ham', $filename);
@@ -57,10 +60,9 @@ class markasjunk2_dir_learn
             $tmpfname = tempnam($dest_dir, $filename);
             file_put_contents($tmpfname, $rcmail->storage->get_raw_body($uid));
 
-            if ($rcmail->config->get('markasjunk2_debug'))
+            if ($rcmail->config->get('markasjunk2_debug')) {
                 rcube::write_log('markasjunk2', $tmpfname);
+            }
         }
     }
 }
-
-?>

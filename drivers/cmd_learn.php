@@ -2,7 +2,9 @@
 
 /**
  * Command line learn driver
+ *
  * @version 2.0
+ *
  * @author Philip Weir
  * Patched by Julien Vehent to support DSPAM
  * Enhanced support for DSPAM by Stevan Bajic <stevan@bajic.ch>
@@ -24,7 +26,6 @@
  * You should have received a copy of the GNU General Public License
  * along with Roundcube. If not, see http://www.gnu.org/licenses/.
  */
-
 class markasjunk2_cmd_learn
 {
     public function spam($uids, $mbox)
@@ -42,14 +43,16 @@ class markasjunk2_cmd_learn
         $rcmail = rcube::get_instance();
         $temp_dir = realpath($rcmail->config->get('temp_dir'));
 
-        if ($spam)
+        if ($spam) {
             $command = $rcmail->config->get('markasjunk2_spam_cmd');
-        else
+        }
+        else {
             $command = $rcmail->config->get('markasjunk2_ham_cmd');
+        }
 
-        if (!$command)
+        if (!$command) {
             return;
-
+        }
         $command = str_replace('%u', $_SESSION['username'], $command);
         $command = str_replace('%l', $rcmail->user->get_username('local'), $command);
         $command = str_replace('%d', $rcmail->user->get_username('domain'), $command);
@@ -64,10 +67,12 @@ class markasjunk2_cmd_learn
 
             // get DSPAM signature from header (if %xds macro is used)
             if (preg_match('/%xds/', $command)) {
-                if (preg_match('/^X\-DSPAM\-Signature:\s+((\d+,)?([a-f\d]+))\s*$/im', $rcmail->storage->get_raw_headers($uid), $dspam_signature))
+                if (preg_match('/^X\-DSPAM\-Signature:\s+((\d+,)?([a-f\d]+))\s*$/im', $rcmail->storage->get_raw_headers($uid), $dspam_signature)) {
                     $tmp_command = str_replace('%xds', $dspam_signature[1], $tmp_command);
-                else
-                    continue; // no DSPAM signature found in headers -> continue with next uid/message
+                }
+                else {
+                    continue;
+                } // no DSPAM signature found in headers -> continue with next uid/message
             }
 
             if (preg_match('/%f/', $command)) {
@@ -83,12 +88,11 @@ class markasjunk2_cmd_learn
                 rcube::write_log('markasjunk2', $output);
             }
 
-            if (preg_match('/%f/', $command))
+            if (preg_match('/%f/', $command)) {
                 unlink($tmpfname);
+            }
 
             $output = '';
         }
     }
 }
-
-?>

@@ -2,8 +2,10 @@
 
 /**
  * AmavisD Blacklist driver
+ *
  * @version 1.0
  * @requires Amacube plugin
+ *
  * @author Der-Jan
  *
  * Copyright (C) 2014 Der-Jan
@@ -52,12 +54,14 @@ class markasjunk2_amavis_blacklist
         if (is_file($rcmail->config->get('markasjunk2_amacube_config')) && !$rcmail->config->load_from_file($rcmail->config->get('markasjunk2_amacube_config'))) {
             rcube::raise_error(array('code' => 527, 'type' => 'php',
                 'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Failed to load config from " . $rcmail->config->get('markasjunk2_amacube_config')), true, false);
+                'message' => "Failed to load config from " . $rcmail->config->get('markasjunk2_amacube_config')
+            ), true, false);
+
             return false;
         }
 
-        $db = rcube_db::factory($rcmail->config->get('amacube_db_dsn'), '' , TRUE);
-        $db->set_debug((bool)$rcmail->config->get('sql_debug'));
+        $db = rcube_db::factory($rcmail->config->get('amacube_db_dsn'), '', true);
+        $db->set_debug((bool) $rcmail->config->get('sql_debug'));
         $db->db_connect('w');
 
         // check DB connections and exit on failure
@@ -65,10 +69,11 @@ class markasjunk2_amavis_blacklist
             rcube::raise_error(array(
                 'code' => 603,
                 'type' => 'db',
-                'message' => $err_str), FALSE, TRUE);
+                'message' => $err_str
+            ), false, true);
         }
 
-        $sql_result = $db->query( "SELECT `id` FROM `users` WHERE `email` = ?", $this->user_email);
+        $sql_result = $db->query("SELECT `id` FROM `users` WHERE `email` = ?", $this->user_email);
         if ($sql_result && ($res_array = $db->fetch_assoc($sql_result))) {
             $rid = $res_array['id'];
         }
@@ -112,11 +117,12 @@ class markasjunk2_amavis_blacklist
                 $wb = $res_array['wb'];
             }
 
-            if (!$wb || (!$spam && preg_match('/^([BbNnFf])[ ]*\z/', $wb ) ) || ($spam && preg_match('/^([WwYyTt])[ ]*\z/', $wb ))) {
+            if (!$wb || (!$spam && preg_match('/^([BbNnFf])[ ]*\z/', $wb)) || ($spam && preg_match('/^([WwYyTt])[ ]*\z/', $wb))) {
                 $newwb = 'w';
 
-                if ($spam)
+                if ($spam) {
                     $newwb = 'b';
+                }
 
                 if ($wb) {
                     $sql_result = $db->query('UPDATE `wblist` SET `wb` = ? WHERE `sid` = ? AND `rid` = ?',
@@ -124,12 +130,12 @@ class markasjunk2_amavis_blacklist
                 }
                 else {
                     $sql_result = $db->query('INSERT INTO `wblist` (`sid`, `rid`, `wb`) VALUES (?,?,?)',
-                    $sid, $rid,$newwb);
+                    $sid, $rid, $newwb);
                 }
 
                 if (!$sql_result) {
                     if ($rcmail->config->get('markasjunk2_debug')) {
-                        rcube::write_log('markasjunk2', 'Cannot update wblist for user ' . $this->user_email . ' with ' . $email );
+                        rcube::write_log('markasjunk2', 'Cannot update wblist for user ' . $this->user_email . ' with ' . $email);
                     }
 
                     return false;
@@ -138,5 +144,3 @@ class markasjunk2_amavis_blacklist
         }
     }
 }
-
-?>

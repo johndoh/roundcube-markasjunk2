@@ -2,7 +2,9 @@
 
 /**
  * SpamAssassin detach ham driver
+ *
  * @version 2.0
+ *
  * @author Philip Weir
  *
  * Copyright (C) 2011-2014 Philip Weir
@@ -22,7 +24,6 @@
  * You should have received a copy of the GNU General Public License
  * along with Roundcube. If not, see http://www.gnu.org/licenses/.
  */
-
 class markasjunk2_sa_detach
 {
     public function spam($uids, $mbox)
@@ -55,9 +56,8 @@ class markasjunk2_sa_detach
             }
         }
 
-        if (count($new_uids) > 0)
+        if (count($new_uids) > 0) {
             $uids = $new_uids;
+        }
     }
 }
-
-?>
