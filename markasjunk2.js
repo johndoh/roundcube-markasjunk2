@@ -41,7 +41,7 @@ function rcmail_markasjunk2(prop) {
             }
         }
         else {
-            selection = rcmail.message_list.get_selection(false);
+            var selection = rcmail.message_list.get_selection(false);
             for (var i in selection) {
                 if (rcmail.message_list.rows[selection[i]].has_children && !rcmail.message_list.rows[selection[i]].expanded)
                     rcmail.message_list.select_children(selection[i]);
