@@ -1,0 +1,15 @@
+/**
+ * MarkAsJunk2 plugin styles
+ */
+
+@import (reference) "/skins/elastic/styles/fontawesome";
+
+.toolbar a.button.markasjunk2::before,
+.toolbarmenu li a.markasjunk2::before {
+  content: @fa-var-recycle;
+}
+
+.toolbar a.button.markasnotjunk2::before,
+.toolbarmenu li a.markasnotjunk2::before {
+  content: @fa-var-inbox;
+}
