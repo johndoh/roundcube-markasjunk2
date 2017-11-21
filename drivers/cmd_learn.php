@@ -67,7 +67,7 @@ class markasjunk2_cmd_learn
 
             // get DSPAM signature from header (if %xds macro is used)
             if (preg_match('/%xds/', $command)) {
-                if (preg_match('/^X\-DSPAM\-Signature:\s+((\d+,)?([a-f\d]+))\s*$/im', $rcmail->storage->get_raw_headers($uid), $dspam_signature)) {
+                if (preg_match('/^X-DSPAM-Signature:\s+((\d+,)?([a-f\d]+))\s*$/im', $rcmail->storage->get_raw_headers($uid), $dspam_signature)) {
                     $tmp_command = str_replace('%xds', $dspam_signature[1], $tmp_command);
                 }
                 else {
