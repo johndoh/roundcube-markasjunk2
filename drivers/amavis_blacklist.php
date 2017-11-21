@@ -117,7 +117,7 @@ class markasjunk2_amavis_blacklist
                 $wb = $res_array['wb'];
             }
 
-            if (!$wb || (!$spam && preg_match('/^([BbNnFf])[ ]*\z/', $wb)) || ($spam && preg_match('/^([WwYyTt])[ ]*\z/', $wb))) {
+            if (!$wb || (!$spam && preg_match('/^([BbNnFf])[\s]*\z/', $wb)) || ($spam && preg_match('/^([WwYyTt])[\s]*\z/', $wb))) {
                 $newwb = 'w';
 
                 if ($spam) {
