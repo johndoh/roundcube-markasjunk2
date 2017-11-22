@@ -2,7 +2,7 @@
 /* Author: Philip Weir */
 
 $labels = array();
-$labels['buttonjunk'] = 'Mark as spam';
+$labels['buttonjunk'] = 'This message is spam';
 $labels['markasjunk'] = 'As spam';
 $labels['buttonnotjunk'] = 'This message is not spam';
 $labels['markasnotjunk'] = 'As not spam';
