@@ -137,9 +137,9 @@ $config['markasjunk2_ham_patterns'] = array(
 ```
 
 [thomas]: mailto:roundcube@gmail.com
-[rcmaj]: http://github.com/roundcube/roundcubemail/tree/master/plugins/markasjunk
-[rcplugrepo]: http://plugins.roundcube.net/packages/johndoh/markasjunk2
-[releases]: http://github.com/JohnDoh/Roundcube-Plugin-Mark-as-Junk-2/releases
-[gpl]: http://www.gnu.org/licenses/gpl.html
-[multidriver]: http://gist.github.com/JohnDoh/8173505
-[jsevents]: http://gist.github.com/JohnDoh/37ab8610f9fa63052197c89e5ef89266
+[rcmaj]: https://github.com/roundcube/roundcubemail/tree/master/plugins/markasjunk
+[rcplugrepo]: https://plugins.roundcube.net/packages/johndoh/markasjunk2
+[releases]: https://github.com/johndoh/roundcube-markasjunk2/releases
+[gpl]: https://www.gnu.org/licenses/gpl.html
+[multidriver]: https://gist.github.com/johndoh/8173505
+[jsevents]: https://gist.github.com/johndoh/37ab8610f9fa63052197c89e5ef89266

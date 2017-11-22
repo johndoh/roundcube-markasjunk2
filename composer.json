@@ -2,7 +2,7 @@
   "name": "johndoh/markasjunk2",
   "description": "Learn messages as Junk/Not Junk",
   "keywords": ["junk","spam","lean","move"],
-  "homepage": "http://github.com/JohnDoh/Roundcube-Plugin-Mark-as-Junk-2/",
+  "homepage": "https://github.com/johndoh/roundcube-markasjunk2/",
   "license": "GPL-3.0",
   "type": "roundcube-plugin",
   "version": "1.12",
@@ -16,7 +16,7 @@
   "repositories": [
     {
       "type": "composer",
-      "url": "http://plugins.roundcube.net"
+      "url": "https://plugins.roundcube.net"
     }
   ],
   "require": {
