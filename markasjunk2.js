@@ -67,36 +67,36 @@ function rcmail_markasjunk2_notjunk() {
 }
 
 rcube_webmail.prototype.rcmail_markasjunk2_move = function(mbox, uids) {
-    var prev_uid = rcmail.env.uid,
+    var prev_uid = this.env.uid,
       prev_sel = null,
       a_uids = $.isArray(uids) ? uids : uids.split(","),
       i;
 
-    if (rcmail.message_list) {
-        if (a_uids.length == 1 && !rcmail.message_list.rows[a_uids[0]]) {
-            rcmail.env.uid = a_uids[0];
+    if (this.message_list) {
+        if (a_uids.length == 1 && !this.message_list.rows[a_uids[0]]) {
+            this.env.uid = a_uids[0];
         }
-        else if (!rcmail.message_list.in_selection(a_uids[0]) || a_uids.length != rcmail.message_list.get_selection(false).length) {
-            prev_sel = rcmail.message_list.get_selection(false);
-            rcmail.message_list.clear_selection();
+        else if (!this.message_list.in_selection(a_uids[0]) || a_uids.length != this.message_list.get_selection(false).length) {
+            prev_sel = this.message_list.get_selection(false);
+            this.message_list.clear_selection();
 
             for (i in a_uids)
-                rcmail.message_list.highlight_row(a_uids[i], true);
+                this.message_list.highlight_row(a_uids[i], true);
         }
     }
 
     if (mbox)
-        rcmail.move_messages(mbox);
+        this.move_messages(mbox);
     else
-        rcmail.delete_messages();
+        this.delete_messages();
 
-    rcmail.env.uid = prev_uid;
+    this.env.uid = prev_uid;
 
     if (prev_sel) {
-        rcmail.message_list.clear_selection();
+        this.message_list.clear_selection();
 
         for (i in prev_sel)
-            rcmail.message_list.highlight_row(prev_sel[i], true);
+            this.message_list.highlight_row(prev_sel[i], true);
     }
 }
 
