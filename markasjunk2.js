@@ -87,6 +87,8 @@ rcube_webmail.prototype.rcmail_markasjunk2_move = function(mbox, uids) {
 
     if (mbox)
         this.move_messages(mbox);
+    else if (this.env.markasjunk2_permanently_remove == true)
+        this.permanently_remove_messages();
     else
         this.delete_messages();
 

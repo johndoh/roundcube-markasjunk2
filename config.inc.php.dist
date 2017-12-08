@@ -51,6 +51,10 @@ $config['markasjunk2_move_spam'] = false;
 // Learn any message moved from the spam mailbox to the ham mailbox as ham (not just when the button is pressed)
 $config['markasjunk2_move_ham'] = false;
 
+// Some drivers create new copies of the target message(s), in this case the original message(s) will be deleted
+// Rather than deleting the message(s) (moving to Trash) setting this option true will cause the original message(s) to be permanently removed
+$config['markasjunk2_permanently_remove'] = false;
+
 // cmd_learn Driver options
 // ------------------------
 // The command used to learn that a message is spam

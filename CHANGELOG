@@ -2,8 +2,9 @@ Roundcube Webmail MarkAsJunk2
 =============================
 
  * email_learn driver: use new rcmail_resend_mail class (req RC 040a71e)
- * replace classes .markasjunk2Sel/.markasnotjunk2Sel with .pressed
+ * Replace classes .markasjunk2Sel/.markasnotjunk2Sel with .pressed
  * Add Elastic skin support
+ * Add markasjunk2_permanently_remove option (#56)
 
 Version 1.11.1 (2017-07-29, rc-1.3)
 =================================================

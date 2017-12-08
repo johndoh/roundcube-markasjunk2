@@ -77,6 +77,7 @@ class markasjunk2 extends rcube_plugin
 
             $this->api->output->set_env('markasjunk2_move_spam', $rcmail->config->get('markasjunk2_move_spam', false));
             $this->api->output->set_env('markasjunk2_move_ham', $rcmail->config->get('markasjunk2_move_ham', false));
+            $this->api->output->set_env('markasjunk2_permanently_remove', $rcmail->config->get('markasjunk2_permanently_remove', false));
 
             // check for init method from driver
             $this->_call_driver('init');
