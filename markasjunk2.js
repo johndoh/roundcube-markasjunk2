@@ -90,15 +90,15 @@ rcube_webmail.prototype.markasjunk2_toggle_button = function() {
     // if only 1 button is visible make sure its the last one (for styling)
     var cur_index = spamobj.index();
     if (disp.spam && !disp.ham) {
-        if (cur_index < hamobj.index())
+        if (cur_index < hamobj.index()) {
             spamobj.insertAfter(hamobj);
+            spamobj.parents('ul').trigger('menu-change');
+        }
     }
     else if (cur_index > hamobj.index()) {
         hamobj.insertAfter(spamobj);
+        hamobj.parents('ul').trigger('menu-change');
     }
-
-    // trigger an event to say the contents of the menu has been changed
-    spamobj.parents('ul').trigger('menu-change');
 }
 
 $(document).ready(function() {
