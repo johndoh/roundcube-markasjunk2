@@ -97,12 +97,8 @@ rcube_webmail.prototype.markasjunk2_toggle_button = function() {
         hamobj.insertAfter(spamobj);
     }
 
-    // contextmenu integration
-    // if the contextmenu exists, remove it to force an update of the buttons
-    if (cur_index != spamobj.index() && $('div.contextmenu.rcm-submenu').has('a.markasjunk2').length > 0) {
-        var menu_name = $('div.contextmenu.submenu').has('a.markasjunk2').attr('id').replace(/^rcm_/, '');
-        this.env.contextmenus['messagelist'].submenus[menu_name].destroy();
-    }
+    // trigger an event to say the contents of the menu has been changed
+    spamobj.parents('ul').trigger('menu-change');
 }
 
 $(document).ready(function() {
