@@ -65,10 +65,8 @@ class markasjunk2 extends rcube_plugin
             }
             else {
                 // add the buttons to the mark message menu
-                $markjunk = $this->api->output->button(array('command' => 'plugin.markasjunk2.junk', 'type' => 'link', 'label' => 'markasjunk2.markasjunk', 'id' => 'markasjunk2', 'class' => 'icon markasjunk2', 'classact' => 'icon markasjunk2 active', 'innerclass' => 'icon markasjunk2'));
-                $marknotjunk = $this->api->output->button(array('command' => 'plugin.markasjunk2.not_junk', 'type' => 'link', 'label' => 'markasjunk2.markasnotjunk', 'id' => 'markasnotjunk2', 'class' => 'icon markasnotjunk2', 'classact' => 'icon markasnotjunk2 active', 'innerclass' => 'icon markasnotjunk2'));
-                $this->api->add_content(html::tag('li', array('role' => 'menuitem'), $markjunk), 'markmenu');
-                $this->api->add_content(html::tag('li', array('role' => 'menuitem'), $marknotjunk), 'markmenu');
+                $this->add_button(array('command' => 'plugin.markasjunk2.junk', 'type' => 'link-menuitem', 'label' => 'markasjunk2.markasjunk', 'id' => 'markasjunk2', 'class' => 'icon markasjunk2', 'classact' => 'icon markasjunk2 active', 'innerclass' => 'icon markasjunk2'), 'markmenu');
+                $this->add_button(array('command' => 'plugin.markasjunk2.not_junk', 'type' => 'link-menuitem', 'label' => 'markasjunk2.markasnotjunk', 'id' => 'markasnotjunk2', 'class' => 'icon markasnotjunk2', 'classact' => 'icon markasnotjunk2 active', 'innerclass' => 'icon markasnotjunk2'), 'markmenu');
             }
 
             // add markasjunk2 folder settings to the env for JS

@@ -4,7 +4,7 @@
  * @licstart  The following is the entire license notice for the
  * JavaScript code in this file.
  *
- * Copyright (C) 2009-2014 Philip Weir
+ * Copyright (C) 2009-2018 Philip Weir
  *
  * The JavaScript code in this page is free software: you can redistribute it
  * and/or modify it under the terms of the GNU General Public License
@@ -15,55 +15,13 @@
  * for the JavaScript code in this file.
  */
 
-function rcmail_markasjunk2(prop) {
-    if (!rcmail.env.uid && (!rcmail.message_list || !rcmail.message_list.get_selection(false).length))
+rcube_webmail.prototype.markasjunk2_mark = function(is_spam) {
+    if (!this.env.uid && (!this.message_list || !this.message_list.get_selection(false).length))
         return;
 
-    if (!prop || prop == 'markasjunk2')
-        prop = 'junk';
-
-    var prev_sel = null, i;
-
-    // also select children of (collapsed) threads
-    if (rcmail.message_list) {
-        if (rcmail.env.uid) {
-            if (rcmail.message_list.rows[rcmail.env.uid].has_children && !rcmail.message_list.rows[rcmail.env.uid].expanded) {
-                if (!rcmail.message_list.in_selection(rcmail.env.uid)) {
-                    prev_sel = rcmail.message_list.get_selection(false);
-                    rcmail.message_list.select_row(rcmail.env.uid);
-                }
-
-                rcmail.message_list.select_children(rcmail.env.uid);
-                rcmail.env.uid = null;
-            }
-            else if (rcmail.message_list.get_single_selection() == rcmail.env.uid) {
-                rcmail.env.uid = null;
-            }
-        }
-        else {
-            var selection = rcmail.message_list.get_selection(false);
-            for (i in selection) {
-                if (rcmail.message_list.rows[selection[i]].has_children && !rcmail.message_list.rows[selection[i]].expanded)
-                    rcmail.message_list.select_children(selection[i]);
-            }
-        }
-    }
-
-    var uids = rcmail.env.uid ? rcmail.env.uid : rcmail.message_list.get_selection();
-
-    var lock = rcmail.set_busy(true, 'loading');
-    rcmail.http_post('plugin.markasjunk2.' + prop, rcmail.selection_post_data({_uid: uids, _multifolder: rcmail.is_multifolder_listing()}), lock);
-
-    if (prev_sel) {
-        rcmail.message_list.clear_selection();
-
-        for (i in prev_sel)
-            rcmail.message_list.select_row(prev_sel[i], CONTROL_KEY);
-    }
-}
-
-function rcmail_markasjunk2_notjunk() {
-    rcmail_markasjunk2('not_junk');
+    var uids = this.env.uid ? [this.env.uid] : this.message_list.get_selection();
+    var lock = this.set_busy(true, 'loading');
+    this.http_post('plugin.markasjunk2.' + (is_spam ? 'junk' : 'not_junk'), this.selection_post_data({_uid: uids, _multifolder: this.is_multifolder_listing()}), lock);
 }
 
 rcube_webmail.prototype.rcmail_markasjunk2_move = function(mbox, uids) {
@@ -102,9 +60,9 @@ rcube_webmail.prototype.rcmail_markasjunk2_move = function(mbox, uids) {
     }
 }
 
-function rcmail_markasjunk2_update() {
-    var spamobj = $('#' + rcmail.buttons['plugin.markasjunk2.junk'][0].id);
-    var hamobj = $('#' + rcmail.buttons['plugin.markasjunk2.not_junk'][0].id);
+rcube_webmail.prototype.markasjunk2_toggle_button = function() {
+    var spamobj = $('#' + this.buttons['plugin.markasjunk2.junk'][0].id);
+    var hamobj = $('#' + this.buttons['plugin.markasjunk2.not_junk'][0].id);
 
     if (spamobj.parent('li').length > 0) {
         spamobj = spamobj.parent();
@@ -112,8 +70,8 @@ function rcmail_markasjunk2_update() {
     }
 
     var disp = {'spam': true, 'ham': true};
-    if (!rcmail.is_multifolder_listing() && rcmail.env.markasjunk2_spam_mailbox) {
-        if (rcmail.env.mailbox != rcmail.env.markasjunk2_spam_mailbox) {
+    if (!this.is_multifolder_listing() && this.env.markasjunk2_spam_mailbox) {
+        if (this.env.mailbox != this.env.markasjunk2_spam_mailbox) {
             disp.ham = false;
         }
         else {
@@ -121,7 +79,7 @@ function rcmail_markasjunk2_update() {
         }
     }
 
-    var evt_rtn = rcmail.triggerEvent('markasjunk2-update', {'objs': {'spamobj': spamobj, 'hamobj': hamobj}, 'disp': disp});
+    var evt_rtn = this.triggerEvent('markasjunk2-update', {'objs': {'spamobj': spamobj, 'hamobj': hamobj}, 'disp': disp});
     if (evt_rtn && evt_rtn.abort)
         return;
     disp = evt_rtn ? evt_rtn.disp : disp;
@@ -143,9 +101,9 @@ function rcmail_markasjunk2_update() {
     // if the contextmenu exists, remove it to force an update of the buttons
     if (cur_index != spamobj.index() && $('div.contextmenu.rcm-submenu').has('a.markasjunk2').length > 0) {
         var menu_name = $('div.contextmenu.submenu').has('a.markasjunk2').attr('id').replace(/^rcm_/, '');
-        rcmail.env.contextmenus['messagelist'].submenus[menu_name].hide();
-        rcmail.env.contextmenus['messagelist'].submenus[menu_name].destroy();
-        rcmail.env.contextmenus['messagelist'].submenus[menu_name] = null;
+        this.env.contextmenus['messagelist'].submenus[menu_name].hide();
+        this.env.contextmenus['messagelist'].submenus[menu_name].destroy();
+        this.env.contextmenus['messagelist'].submenus[menu_name] = null;
     }
 }
 
@@ -153,8 +111,8 @@ $(document).ready(function() {
     if (window.rcmail) {
         rcmail.addEventListener('init', function() {
             // register command (directly enable in message view mode)
-            rcmail.register_command('plugin.markasjunk2.junk', rcmail_markasjunk2, rcmail.env.uid);
-            rcmail.register_command('plugin.markasjunk2.not_junk', rcmail_markasjunk2_notjunk, rcmail.env.uid);
+            rcmail.register_command('plugin.markasjunk2.junk', function() { rcmail.markasjunk2_mark(true); }, rcmail.env.uid);
+            rcmail.register_command('plugin.markasjunk2.not_junk', function() { rcmail.markasjunk2_mark(false); }, rcmail.env.uid);
 
             if (rcmail.message_list) {
                 rcmail.message_list.addEventListener('select', function(list) {
@@ -164,10 +122,10 @@ $(document).ready(function() {
             }
 
             // make sure the correct icon is displayed even when there is no listupdate event
-            rcmail_markasjunk2_update();
+            rcmail.markasjunk2_toggle_button();
         });
 
-        rcmail.addEventListener('listupdate', function() { rcmail_markasjunk2_update(); } );
+        rcmail.addEventListener('listupdate', function() { rcmail.markasjunk2_toggle_button(); } );
 
         rcmail.addEventListener('beforemoveto', function(mbox) {
             if (mbox && typeof mbox === 'object')
@@ -175,13 +133,13 @@ $(document).ready(function() {
 
             // check if destination mbox equals junk box (and we're not already in the junk box)
             if (rcmail.env.markasjunk2_move_spam && mbox && mbox == rcmail.env.markasjunk2_spam_mailbox && mbox != rcmail.env.mailbox) {
-                rcmail_markasjunk2();
+                rcmail.markasjunk2_mark(true);
                 return false;
 
             }
             // or if destination mbox equals ham box and we are in the junk box
             else if (rcmail.env.markasjunk2_move_ham && mbox && mbox == rcmail.env.markasjunk2_ham_mailbox && rcmail.env.mailbox == rcmail.env.markasjunk2_spam_mailbox) {
-                rcmail_markasjunk2_notjunk();
+                rcmail.markasjunk2_mark(false);
                 return false;
             }
 
