@@ -53,6 +53,9 @@ class markasjunk2 extends rcube_plugin
         // register the ham/spam flags with the core
         $this->add_hook('storage_init', array($this, 'set_flags'));
 
+        // integration with Swipe plugin
+        $this->add_hook('swipe_actions_list', array($this, 'swipe_action'));
+
         if ($rcmail->action == '' || $rcmail->action == 'show') {
             $this->include_script('markasjunk2.js');
             $this->add_texts('localization', true);
@@ -119,6 +122,15 @@ class markasjunk2 extends rcube_plugin
         $p['message_flags'] = array_merge((array) $p['message_flags'], $flags);
 
         return $p;
+    }
+
+    public function swipe_action($p)
+    {
+        if ($this->spam_mbox && $p['axis'] == 'horizontal') {
+            $p['actions']['markasjunk2'] = 'markasjunk2.markasjunk';
+
+            return $p;
+        }
     }
 
     private function _set_toolbar_display($display, $action)

@@ -138,6 +138,30 @@ $(document).ready(function() {
             }
 
             return;
-        } );
+        });
+
+        // integration with Swipe plugin
+        rcmail.addEventListener('swipe-action', function(p) {
+            if (rcmail.env.swipe_actions[p.direction] == 'markasjunk2' && rcmail.env.markasjunk2_spam_mailbox) {
+                var action = {};
+
+                if (rcmail.env.mailbox == rcmail.env.markasjunk2_spam_mailbox) {
+                    action = {
+                        'class': 'notjunk',
+                        'text': 'markasjunk2.markasnotjunk',
+                        'callback': function(p) { rcmail.swipe_action_callback('plugin.markasjunk2.not_junk', null, p); }
+                    };
+                }
+                else {
+                    action = {
+                        'class': 'junk',
+                        'text': 'markasjunk2.markasjunk',
+                        'callback': function(p) { rcmail.swipe_action_callback('plugin.markasjunk2.junk', null, p); }
+                    };
+                }
+
+                return action;
+            }
+        })
     }
 });
