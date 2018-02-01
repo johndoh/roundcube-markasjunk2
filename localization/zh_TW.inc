@@ -3,9 +3,9 @@
 
 $labels = array();
 $labels['buttonjunk'] = '標為垃圾郵件';
-$labels['markasjunk'] = '標為垃圾郵件';
+$labels['asjunk'] = '標為垃圾郵件';
 $labels['buttonnotjunk'] = '非垃圾郵件';
-$labels['markasnotjunk'] = '非垃圾郵件';
+$labels['asnotjunk'] = '非垃圾郵件';
 $labels['notjunk'] = '非垃圾郵件';
 
 $messages = array();

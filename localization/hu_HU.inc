@@ -3,9 +3,9 @@
 
 $labels = array();
 $labels['buttonjunk'] = 'Megjelölés levélszemétként';
-$labels['markasjunk'] = 'Levélszemétként';
+$labels['asjunk'] = 'Levélszemétként';
 $labels['buttonnotjunk'] = 'Ez az üzenet nem levélszemét';
-$labels['markasnotjunk'] = 'Nem levélszemét';
+$labels['asnotjunk'] = 'Nem levélszemét';
 $labels['notjunk'] = 'Nem levélszemét';
 
 $messages = array();

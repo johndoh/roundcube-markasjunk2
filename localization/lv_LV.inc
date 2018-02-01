@@ -3,9 +3,9 @@
 
 $labels = array();
 $labels['buttonjunk'] = 'Atzīmēt mēstules';
-$labels['markasjunk'] = 'Kā mēstuli';
+$labels['asjunk'] = 'Kā mēstuli';
 $labels['buttonnotjunk'] = 'Atzīmēt ne-mēstules';
-$labels['markasnotjunk'] = 'Kā ne-mēstule';
+$labels['asnotjunk'] = 'Kā ne-mēstule';
 $labels['notjunk'] = 'Ne-mēstules';
 
 $messages = array();

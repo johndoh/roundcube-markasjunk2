@@ -3,9 +3,11 @@
 
 $labels = array();
 $labels['buttonjunk'] = 'This message is junk';
-$labels['markasjunk'] = 'As junk';
+$labels['asjunk'] = 'As junk';
+$labels['markasjunk'] = 'Mark as junk';
 $labels['buttonnotjunk'] = 'This message is not junk';
-$labels['markasnotjunk'] = 'As not junk';
+$labels['asnotjunk'] = 'As not junk';
+$labels['markasnotjunk'] = 'Mark as not junk';
 $labels['notjunk'] = 'Not junk';
 
 $messages = array();

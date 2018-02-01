@@ -3,9 +3,9 @@
 
 $labels = array();
 $labels['buttonjunk'] = 'Маркирай като спам';
-$labels['markasjunk'] = 'Като спам';
+$labels['asjunk'] = 'Като спам';
 $labels['buttonnotjunk'] = 'Маркирай като желано';
-$labels['markasnotjunk'] = 'Не е спам';
+$labels['asnotjunk'] = 'Не е спам';
 $labels['notjunk'] = 'Не е спам';
 
 $messages = array();

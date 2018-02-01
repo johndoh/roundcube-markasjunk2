@@ -3,9 +3,9 @@
 
 $labels = array();
 $labels['buttonjunk'] = '迷惑メールとして設定';
-$labels['markasjunk'] = '迷惑メールとして設定';
+$labels['asjunk'] = '迷惑メールとして設定';
 $labels['buttonnotjunk'] = 'このメッセージは迷惑メールではありません';
-$labels['markasnotjunk'] = '迷惑メール設定を解除';
+$labels['asnotjunk'] = '迷惑メール設定を解除';
 $labels['notjunk'] = '迷惑メール解除';
 
 $messages = array();

@@ -3,9 +3,9 @@
 
 $labels = array();
 $labels['buttonjunk'] = 'Spam olarak işaretle';
-$labels['markasjunk'] = 'Spam olarak';
+$labels['asjunk'] = 'Spam olarak';
 $labels['buttonnotjunk'] = 'Bu mesaj Spam değildir';
-$labels['markasnotjunk'] = 'Spam değildir';
+$labels['asnotjunk'] = 'Spam değildir';
 
 $messages = array();
 $messages['reportedasjunk'] = 'Başarıyla spam olarak bildirildi';
