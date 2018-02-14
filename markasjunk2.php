@@ -126,7 +126,7 @@ class markasjunk2 extends rcube_plugin
 
     public function swipe_action($p)
     {
-        if ($this->spam_mbox && $p['axis'] == 'horizontal') {
+        if ($this->spam_mbox && $p['source'] == 'messagelist' && $p['axis'] == 'horizontal') {
             $p['actions']['markasjunk2'] = 'markasjunk2.markasjunk';
 
             return $p;
