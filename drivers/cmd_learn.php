@@ -56,10 +56,11 @@ class markasjunk2_cmd_learn
         $command = str_replace('%u', $_SESSION['username'], $command);
         $command = str_replace('%l', $rcmail->user->get_username('local'), $command);
         $command = str_replace('%d', $rcmail->user->get_username('domain'), $command);
-        if (preg_match('/%i/', $command)) {
+        if (strstr($command, '%i') !== false) {
             $identity_arr = $rcmail->user->get_identity();
             $command = str_replace('%i', $identity_arr['email'], $command);
         }
+  
 
         foreach ($uids as $uid) {
             // reset command for next message
@@ -74,8 +75,13 @@ class markasjunk2_cmd_learn
                     continue;
                 } // no DSPAM signature found in headers -> continue with next uid/message
             }
+            
+            if (strstr($tmp_command, '%s') !== false) {
+                $message = new rcube_message($uid);
+                $tmp_command = str_replace('%s', $message->sender['mailto'], $tmp_command);
+            }
 
-            if (preg_match('/%f/', $command)) {
+            if (strstr($tmp_command, '%f') !== false) {
                 $tmpfname = tempnam($temp_dir, 'rcmSALearn');
                 file_put_contents($tmpfname, $rcmail->storage->get_raw_body($uid));
                 $tmp_command = str_replace('%f', $tmpfname, $tmp_command);
@@ -88,7 +94,7 @@ class markasjunk2_cmd_learn
                 rcube::write_log('markasjunk2', $output);
             }
 
-            if (preg_match('/%f/', $command)) {
+            if (strstr($command, '%f') !== false) {
                 unlink($tmpfname);
             }
 
