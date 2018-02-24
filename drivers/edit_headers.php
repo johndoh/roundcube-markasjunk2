@@ -28,22 +28,23 @@ class markasjunk2_edit_headers
 {
     public function spam(&$uids, $mbox)
     {
-        $this->_edit_headers($uids, true);
+        $this->_edit_headers($uids, true, $mbox);
     }
 
     public function ham(&$uids, $mbox)
     {
-        $this->_edit_headers($uids, false);
+        $this->_edit_headers($uids, false, $mbox);
     }
 
     private function _edit_headers(&$uids, $spam, $mbox)
     {
         $rcmail = rcube::get_instance();
-        $args = $spam ? $rcmail->config->get('markasjunk2_spam_patterns') : $rcmail->config->get('markasjunk2_ham_patterns');
+        $args = $rcmail->config->get($spam ? 'markasjunk2_spam_patterns' : 'markasjunk2_ham_patterns');
 
         if (count($args['patterns']) == 0) {
             return;
         }
+
         $new_uids = array();
         foreach ($uids as $uid) {
             $raw_message = $rcmail->storage->get_raw_body($uid);

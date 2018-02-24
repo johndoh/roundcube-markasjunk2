@@ -54,6 +54,7 @@ class markasjunk2_email_learn
         if (!$mailto) {
             return;
         }
+
         $subject = $rcmail->config->get('markasjunk2_email_subject');
         $subject = $this->_parse_vars($subject, $spam, $from);
 

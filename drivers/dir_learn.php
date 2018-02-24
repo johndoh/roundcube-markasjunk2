@@ -39,17 +39,12 @@ class markasjunk2_dir_learn
     private function _do_messagemove($uids, $spam)
     {
         $rcmail = rcube::get_instance();
-
-        if ($spam) {
-            $dest_dir = unslashify($rcmail->config->get('markasjunk2_spam_dir'));
-        }
-        else {
-            $dest_dir = unslashify($rcmail->config->get('markasjunk2_ham_dir'));
-        }
+        $dest_dir = unslashify($rcmail->config->get($spam ? 'markasjunk2_spam_dir' : 'markasjunk2_ham_dir'));
 
         if (!$dest_dir) {
             return;
         }
+
         $filename = $rcmail->config->get('markasjunk2_filename');
         $filename = str_replace('%u', $_SESSION['username'], $filename);
         $filename = str_replace('%t', ($spam) ? 'spam' : 'ham', $filename);
