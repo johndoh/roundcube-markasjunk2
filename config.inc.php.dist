@@ -63,9 +63,10 @@ $config['markasjunk2_permanently_remove'] = false;
 //      %l is replaced with the local part of the username (if the username is an email address)
 //      %d is replaced with the domain part of the username (if the username is an email address or default mail domain if not)
 //      %i is replaced with the email address from the user's default identity
-//      %xds is replaced with the X-DSPAM-Signature header
+//      %s is replaced with the email address the message is from
 //      %f is replaced with the path to the message file
-// If you do not want run the command set this to null
+//      %h:<header name> is replaced with the content of that header from the message (lower case) eg: %h:x-dspam-signature
+// If you do not want to run the command set this to null
 $config['markasjunk2_spam_cmd'] = null;
 
 // The command used to learn that a message is ham
@@ -74,9 +75,10 @@ $config['markasjunk2_spam_cmd'] = null;
 //      %l is replaced with the local part of the username (if the username is an email address)
 //      %d is replaced with the domain part of the username (if the username is an email address or default mail domain if not)
 //      %i is replaced with the email address from the user's default identity
-//      %xds is replaced with the X-DSPAM-Signature header
+//      %s is replaced with the email address the message is from
 //      %f is replaced with the path to the message file
-// If you do not want run the command set this to null
+//      %h:<header name> is replaced with the content of that header from the message (lower case) eg: %h:x-dspam-signature
+// If you do not want to run the command set this to null
 $config['markasjunk2_ham_cmd'] = null;
 
 // dir_learn Driver options
