@@ -41,8 +41,8 @@ rcube_webmail.prototype.rcmail_markasjunk2_move = function(mbox, uids) {
 }
 
 rcube_webmail.prototype.markasjunk2_toggle_button = function() {
-    var spamobj = $('#' + this.buttons['plugin.markasjunk2.junk'][0].id);
-    var hamobj = $('#' + this.buttons['plugin.markasjunk2.not_junk'][0].id);
+    var spamobj = $('a.markasjunk2');
+    var hamobj = $('a.markasnotjunk2');
 
     if (spamobj.parent('li').length > 0) {
         spamobj = spamobj.parent();
@@ -67,17 +67,21 @@ rcube_webmail.prototype.markasjunk2_toggle_button = function() {
     disp.ham ? hamobj.show() : hamobj.hide();
 
     // if only 1 button is visible make sure its the last one (for styling)
-    var cur_index = spamobj.index();
-    if (disp.spam && !disp.ham) {
-        if (cur_index < hamobj.index()) {
-            spamobj.insertAfter(hamobj);
-            spamobj.parents('ul').trigger('menu-change');
+    // allow for multiple instances of the buttons, eg toolbar and contextmenu
+    $.each(spamobj, function(i) {
+        var cur_spamobj = spamobj.eq(i),
+          cur_hamobj = hamobj.eq(i),
+          cur_index = spamobj.eq(i).index();
+
+        if (disp.spam && !disp.ham) {
+            if (cur_index < cur_hamobj.index()) {
+                cur_spamobj.insertAfter(cur_hamobj);
+            }
         }
-    }
-    else if (cur_index > hamobj.index()) {
-        hamobj.insertAfter(spamobj);
-        hamobj.parents('ul').trigger('menu-change');
-    }
+        else if (cur_index > cur_hamobj.index()) {
+            cur_hamobj.insertAfter(cur_spamobj);
+        }
+    });
 }
 
 $(document).ready(function() {
