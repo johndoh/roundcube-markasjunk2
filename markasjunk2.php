@@ -90,15 +90,14 @@ class markasjunk2 extends rcube_plugin
         $this->add_texts('localization');
 
         $is_spam = rcube::get_instance()->action == 'plugin.markasjunk2.junk' ? true : false;
-        $multi_folder = $_POST['_multifolder'] == 'true' ? true : false;
         $messageset = rcmail::get_uids(null, null, $multifolder, rcube_utils::INPUT_POST);
         $mbox_name = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
         $dest_mbox = $is_spam ? $this->spam_mbox : $this->ham_mbox;
         $result = $is_spam ? $this->_spam($messageset, $dest_mbox) : $this->_ham($messageset, $dest_mbox);
 
         if ($result) {
-            if ($dest_mbox && ($mbox_name !== $dest_mbox || $multi_folder)) {
-                $this->api->output->command('rcmail_markasjunk2_move', $dest_mbox, $this->_messageset_to_uids($messageset, $multi_folder));
+            if ($dest_mbox && ($mbox_name !== $dest_mbox || $multifolder)) {
+                $this->api->output->command('rcmail_markasjunk2_move', $dest_mbox, $this->_messageset_to_uids($messageset, $multifolder));
             }
             else {
                 $this->api->output->command('command', 'list', $mbox_name);
@@ -285,13 +284,13 @@ class markasjunk2 extends rcube_plugin
         return $object->is_error ? false : true;
     }
 
-    private function _messageset_to_uids($messageset, $multi_folder)
+    private function _messageset_to_uids($messageset, $multifolder)
     {
         $a_uids = array();
 
         foreach ($messageset as $mbox => $uids) {
             foreach ($uids as $uid) {
-                $a_uids[] = $multi_folder ? $uid . '-' . $mbox : $uid;
+                $a_uids[] = $multifolder ? $uid . '-' . $mbox : $uid;
             }
         }
 
