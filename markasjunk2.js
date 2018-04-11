@@ -44,11 +44,6 @@ rcube_webmail.prototype.markasjunk2_toggle_button = function() {
     var spamobj = $('a.markasjunk2');
     var hamobj = $('a.markasnotjunk2');
 
-    if (spamobj.parent('li').length > 0) {
-        spamobj = spamobj.parent();
-        hamobj = hamobj.parent();
-    }
-
     var disp = {'spam': true, 'ham': true};
     if (!this.is_multifolder_listing() && this.env.markasjunk2_spam_mailbox) {
         if (this.env.mailbox != this.env.markasjunk2_spam_mailbox)
@@ -57,21 +52,26 @@ rcube_webmail.prototype.markasjunk2_toggle_button = function() {
             disp.spam = false;
     }
 
-    var evt_rtn = this.triggerEvent('markasjunk2-update', {'objs': {'spamobj': spamobj, 'hamobj': hamobj}, 'disp': disp});
-    if (evt_rtn && evt_rtn.abort)
-        return;
-
-    disp = evt_rtn ? evt_rtn.disp : disp;
-
-    disp.spam ? spamobj.show() : spamobj.hide();
-    disp.ham ? hamobj.show() : hamobj.hide();
-
     // if only 1 button is visible make sure its the last one (for styling)
     // allow for multiple instances of the buttons, eg toolbar and contextmenu
     $.each(spamobj, function(i) {
         var cur_spamobj = spamobj.eq(i),
           cur_hamobj = hamobj.eq(i),
           cur_index = spamobj.eq(i).index();
+
+        if (cur_spamobj.parent('li').length > 0) {
+            cur_spamobj = cur_spamobj.parent();
+            cur_hamobj = cur_hamobj.parent();
+        }
+
+        var evt_rtn = rcmail.triggerEvent('markasjunk2-update', {'objs': {'spamobj': cur_spamobj, 'hamobj': cur_hamobj}, 'disp': disp});
+        if (evt_rtn && evt_rtn.abort)
+            return;
+
+        disp = evt_rtn ? evt_rtn.disp : disp;
+
+        disp.spam ? cur_spamobj.show() : cur_spamobj.hide();
+        disp.ham ? cur_hamobj.show() : cur_hamobj.hide();
 
         if (disp.spam && !disp.ham) {
             if (cur_index < cur_hamobj.index()) {
