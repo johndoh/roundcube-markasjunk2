@@ -1,6 +1,8 @@
 Roundcube Webmail MarkAsJunk2
 =============================
 
+Version 1.11.2 (2018-04-12, rc-1.3.6)
+=================================================
  * Fix check_request() bypass in places using get_uids() [CVE-2018-9846] (req RC e3dd5b6)
 
 Version 1.11.1 (2017-07-29, rc-1.3)
