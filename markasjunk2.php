@@ -89,8 +89,9 @@ class markasjunk2 extends rcube_plugin
 
 		$is_spam = rcube::get_instance()->action == 'plugin.markasjunk2.junk' ? true : false;
 		$multi_folder = $_POST['_multifolder'] == 'true' ? true : false;
-		$messageset = rcmail::get_uids();
+		$uids = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
 		$mbox_name = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
+		$messageset = !empty($uids) ? rcmail::get_uids($uids, $mbox_name) : array();
 		$dest_mbox = $is_spam ? $this->spam_mbox : $this->ham_mbox;
 		$result = $is_spam ? $this->_spam($messageset, $dest_mbox) : $this->_ham($messageset, $dest_mbox);
 
