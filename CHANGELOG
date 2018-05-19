@@ -8,6 +8,8 @@ Roundcube Webmail MarkAsJunk2
  * Integration with Swipe plugin
  * %xds marco replaced with %h:<header name>
  * Fix check_request() bypass in places using get_uids() [CVE-2018-9846] (req RC 8e543f8)
+ * Add markasjunk2_allowed_hosts config option
+ * Add markasjunk2_host_config config option
 
 Version 1.11.1 (2017-07-29, rc-1.3)
 =================================================

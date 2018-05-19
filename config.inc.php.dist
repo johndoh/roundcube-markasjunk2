@@ -55,6 +55,17 @@ $config['markasjunk2_move_ham'] = false;
 // Rather than deleting the message(s) (moving to Trash) setting this option true will cause the original message(s) to be permanently removed
 $config['markasjunk2_permanently_remove'] = false;
 
+// Activate MarkAsJunk2 for selected mail hosts only. If this is not set all mail hosts are allowed.
+// Example: $config['markasjunk2_allowed_hosts'] = array('mail1.domain.tld', 'mail2.domain.tld');
+$config['markasjunk2_allowed_hosts'] = null;
+
+// Load specific config for different mail hosts
+// Example: $config['markasjunk2_host_config'] = array(
+//    'mail1.domain.tld' => 'mail1_config.inc.php',
+//    'mail2.domain.tld' => 'mail2_config.inc.php',
+// );
+$config['markasjunk2_host_config'] = null;
+
 // cmd_learn Driver options
 // ------------------------
 // The command used to learn that a message is spam
