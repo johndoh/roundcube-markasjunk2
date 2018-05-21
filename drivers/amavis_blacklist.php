@@ -48,7 +48,7 @@ class markasjunk2_amavis_blacklist
 
     private function _do_list($uids, $spam)
     {
-        $rcube = rcmail::get_instance();
+        $rcube = rcube::get_instance();
         $this->user_email = $rcube->user->data['username'];
 
         if (is_file($rcube->config->get('markasjunk2_amacube_config')) && !$rcube->config->load_from_file($rcube->config->get('markasjunk2_amacube_config'))) {
