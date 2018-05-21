@@ -40,9 +40,9 @@ class markasjunk2_cmd_learn
 
     private function _do_salearn($uids, $spam, $mbox)
     {
-        $rcmail = rcube::get_instance();
-        $temp_dir = realpath($rcmail->config->get('temp_dir'));
-        $command = $rcmail->config->get($spam ? 'markasjunk2_spam_cmd' : 'markasjunk2_ham_cmd');
+        $rcube = rcube::get_instance();
+        $temp_dir = realpath($rcube->config->get('temp_dir'));
+        $command = $rcube->config->get($spam ? 'markasjunk2_spam_cmd' : 'markasjunk2_ham_cmd');
 
         if (!$command) {
             return;
@@ -52,10 +52,10 @@ class markasjunk2_cmd_learn
         $command = str_replace('%xds', '%h:x-dspam-signature', $command);
 
         $command = str_replace('%u', $_SESSION['username'], $command);
-        $command = str_replace('%l', $rcmail->user->get_username('local'), $command);
-        $command = str_replace('%d', $rcmail->user->get_username('domain'), $command);
+        $command = str_replace('%l', $rcube->user->get_username('local'), $command);
+        $command = str_replace('%d', $rcube->user->get_username('domain'), $command);
         if (strpos($command, '%i') !== false) {
-            $identity_arr = $rcmail->user->get_identity();
+            $identity_arr = $rcube->user->get_identity();
             $command = str_replace('%i', $identity_arr['email'], $command);
         }
 
@@ -69,7 +69,7 @@ class markasjunk2_cmd_learn
             }
 
             if (strpos($command, '%h') !== false) {
-                $storage = $rcmail->get_storage();
+                $storage = $rcube->get_storage();
                 $storage->check_connection();
                 $storage->conn->select($mbox);
 
@@ -84,7 +84,7 @@ class markasjunk2_cmd_learn
                         $tmp_command = str_replace($header[0], escapeshellarg($val), $tmp_command);
                     }
                     else {
-                        if ($rcmail->config->get('markasjunk2_debug')) {
+                        if ($rcube->config->get('markasjunk2_debug')) {
                             rcube::write_log('markasjunk2', 'header ' . $header[1] . ' not found in message ' . $mbox . '/' . $uid);
                         }
 
@@ -95,13 +95,13 @@ class markasjunk2_cmd_learn
 
             if (strpos($command, '%f') !== false) {
                 $tmpfname = tempnam($temp_dir, 'rcmSALearn');
-                file_put_contents($tmpfname, $rcmail->storage->get_raw_body($uid));
+                file_put_contents($tmpfname, $rcube->storage->get_raw_body($uid));
                 $tmp_command = str_replace('%f', escapeshellarg($tmpfname), $tmp_command);
             }
 
             $output = shell_exec($tmp_command);
 
-            if ($rcmail->config->get('markasjunk2_debug')) {
+            if ($rcube->config->get('markasjunk2_debug')) {
                 rcube::write_log('markasjunk2', $tmp_command);
                 rcube::write_log('markasjunk2', $output);
             }

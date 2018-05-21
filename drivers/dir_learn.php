@@ -38,24 +38,24 @@ class markasjunk2_dir_learn
 
     private function _do_messagemove($uids, $spam)
     {
-        $rcmail = rcube::get_instance();
-        $dest_dir = unslashify($rcmail->config->get($spam ? 'markasjunk2_spam_dir' : 'markasjunk2_ham_dir'));
+        $rcube = rcube::get_instance();
+        $dest_dir = unslashify($rcube->config->get($spam ? 'markasjunk2_spam_dir' : 'markasjunk2_ham_dir'));
 
         if (!$dest_dir) {
             return;
         }
 
-        $filename = $rcmail->config->get('markasjunk2_filename');
+        $filename = $rcube->config->get('markasjunk2_filename');
         $filename = str_replace('%u', $_SESSION['username'], $filename);
         $filename = str_replace('%t', ($spam) ? 'spam' : 'ham', $filename);
-        $filename = str_replace('%l', $rcmail->user->get_username('local'), $filename);
-        $filename = str_replace('%d', $rcmail->user->get_username('domain'), $filename);
+        $filename = str_replace('%l', $rcube->user->get_username('local'), $filename);
+        $filename = str_replace('%d', $rcube->user->get_username('domain'), $filename);
 
         foreach ($uids as $uid) {
             $tmpfname = tempnam($dest_dir, $filename);
-            file_put_contents($tmpfname, $rcmail->storage->get_raw_body($uid));
+            file_put_contents($tmpfname, $rcube->storage->get_raw_body($uid));
 
-            if ($rcmail->config->get('markasjunk2_debug')) {
+            if ($rcube->config->get('markasjunk2_debug')) {
                 rcube::write_log('markasjunk2', $tmpfname);
             }
         }
