@@ -10,6 +10,7 @@ Roundcube Webmail MarkAsJunk2
  * Fix check_request() bypass in places using get_uids() [CVE-2018-9846] (req RC 8e543f8)
  * Add markasjunk2_allowed_hosts config option
  * Add markasjunk2_host_config config option
+ * Pass source and destination mbox vars to driver fix save problems in edit_headers and sa_detact drivers (#58)
 
 Version 1.11.1 (2017-07-29, rc-1.3)
 =================================================

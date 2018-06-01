@@ -28,17 +28,17 @@
  */
 class markasjunk2_cmd_learn
 {
-    public function spam($uids, $mbox)
+    public function spam($uids, $src_mbox, $dst_mbox)
     {
-        $this->_do_salearn($uids, true, $mbox);
+        $this->_do_salearn($uids, true, $src_mbox);
     }
 
-    public function ham($uids, $mbox)
+    public function ham($uids, $src_mbox, $dst_mbox)
     {
-        $this->_do_salearn($uids, false, $mbox);
+        $this->_do_salearn($uids, false, $src_mbox);
     }
 
-    private function _do_salearn($uids, $spam, $mbox)
+    private function _do_salearn($uids, $spam, $src_mbox)
     {
         $rcube = rcube::get_instance();
         $temp_dir = realpath($rcube->config->get('temp_dir'));
@@ -71,12 +71,12 @@ class markasjunk2_cmd_learn
             if (strpos($command, '%h') !== false) {
                 $storage = $rcube->get_storage();
                 $storage->check_connection();
-                $storage->conn->select($mbox);
+                $storage->conn->select($src_mbox);
 
                 preg_match_all('/%h:([\w-_]+)/', $tmp_command, $header_names, PREG_SET_ORDER);
                 foreach ($header_names as $header) {
                     $val = null;
-                    if ($msg = $storage->conn->fetchHeader($mbox, $uid, true, false, array($header[1]))) {
+                    if ($msg = $storage->conn->fetchHeader($src_mbox, $uid, true, false, array($header[1]))) {
                         $val = $msg->{$header[1]} ?: $msg->others[$header[1]];
                     }
 
@@ -85,7 +85,7 @@ class markasjunk2_cmd_learn
                     }
                     else {
                         if ($rcube->config->get('markasjunk2_debug')) {
-                            rcube::write_log('markasjunk2', 'header ' . $header[1] . ' not found in message ' . $mbox . '/' . $uid);
+                            rcube::write_log('markasjunk2', 'header ' . $header[1] . ' not found in message ' . $src_mbox . '/' . $uid);
                         }
 
                         continue 2;

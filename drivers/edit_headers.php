@@ -26,17 +26,17 @@
  */
 class markasjunk2_edit_headers
 {
-    public function spam(&$uids, $mbox)
+    public function spam(&$uids, $src_mbox, $dst_mbox)
     {
-        $this->_edit_headers($uids, true, $mbox);
+        $this->_edit_headers($uids, true, $dst_mbox);
     }
 
-    public function ham(&$uids, $mbox)
+    public function ham(&$uids, $src_mbox, $dst_mbox)
     {
-        $this->_edit_headers($uids, false, $mbox);
+        $this->_edit_headers($uids, false, $dst_mbox);
     }
 
-    private function _edit_headers(&$uids, $spam, $mbox)
+    private function _edit_headers(&$uids, $spam, $dst_mbox)
     {
         $rcube = rcube::get_instance();
         $args = $rcube->config->get($spam ? 'markasjunk2_spam_patterns' : 'markasjunk2_ham_patterns');
@@ -53,7 +53,7 @@ class markasjunk2_edit_headers
             $updated_headers = preg_replace($args['patterns'], $args['replacements'], $raw_headers);
             $raw_message = str_replace($raw_headers, $updated_headers, $raw_message);
 
-            $saved = $rcube->storage->save_message($mbox, $raw_message);
+            $saved = $rcube->storage->save_message($dst_mbox, $raw_message);
 
             if ($saved !== false) {
                 $rcube->output->command('rcmail_markasjunk2_move', null, $uid);

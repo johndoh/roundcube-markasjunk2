@@ -26,12 +26,12 @@
  */
 class markasjunk2_sa_detach
 {
-    public function spam($uids, $mbox)
+    public function spam($uids, $src_mbox, $dst_mbox)
     {
         // do nothing
     }
 
-    public function ham(&$uids, $mbox)
+    public function ham(&$uids, $src_mbox, $dst_mbox)
     {
         $rcube = rcube::get_instance();
         $storage = $rcube->storage;
@@ -45,7 +45,7 @@ class markasjunk2_sa_detach
                 foreach ($message->attachments as $part) {
                     if ($part->ctype_primary == 'message' && $part->ctype_secondary == 'rfc822' && $part->ctype_parameters['x-spam-type'] == 'original') {
                         $orig_message_raw = $message->get_part_body($part->mime_id);
-                        $saved = $storage->save_message($mbox, $orig_message_raw);
+                        $saved = $storage->save_message($dst_mbox, $orig_message_raw);
 
                         if ($saved !== false) {
                             $rcube->output->command('rcmail_markasjunk2_move', null, $uid);
