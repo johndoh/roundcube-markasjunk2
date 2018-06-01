@@ -170,11 +170,11 @@ class markasjunk2 extends rcube_plugin
         $storage = $rcmail->get_storage();
         $result = true;
 
-        foreach ($messageset as $mbox => &$uids) {
-            $storage->set_folder($mbox);
+        foreach ($messageset as $source_mbox => &$uids) {
+            $storage->set_folder($source_mbox);
 
             if ($rcmail->config->get('markasjunk2_learning_driver', false)) {
-                $result = $this->_call_driver('spam', $uids, $mbox);
+                $result = $this->_call_driver('spam', $uids, $source_mbox, $dest_mbox);
 
                 // abort function of the driver says so
                 if (!$result)
@@ -182,13 +182,13 @@ class markasjunk2 extends rcube_plugin
             }
 
             if ($rcmail->config->get('markasjunk2_read_spam', false))
-                $storage->set_flag($uids, 'SEEN', $mbox);
+                $storage->set_flag($uids, 'SEEN', $source_mbox);
 
             if ($rcmail->config->get('markasjunk2_spam_flag', false))
-                $storage->set_flag($uids, $this->spam_flag, $mbox);
+                $storage->set_flag($uids, $this->spam_flag, $source_mbox);
 
             if ($rcmail->config->get('markasjunk2_ham_flag', false))
-                $storage->unset_flag($uids, $this->ham_flag, $mbox);
+                $storage->unset_flag($uids, $this->ham_flag, $source_mbox);
         }
 
         return $result;
@@ -200,11 +200,11 @@ class markasjunk2 extends rcube_plugin
         $storage = $rcmail->get_storage();
         $result = true;
 
-        foreach ($messageset as $mbox => &$uids) {
-            $storage->set_folder($mbox);
+        foreach ($messageset as $source_mbox => &$uids) {
+            $storage->set_folder($source_mbox);
 
             if ($rcmail->config->get('markasjunk2_learning_driver', false)) {
-                $result = $this->_call_driver('ham', $uids, $mbox);
+                $result = $this->_call_driver('ham', $uids, $source_mbox, $dest_mbox);
 
                 // abort function of the driver says so
                 if (!$result)
@@ -212,19 +212,19 @@ class markasjunk2 extends rcube_plugin
             }
 
             if ($rcmail->config->get('markasjunk2_unread_ham', false))
-                $storage->unset_flag($uids, 'SEEN', $mbox);
+                $storage->unset_flag($uids, 'SEEN', $source_mbox);
 
             if ($rcmail->config->get('markasjunk2_spam_flag', false))
-                $storage->unset_flag($uids, $this->spam_flag, $mbox);
+                $storage->unset_flag($uids, $this->spam_flag, $source_mbox);
 
             if ($rcmail->config->get('markasjunk2_ham_flag', false))
-                $storage->set_flag($uids, $this->ham_flag, $mbox);
+                $storage->set_flag($uids, $this->ham_flag, $source_mbox);
         }
 
         return $result;
     }
 
-    private function _call_driver($action, &$uids = null, $mbox = null)
+    private function _call_driver($action, &$uids = null, $source_mbox = null, $dest_mbox = null)
     {
         $driver = $this->home.'/drivers/'. rcube::get_instance()->config->get('markasjunk2_learning_driver', 'cmd_learn') .'.php';
         $class = 'markasjunk2_' . rcube::get_instance()->config->get('markasjunk2_learning_driver', 'cmd_learn');
@@ -254,9 +254,9 @@ class markasjunk2 extends rcube_plugin
         // call the relevant function from the driver
         $object = new $class;
         if ($action == 'spam')
-            $object->spam($uids, $mbox);
+            $object->spam($uids, $source_mbox, $dest_mbox);
         elseif ($action == 'ham')
-            $object->ham($uids, $mbox);
+            $object->ham($uids, $source_mbox, $dest_mbox);
         elseif ($action == 'init' && method_exists($object, 'init')) // method_exists check here for backwards compatibility, init method added 20161127
             $object->init();
 

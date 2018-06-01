@@ -32,12 +32,12 @@ class markasjunk2_sa_blacklist
     private $sa_preference_field;
     private $sa_value_field;
 
-    public function spam($uids, $mbox)
+    public function spam($uids, $src_mbox, $dst_mbox)
     {
         $this->_do_list($uids, true);
     }
 
-    public function ham($uids, $mbox)
+    public function ham($uids, $src_mbox, $dst_mbox)
     {
         $this->_do_list($uids, false);
     }

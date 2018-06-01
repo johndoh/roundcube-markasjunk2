@@ -1,6 +1,8 @@
 Roundcube Webmail MarkAsJunk2
 =============================
 
+ * Pass source and destination mbox vars to driver fix save problems in edit_headers and sa_detact drivers (#58)
+
 Version 1.11.2 (2018-04-12, rc-1.3.6)
 =================================================
  * Fix check_request() bypass in places using get_uids() [CVE-2018-9846] (req RC e3dd5b6)

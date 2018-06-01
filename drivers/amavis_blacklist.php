@@ -34,12 +34,12 @@ class markasjunk2_amavis_blacklist
 {
     private $user_email = '';
 
-    public function spam($uids, $mbox)
+    public function spam($uids, $src_mbox, $dst_mbox)
     {
         $this->_do_list($uids, true);
     }
 
-    public function ham($uids, $mbox)
+    public function ham($uids, $src_mbox, $dst_mbox)
     {
         $this->_do_list($uids, false);
     }

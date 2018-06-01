@@ -27,12 +27,12 @@
 
 class markasjunk2_cmd_learn
 {
-    public function spam($uids, $mbox)
+    public function spam($uids, $src_mbox, $dst_mbox)
     {
         $this->_do_salearn($uids, true);
     }
 
-    public function ham($uids, $mbox)
+    public function ham($uids, $src_mbox, $dst_mbox)
     {
         $this->_do_salearn($uids, false);
     }
