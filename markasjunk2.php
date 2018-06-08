@@ -35,8 +35,11 @@ class markasjunk2 extends rcube_plugin
     public $task = 'mail';
     private $spam_mbox = null;
     private $ham_mbox = null;
-    private $spam_flag = 'JUNK';
-    private $ham_flag = 'NOTJUNK';
+    private $flags = array(
+        'JUNK'    => 'Junk',
+        'NONJUNK' => 'NonJunk'
+    );
+
     private $toolbar = true;
     private $rcube;
 
@@ -58,9 +61,7 @@ class markasjunk2 extends rcube_plugin
         $this->ham_mbox = $this->rcube->config->get('markasjunk2_ham_mbox', 'INBOX');
         $this->spam_mbox = $this->rcube->config->get('markasjunk2_spam_mbox', $this->rcube->config->get('junk_mbox', null));
         $this->toolbar = $this->_set_toolbar_display($this->rcube->config->get('markasjunk2_toolbar', -1), $this->rcube->action);
-
-        // register the ham/spam flags with the core
-        $this->add_hook('storage_init', array($this, 'set_flags'));
+        $this->_init_flags();
 
         // integration with Swipe plugin
         $this->add_hook('swipe_actions_list', array($this, 'swipe_action'));
@@ -90,7 +91,9 @@ class markasjunk2 extends rcube_plugin
             $this->rcube->output->set_env('markasjunk2_permanently_remove', $this->rcube->config->get('markasjunk2_permanently_remove', false));
 
             // check for init method from driver
-            $this->_call_driver('init');
+            if ($this->rcube->config->get('markasjunk2_learning_driver', false)) {
+                $this->_call_driver('init');
+            }
         }
     }
 
@@ -120,12 +123,7 @@ class markasjunk2 extends rcube_plugin
 
     public function set_flags($p)
     {
-        $flags = array(
-            $this->spam_flag => $this->rcube->config->get('markasjunk2_spam_flag'),
-            $this->ham_flag => $this->rcube->config->get('markasjunk2_ham_flag')
-        );
-
-        $p['message_flags'] = array_merge((array) $p['message_flags'], $flags);
+        $p['message_flags'] = array_merge((array) $p['message_flags'], $this->flags);
 
         return $p;
     }
@@ -201,12 +199,12 @@ class markasjunk2 extends rcube_plugin
                 $storage->set_flag($uids, 'SEEN', $source_mbox);
             }
 
-            if ($this->rcube->config->get('markasjunk2_spam_flag', false)) {
-                $storage->set_flag($uids, $this->spam_flag, $source_mbox);
+            if (array_key_exists('JUNK', $this->flags)) {
+                $storage->set_flag($uids, 'JUNK', $source_mbox);
             }
 
-            if ($this->rcube->config->get('markasjunk2_ham_flag', false)) {
-                $storage->unset_flag($uids, $this->ham_flag, $source_mbox);
+            if (array_key_exists('NONJUNK', $this->flags)) {
+                $storage->unset_flag($uids, 'NONJUNK', $source_mbox);
             }
         }
 
@@ -234,12 +232,12 @@ class markasjunk2 extends rcube_plugin
                 $storage->unset_flag($uids, 'SEEN', $source_mbox);
             }
 
-            if ($this->rcube->config->get('markasjunk2_spam_flag', false)) {
-                $storage->unset_flag($uids, $this->spam_flag, $source_mbox);
+            if (array_key_exists('JUNK', $this->flags)) {
+                $storage->unset_flag($uids, 'JUNK', $source_mbox);
             }
 
-            if ($this->rcube->config->get('markasjunk2_ham_flag', false)) {
-                $storage->set_flag($uids, $this->ham_flag, $source_mbox);
+            if (array_key_exists('NONJUNK', $this->flags)) {
+                $storage->set_flag($uids, 'NONJUNK', $source_mbox);
             }
         }
 
@@ -310,5 +308,45 @@ class markasjunk2 extends rcube_plugin
 
         $file = $configs[$_SESSION['storage_host']];
         $this->load_config($file);
+    }
+
+    private function _init_flags()
+    {
+        $spam_flag = $this->rcube->config->get('markasjunk2_spam_flag');
+        $ham_flag = $this->rcube->config->get('markasjunk2_ham_flag');
+
+        // backwards compatibility
+        // defaults for markasjunk2_spam_flag and markasjunk2_ham_flag changed in 1.12
+        // from now on use false to disable rather than null
+        if ($spam_flag === null || $ham_flag === null) {
+            $all_configs = $this->rcube->config->all();
+
+            if ($spam_flag === null && array_key_exists('markasjunk2_spam_flag', $all_configs)) {
+                $spam_flag = false;
+            }
+
+            if ($ham_flag === null && array_key_exists('markasjunk2_ham_flag', $all_configs)) {
+                $ham_flag = false;
+            }
+        }
+
+        if ($spam_flag === false) {
+            unset($this->flags['JUNK']);
+        }
+        elseif (!empty($spam_flag)) {
+            $this->flags['JUNK'] = $spam_flag;
+        }
+
+        if ($ham_flag === false) {
+            unset($this->flags['NONJUNK']);
+        }
+        elseif (!empty($ham_flag)) {
+            $this->flags['NONJUNK'] = $ham_flag;
+        }
+
+        if (count($this->flags) > 0) {
+            // register the ham/spam flags with the core
+            $this->add_hook('storage_init', array($this, 'set_flags'));
+        }
     }
 }
