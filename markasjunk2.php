@@ -89,6 +89,7 @@ class markasjunk2 extends rcube_plugin
             $this->rcube->output->set_env('markasjunk2_move_spam', $this->rcube->config->get('markasjunk2_move_spam', false));
             $this->rcube->output->set_env('markasjunk2_move_ham', $this->rcube->config->get('markasjunk2_move_ham', false));
             $this->rcube->output->set_env('markasjunk2_permanently_remove', $this->rcube->config->get('markasjunk2_permanently_remove', false));
+            $this->rcube->output->set_env('markasjunk2_spam_only', $this->rcube->config->get('markasjunk2_spam_only', false));
 
             // check for init method from driver
             if ($this->rcube->config->get('markasjunk2_learning_driver', false)) {

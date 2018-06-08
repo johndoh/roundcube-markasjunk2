@@ -12,6 +12,7 @@ Roundcube Webmail MarkAsJunk2
  * Add markasjunk2_host_config config option
  * Pass source and destination mbox vars to driver fix save problems in edit_headers and sa_detact drivers (#58)
  * Make flag defaults match markasjunk plugin from core (config change: to disable flagging set configs to false) (#59)
+ * Add markasjunk2_spam_only option
 
 Version 1.11.1 (2017-07-29, rc-1.3)
 =================================================
