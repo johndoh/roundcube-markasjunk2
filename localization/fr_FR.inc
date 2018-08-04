@@ -6,6 +6,7 @@ $labels['buttonjunk'] = 'Marquer comme spam';
 $labels['asjunk'] = 'Comme spam';
 $labels['buttonnotjunk'] = 'Ceci n\'est pas un spam';
 $labels['asnotjunk'] = 'Comme acceptable';
+$labels['notjunk'] = 'Acceptable';
 
 $messages = array();
 $messages['reportedasjunk'] = 'Message classé en spam';
