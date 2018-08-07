@@ -51,7 +51,7 @@ class markasjunk2_amavis_blacklist
         $rcube = rcube::get_instance();
         $this->user_email = $rcube->user->data['username'];
 
-        if (is_file($rcube->config->get('markasjunk2_amacube_config')) && !$rcube->config->load_from_file($rcube->config->get('markasjunk2_amacube_config'))) {
+        if (!$rcube->config->load_from_file($rcube->config->get('markasjunk2_amacube_config'))) {
             rcube::raise_error(array('code' => 527, 'type' => 'php',
                 'file' => __FILE__, 'line' => __LINE__,
                 'message' => "Failed to load config from " . $rcube->config->get('markasjunk2_amacube_config')

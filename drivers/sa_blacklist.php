@@ -59,7 +59,7 @@ class markasjunk2_sa_blacklist
         $this->sa_user = str_replace('%d', $rcube->user->get_username('domain'), $this->sa_user);
         $this->sa_user = str_replace('%i', $identity, $this->sa_user);
 
-        if (is_file($rcube->config->get('markasjunk2_sauserprefs_config')) && !$rcube->config->load_from_file($rcube->config->get('markasjunk2_sauserprefs_config'))) {
+        if (!$rcube->config->load_from_file($rcube->config->get('markasjunk2_sauserprefs_config'))) {
             rcube::raise_error(array('code' => 527, 'type' => 'php',
                 'file' => __FILE__, 'line' => __LINE__,
                 'message' => "Failed to load config from " . $rcube->config->get('markasjunk2_sauserprefs_config')
