@@ -134,7 +134,7 @@ $(document).ready(function() {
             if (rcmail.env.swipe_actions[p.direction] == 'markasjunk2' && rcmail.env.markasjunk2_spam_mailbox) {
                 var action = {};
 
-                if (rcmail.env.mailbox == rcmail.env.markasjunk2_spam_mailbox) {
+                if (!rcmail.env.markasjunk2_spam_only && rcmail.env.mailbox == rcmail.env.markasjunk2_spam_mailbox) {
                     action = {
                         'class': 'notjunk',
                         'text': 'markasjunk2.markasnotjunk',
