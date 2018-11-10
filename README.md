@@ -1,5 +1,12 @@
 Roundcube Webmail MarkAsJunk2
 =============================
+
+THIS PLUGIN IS NO LONGER MAINTAINED
+-----------------------------------
+The features of this plugin have been integrated into the markasjunk plugin in
+the Roundcube core (v1.4+), via [pull request 6504][pr6504]. This plugin is now
+obsolete.
+
 This plugin adds "mark as spam" or "mark as not spam" button to the message
 menu.
 
@@ -136,6 +143,7 @@ $config['markasjunk2_ham_patterns'] = array(
 );
 ```
 
+[pr6504]: https://github.com/roundcube/roundcubemail/pull/6504
 [thomas]: mailto:roundcube@gmail.com
 [rcmaj]: https://github.com/roundcube/roundcubemail/tree/master/plugins/markasjunk
 [rcplugrepo]: https://plugins.roundcube.net/packages/johndoh/markasjunk2
